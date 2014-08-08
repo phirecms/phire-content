@@ -1,0 +1,88 @@
+<?php include $phireHeader; ?>
+        <h1><?php echo $title; ?></h1>
+<?php if (isset($recent)): ?>
+        <table class="dashboard-table" cellpadding="0" cellspacing="0">
+            <tr><th colspan="6"><?php $i18n->_e('Recent Content'); ?></th></tr>
+            <tr><th class="recent-header" style="background-color: #efefef;"><?php $i18n->_e('Type'); ?></th><th class="recent-header" style="background-color: #efefef;"><?php $i18n->_e('Title'); ?></th><th class="recent-header" style="background-color: #efefef;"><?php echo $i18n->__('URI') . ' (' . $i18n->__('Click to View') . ')'; ?></th><th class="recent-header" style="background-color: #efefef;"><?php $i18n->_e('Created'); ?></th><th class="recent-header" style="background-color: #efefef;"><?php $i18n->_e('Status'); ?></th><th class="recent-header" style="background-color: #efefef; text-align: center;"><?php $i18n->_e('Edit'); ?></th></tr>
+<?php foreach ($recent as $content):
+if (in_array($content->site_id, $user->site_ids) && $acl->isAuth('Content\Controller\Content\IndexController', 'index_' . $content->type_id)):
+    if (substr($content->uri, 0, 4) != 'http') {
+        $link = ($content->type_uri == 0) ? '<a href="http://' . $content->domain . $content->base_path . CONTENT_PATH . '/media/' . $content->uri . '" target="_blank">' . $content->uri . '</a>' : '<a href="http://' . $content->domain . $content->base_path . $content->uri . '" target="_blank">http://' . $content->domain . $content->base_path . $content->uri . '</a>';
+    } else {
+        $link = '<a href="' . $content->uri . '" target="_blank">' . $content->uri . '</a>';
+    }
+    if (null !== $content->status):
+        switch ($content->status):
+            case 0:
+                $status = '<strong class="error">' . $i18n->__('Unpublished') . '</strong>';
+                break;
+            case 1:
+                $status = '<strong class="orange">' . $i18n->__('Draft') . '</strong>';
+                break;
+            case 2:
+                if ((null !== $content->publish) && (strtotime($content->publish) > time())) {
+                    $status = '<strong class="blue">' . $this->i18n->__('Scheduled') . '</strong>';
+                } else if ((null !== $content->expire) && (strtotime($content->expire) <= time())) {
+                    $status = '<strong class="red">' . $this->i18n->__('Expired') . '</strong>';
+                } else {
+                    $status = '<strong class="green">' . $i18n->__('Published') . '</strong>';
+                }
+                break;
+        endswitch;
+    else:
+        $status = '&nbsp;';
+    endif;
+
+    if ($acl->isAuth('Content\Controller\Content\IndexController', 'index') && ($acl->isAuth('Content\Controller\Content\IndexController', 'index_' . $content->type_id))):
+        $typeLink = '<a href="' . BASE_PATH . APP_URI . '/content/index/' . $content->type_id . '">' . $content->name . '</a>';
+    else:
+        $typeLink = $content->name;
+    endif;
+    if ($acl->isAuth('Content\Controller\Content\IndexController', 'edit') && ($acl->isAuth('Content\Controller\Content\IndexController', 'edit_' . $content->type_id))):
+        $edit = '<a class="edit-link" href="' . BASE_PATH . APP_URI . '/content/edit/' . $content->id . '" title="' . $i18n->__('Edit') . '">Edit</a>';
+    else:
+        $edit = '&nbsp;';
+    endif;
+?>
+            <tr><td><?php echo $typeLink; ?></td><td><?php echo $content->title; ?></td><td><?php echo $link; ?></td><td><?php echo date('M j, Y', strtotime($content->created)); ?></td><td><?php echo $status; ?></td><td><?php echo $edit; ?></td></td></tr>
+<?php
+endif;
+endforeach; ?>
+        </table>
+<?php endif; ?>
+        <table class="system-overview" cellpadding="0" cellspacing="0">
+            <tr><th colspan="2"><?php $i18n->_e('System Overview'); ?></th></tr>
+<?php foreach ($overview as $key => $value): ?>
+            <tr><td><strong><?php $i18n->_e(ucwords(str_replace(array('_', 'php'), array(' ', 'PHP'), $key))); ?>:</strong></td><td><?php echo $value; ?></td></tr>
+<?php endforeach; ?>
+            <tr><th colspan="2" style="border-top: solid 1px #ccc;"><?php $i18n->_e('Sites'); ?></th></tr>
+<?php foreach ($sites as $domain => $live): ?>
+            <tr><td class="site-<?php echo ((!$live) ? 'not-' : null);?>live"><strong><?php echo $domain; ?></strong></td><td class="site-<?php echo ((!$live) ? 'not-' : null);?>live"><?php $i18n->_e((($live) ? 'Live' : 'Not Live')); ?></td></tr>
+<?php endforeach; ?>
+        </table>
+<?php if ($acl->isAuth('Phire\Controller\Phire\Extensions\IndexController', 'index')): ?>
+        <table class="dashboard-table" cellpadding="0" cellspacing="0">
+            <tr><th colspan="2"><?php $i18n->_e('Extensions'); ?></th></tr>
+<?php if ($acl->isAuth('Phire\Controller\Phire\Extensions\IndexController', 'themes')): ?>
+            <tr><th class="recent-header" style="background-color: #efefef;" colspan="2"><?php $i18n->_e('Themes'); ?></th></tr>
+<?php if (count($themes) > 0): ?>
+<?php foreach ($themes as $theme): ?>
+            <tr><td><?php echo $theme->name; ?></td><td><?php echo ($theme->active) ? $i18n->__('Active') : $i18n->__('Not Active'); ?></td></tr>
+<?php endforeach; ?>
+<?php else: ?>
+            <tr><td colspan="2"><?php $i18n->_e('There are currently no themes installed.'); ?></td></tr>
+<?php endif; ?>
+<?php endif; ?>
+<?php if ($acl->isAuth('Phire\Controller\Phire\Extensions\IndexController', 'modules')): ?>
+            <tr><th class="recent-header" style="background-color: #efefef;" colspan="2"><?php $i18n->_e('Modules'); ?></th></tr>
+<?php if (count($modules) > 0): ?>
+<?php foreach ($modules as $module): ?>
+            <tr><td><?php echo $module->name; ?></td><td><?php echo ($module->active) ? $i18n->__('Active') : $i18n->__('Not Active'); ?></td></tr>
+<?php endforeach; ?>
+<?php else: ?>
+            <tr><td colspan="2"><?php $i18n->_e('There are currently no modules installed.'); ?></td></tr>
+<?php endif; ?>
+<?php endif; ?>
+        </table>
+<?php endif; ?>
+<?php include $phireFooter; ?>

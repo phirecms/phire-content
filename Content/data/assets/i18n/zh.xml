@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE language [
+        <!ELEMENT language ANY>
+        <!ELEMENT locale ANY>
+        <!ELEMENT text (source,output)>
+        <!ELEMENT source ANY>
+        <!ELEMENT output ANY>
+        <!ATTLIST language
+                src       CDATA    #REQUIRED
+                output    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        <!ATTLIST locale
+                region    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        ]>
+<language src="en" output="zh" name="Chinese" native="中文">
+    <locale region="CN" name="China" native="中国">
+        <text>
+            <source>Feed &amp; Page Settings</source>
+            <output>饲料和页面设置</output>
+        </text>
+        <text>
+            <source>Feed Type</source>
+            <output>饲料类型</output>
+        </text>
+        <text>
+            <source>Feed Limit</source>
+            <output>饲料限制</output>
+        </text>
+        <text>
+            <source>Open Authoring</source>
+            <output>开放的创作</output>
+        </text>
+        <text>
+            <source>In-Content Editing</source>
+            <output>在内容编辑</output>
+        </text>
+        <text>
+            <source>Recent Content</source>
+            <output>最新节目</output>
+        </text>
+        <text>
+            <source>Content</source>
+            <output>内容</output>
+        </text>
+        <text>
+            <source>Content Types</source>
+            <output>内容类型</output>
+        </text>
+        <text>
+            <source>Navigation</source>
+            <output>导航</output>
+        </text>
+        <text>
+            <source>Templates</source>
+            <output>模板</output>
+        </text>
+        <text>
+            <source>Categories</source>
+            <output>分类</output>
+        </text>
+        <text>
+            <source>Publish</source>
+            <output>发布</output>
+        </text>
+        <text>
+            <source>Published</source>
+            <output>发布时间</output>
+        </text>
+        <text>
+            <source>Draft</source>
+            <output>草案</output>
+        </text>
+        <text>
+            <source>Unpublish</source>
+            <output>取消发布</output>
+        </text>
+        <text>
+            <source>Unpublished</source>
+            <output>未公开</output>
+        </text>
+        <text>
+            <source>Start Date</source>
+            <output>开始日期</output>
+        </text>
+        <text>
+            <source>End Date</source>
+            <output>结束日期</output>
+        </text>
+        <text>
+            <source>Batch</source>
+            <output>批量</output>
+        </text>
+        <text>
+            <source>Migrate</source>
+            <output>迁移</output>
+        </text>
+        <text>
+            <source>MIGRATE</source>
+            <output>迁移</output>
+        </text>
+        <text>
+            <source>Parent</source>
+            <output>亲</output>
+        </text>
+        <text>
+            <source>Template</source>
+            <output>模板</output>
+        </text>
+        <text>
+            <source>Category</source>
+            <output>类别</output>
+        </text>
+        <text>
+            <source>Include in Feed</source>
+            <output>包括饲料</output>
+        </text>
+        <text>
+            <source>There is currently no content under the %1 content type.</source>
+            <output>目前在%1的内容类型没有内容。</output>
+        </text>
+        <text>
+            <source>You can add new content %1here%2 or add a new content type %3here%4.</source>
+            <output>您可以添加新的内容%1此处%2或添加一个新的内容类型%3这里%4 。</output>
+        </text>
+        <text>
+            <source>Archive of Multiple Files</source>
+            <output>多个文件的​​归档</output>
+        </text>
+        <text>
+            <source>Top Node</source>
+            <output>顶级节点</output>
+        </text>
+        <text>
+            <source>ID</source>
+            <output>ID</output>
+        </text>
+        <text>
+            <source>Class</source>
+            <output>类</output>
+        </text>
+        <text>
+            <source>Attributes</source>
+            <output>属性</output>
+        </text>
+        <text>
+            <source>Parent Node</source>
+            <output>父节点</output>
+        </text>
+        <text>
+            <source>Child Node</source>
+            <output>子节点</output>
+        </text>
+        <text>
+            <source>"On" Class</source>
+            <output>“开”类</output>
+        </text>
+        <text>
+            <source>"Off" Class</source>
+            <output>“关”类</output>
+        </text>
+        <text>
+            <source>Indentation Spaces</source>
+            <output>压痕空间</output>
+        </text>
+        <text>
+            <source>Slug</source>
+            <output>金属块</output>
+        </text>
+        <text>
+            <source>Show Total</source>
+            <output>显示总计</output>
+        </text>
+        <text>
+            <source>There are currently no assets. Use the upload form above to add some.</source>
+            <output>目前没有任何资产。使用上面的上传表单添加一些。</output>
+        </text>
+        <text>
+            <source>There are currently no categories.</source>
+            <output>目前没有任何类别。</output>
+        </text>
+        <text>
+            <source>There is currently no navigation.</source>
+            <output>目前还没有导航。</output>
+        </text>
+        <text>
+            <source>There are currently no templates.</source>
+            <output>目前没有任何模板。</output>
+        </text>
+        <text>
+            <source>There are currently no content types.</source>
+            <output>目前没有任何内容类型。</output>
+        </text>
+        <text>
+            <source>Caution: This action can possibly overwrite content.</source>
+            <output>注意：这个动作都不可能覆盖的内容。</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent category.</source>
+            <output>该URI已经在该父类的存在。</output>
+        </text>
+        <text>
+            <source>Select Content Type</source>
+            <output>选择内容类型</output>
+        </text>
+        <text>
+            <source>The root URI already exists.</source>
+            <output>的根URI已经存在。</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent content.</source>
+            <output>该URI已经在该父内容存在。</output>
+        </text>
+        <text>
+            <source>Generate URI</source>
+            <output>生成的URI</output>
+        </text>
+        <text>
+            <source>That content type name already exists. The name must be unique.</source>
+            <output>该内容类型名称已存在。该名称必须是唯一的。</output>
+        </text>
+        <text>
+            <source>All Content</source>
+            <output>全部内容</output>
+        </text>
+        <text>
+            <source>URIs Only (pages, etc.)</source>
+            <output>仅有的URI （网页等）</output>
+        </text>
+        <text>
+            <source>Files Only (media, etc.)</source>
+            <output>只有文件（媒体等）</output>
+        </text>
+        <text>
+            <source>The sites cannot be the same.</source>
+            <output>本网站不能是相同的。</output>
+        </text>
+        <text>
+            <source>That navigation name already exists.</source>
+            <output>该导航名称已存在。</output>
+        </text>
+        <text>
+            <source>That template name already exists. The name must be unique.</source>
+            <output>该模板的名称已经存在。该名称必须是唯一的。</output>
+        </text>
+        <text>
+            <source>That device is already added to that template.</source>
+            <output>该设备已添加到该模板。</output>
+        </text>
+        <text>
+            <source>URI Type</source>
+            <output>URI类型</output>
+        </text>
+        <text>
+            <source>Images</source>
+            <output>图片</output>
+        </text>
+        <text>
+            <source>URIs &amp; Files</source>
+            <output>的URI和文件</output>
+        </text>
+        <text>
+            <source>All Categories</source>
+            <output>所有分类</output>
+        </text>
+        <text>
+            <source>All Navigation</source>
+            <output>所有导航</output>
+        </text>
+        <text>
+            <source>Trash</source>
+            <output>垃圾</output>
+        </text>
+        <text>
+            <source>Scheduled</source>
+            <output>预定</output>
+        </text>
+        <text>
+            <source>Expired</source>
+            <output>过期</output>
+        </text>
+        <text>
+            <source>Filter By</source>
+            <output>过滤方式</output>
+        </text>
+    </locale>
+</language>

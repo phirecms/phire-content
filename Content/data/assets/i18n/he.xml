@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE language [
+        <!ELEMENT language ANY>
+        <!ELEMENT locale ANY>
+        <!ELEMENT text (source,output)>
+        <!ELEMENT source ANY>
+        <!ELEMENT output ANY>
+        <!ATTLIST language
+                src       CDATA    #REQUIRED
+                output    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        <!ATTLIST locale
+                region    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        ]>
+<language src="en" output="he" name="Hebrew" native="עברית">
+    <locale region="IL" name="Israel" native="ישראל">
+        <text>
+            <source>Feed &amp; Page Settings</source>
+            <output>הגדרות הזנהועמוד</output>
+        </text>
+        <text>
+            <source>Feed Type</source>
+            <output>סוג Feed</output>
+        </text>
+        <text>
+            <source>Feed Limit</source>
+            <output>הגבל Feed</output>
+        </text>
+        <text>
+            <source>Open Authoring</source>
+            <output>Authoring הפתוח</output>
+        </text>
+        <text>
+            <source>In-Content Editing</source>
+            <output>ב- עריכת תוכן</output>
+        </text>
+        <text>
+            <source>Recent Content</source>
+            <output>התוכן אחרונים</output>
+        </text>
+        <text>
+            <source>Content</source>
+            <output>תוכן</output>
+        </text>
+        <text>
+            <source>Content Types</source>
+            <output>סוגי תוכן</output>
+        </text>
+        <text>
+            <source>Navigation</source>
+            <output>שיט</output>
+        </text>
+        <text>
+            <source>Templates</source>
+            <output>תבניות</output>
+        </text>
+        <text>
+            <source>Categories</source>
+            <output>קטגוריות</output>
+        </text>
+        <text>
+            <source>Publish</source>
+            <output>לפרסם</output>
+        </text>
+        <text>
+            <source>Published</source>
+            <output>פורסם</output>
+        </text>
+        <text>
+            <source>Draft</source>
+            <output>טיוטה</output>
+        </text>
+        <text>
+            <source>Unpublish</source>
+            <output>ביטול פרסום</output>
+        </text>
+        <text>
+            <source>Unpublished</source>
+            <output>לא פורסם</output>
+        </text>
+        <text>
+            <source>Start Date</source>
+            <output>תאריך ההתחלה</output>
+        </text>
+        <text>
+            <source>End Date</source>
+            <output>תאריך סיום</output>
+        </text>
+        <text>
+            <source>Batch</source>
+            <output>אצווה</output>
+        </text>
+        <text>
+            <source>Migrate</source>
+            <output>להגר</output>
+        </text>
+        <text>
+            <source>MIGRATE</source>
+            <output>להגר</output>
+        </text>
+        <text>
+            <source>Parent</source>
+            <output>הורה</output>
+        </text>
+        <text>
+            <source>Template</source>
+            <output>תבנית</output>
+        </text>
+        <text>
+            <source>Category</source>
+            <output>קטגוריה</output>
+        </text>
+        <text>
+            <source>Include in Feed</source>
+            <output>לכלול בהזנה</output>
+        </text>
+        <text>
+            <source>There is currently no content under the %1 content type.</source>
+            <output>אין כרגע תוכן תחת סוג תוכן %1.</output>
+        </text>
+        <text>
+            <source>You can add new content %1here%2 or add a new content type %3here%4.</source>
+            <output>אתה יכול להוסיף תוכן חדש %1כאן%2 או להוסיף%3 סוג התוכן חדשים כאן%4.</output>
+        </text>
+        <text>
+            <source>Archive of Multiple Files</source>
+            <output>ארכיון של קבצים מרובים</output>
+        </text>
+        <text>
+            <source>Top Node</source>
+            <output>צומת עליונה</output>
+        </text>
+        <text>
+            <source>ID</source>
+            <output>תעודת זהות</output>
+        </text>
+        <text>
+            <source>Class</source>
+            <output>מעמד</output>
+        </text>
+        <text>
+            <source>Attributes</source>
+            <output>תכונות</output>
+        </text>
+        <text>
+            <source>Parent Node</source>
+            <output>צומת אב</output>
+        </text>
+        <text>
+            <source>Child Node</source>
+            <output>צומת ילד</output>
+        </text>
+        <text>
+            <source>"On" Class</source>
+            <output>Class " ביום "</output>
+        </text>
+        <text>
+            <source>"Off" Class</source>
+            <output>Class " כבוי "</output>
+        </text>
+        <text>
+            <source>Indentation Spaces</source>
+            <output>החדרים כניסה</output>
+        </text>
+        <text>
+            <source>Slug</source>
+            <output>הקליע</output>
+        </text>
+        <text>
+            <source>Show Total</source>
+            <output>סך הכל</output>
+        </text>
+        <text>
+            <source>There are currently no assets. Use the upload form above to add some.</source>
+            <output>כרגע אין נכסים . השתמש בטופס ההעלאה לעיל כדי להוסיף קצת .</output>
+        </text>
+        <text>
+            <source>There are currently no categories.</source>
+            <output>כרגע אין קטגוריות.</output>
+        </text>
+        <text>
+            <source>There is currently no navigation.</source>
+            <output>אין כרגע בניווט.</output>
+        </text>
+        <text>
+            <source>There are currently no templates.</source>
+            <output>כרגע אין תבניות.</output>
+        </text>
+        <text>
+            <source>There are currently no content types.</source>
+            <output>כרגע אין סוגי תוכן.</output>
+        </text>
+        <text>
+            <source>Caution: This action can possibly overwrite content.</source>
+            <output>זהירות פעולה זו יכולה אולי להחליף את התוכן.</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent category.</source>
+            <output>URI שכבר קיים תחת קטגוריהשההורה.</output>
+        </text>
+        <text>
+            <source>Select Content Type</source>
+            <output>בחר סוג התוכן</output>
+        </text>
+        <text>
+            <source>The root URI already exists.</source>
+            <output>URI השורש כבר קיים.</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent content.</source>
+            <output>URI שכבר קיים תחתשתוכן האב .</output>
+        </text>
+        <text>
+            <source>Generate URI</source>
+            <output>ליצור URI</output>
+        </text>
+        <text>
+            <source>That content type name already exists. The name must be unique.</source>
+            <output>כי שם סוג התוכן שכבר קיים. השם חייב להיות ייחודי .</output>
+        </text>
+        <text>
+            <source>All Content</source>
+            <output>כל התוכן</output>
+        </text>
+        <text>
+            <source>URIs Only (pages, etc.)</source>
+            <output>URIs בלבד ( דפים , וכו ')</output>
+        </text>
+        <text>
+            <source>Files Only (media, etc.)</source>
+            <output>רק קבצים (מדיה , וכו ')</output>
+        </text>
+        <text>
+            <source>The sites cannot be the same.</source>
+            <output>האתרים לא יכולים להיותאותו הדבר.</output>
+        </text>
+        <text>
+            <source>That navigation name already exists.</source>
+            <output>כי שם ניווט כבר קיים.</output>
+        </text>
+        <text>
+            <source>That template name already exists. The name must be unique.</source>
+            <output>ששם התבנית כבר קיים. השם חייב להיות ייחודי .</output>
+        </text>
+        <text>
+            <source>That device is already added to that template.</source>
+            <output>מכשיר שכבר הוסיףלתבנית.</output>
+        </text>
+        <text>
+            <source>URI Type</source>
+            <output>סוג URI</output>
+        </text>
+        <text>
+            <source>Images</source>
+            <output>תמונות</output>
+        </text>
+        <text>
+            <source>URIs &amp; Files</source>
+            <output>URIs &amp; קבצים</output>
+        </text>
+        <text>
+            <source>All Categories</source>
+            <output>כל הקטגוריות</output>
+        </text>
+        <text>
+            <source>All Navigation</source>
+            <output>כל הניווט</output>
+        </text>
+        <text>
+            <source>Trash</source>
+            <output>אשפה</output>
+        </text>
+        <text>
+            <source>Scheduled</source>
+            <output>מתוכנן</output>
+        </text>
+        <text>
+            <source>Expired</source>
+            <output>פג תוקף</output>
+        </text>
+        <text>
+            <source>Filter By</source>
+            <output>סינון לפי</output>
+        </text>
+    </locale>
+</language>

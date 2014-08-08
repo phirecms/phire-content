@@ -1,0 +1,182 @@
+/**
+ * Content Module Style Sheet
+ */
+
+/* ID Definitions */
+
+#content-form dl > dd, #content-type-form dl > dd,  #navigation-form dl > dd,
+#template-form dl > dd, #category-form dl > dd {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#content-form, #content-select-form, #content-type-form, #category-form,
+#template-form, #batch-form, #navigation-form {
+    clear: both;
+    display: block;
+    margin: 45px 0 10px 0;
+    padding: 10px 0 10px 0;
+    border-top: solid 1px #ccc;
+}
+
+#content-form-field-group-1, #batch-form-field-group-1 {
+    margin: 20px 0 40px 10px;
+    padding: 0 0 20px 15px;
+    float: right;
+    width: 280px;
+    min-height: 420px;
+    border-left: solid 1px #ccc;
+    background-image: url(../../phire/img/inner-shadow.gif);
+    background-repeat: repeat-y;
+    background-position: -4px 0px;
+}
+
+#category-form-field-group-1, #content-type-form-field-group-1,
+#navigation-form-field-group-1, #batch-form-field-group-1 {
+    margin: 20px 0 40px 10px;
+    padding: 0 0 20px 15px;
+    float: right;
+    width: 245px;
+    min-height: 420px;
+    border-left: solid 1px #ccc;
+    background-image: url(../../phire/img/inner-shadow.gif);
+    background-repeat: repeat-y;
+    background-position: -4px 0px;
+}
+
+#template-form-field-group-1 {
+    margin: 20px 0 40px 10px;
+    padding: 0 0 20px 15px;
+    float: right;
+    width: 245px;
+    min-height: 500px;
+    border-left: solid 1px #ccc;
+    background-image: url(../../phire/img/inner-shadow.gif);
+    background-repeat: repeat-y;
+    background-position: -4px 0px;
+}
+
+#content-form-field-group-1 fieldset, #category-form-field-group-1 fieldset,
+#batch-form-field-group-1 fieldset {
+    width: 220px;
+    margin: 0 0 10px 0;
+    padding: 5px 0 5px 0;
+    font-size: 0.9em;
+    border-top: solid 1px #ccc;
+}
+
+#batch-form-field-group-2 {
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    border-bottom: solid 1px #ccc;
+    overflow: auto;
+}
+
+#batch-form-field-group-3 {
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    width: 770px;
+    overflow: auto;
+}
+
+#content-form dd, #content-type-form dd, #template-form dd, #category-form dd {
+    width: 95%;
+}
+
+#content-form-field-group-1 dt, #content-type-form-field-group-1 dt, #category-form-field-group-1 dt,
+#navigation-form-field-group-1 dt, #template-form-field-group-1 dt, #batch-form-field-group-1 dt {
+    margin: 0;
+    padding: 10px 3px 3px 3px;
+    width: 220px;
+    clear: left;
+    text-align: left;
+    display: block;
+    line-height: 1.0em;
+}
+
+#content-form-field-group-1 dd, #content-type-form-field-group-1 dd, #category-form-field-group-1 dd,
+#navigation-form-field-group-1 dd, #template-form-field-group-1 dd, #batch-form-field-group-1 dd {
+    margin: 0 0 5px 0;
+    padding: 0 3px 3px 3px;
+    float: left;
+    line-height: 1.0em;
+    width: auto;
+}
+
+#content-form-field-group-1 select, #template-form-field-group-1 select, #category-form-field-group-1 select,
+#batch-form-field-group-1 select {
+    margin: 0;
+    padding: 2px 1px 2px 1px;
+    font-size: 0.9em;
+}
+
+#content-process {
+    margin: 4px 10px 2px 6px;
+    padding: 3px;
+    float: right;
+}
+
+#site-migration-form-field-group-1 {
+    clear: both;
+    margin: 0;
+    padding: 20px 0 0 0;
+}
+
+#uri-span, #slug-span {
+    margin: 0;
+    padding: 5px;
+    height: 10px;
+    color: #666;
+    font-weight: normal;
+    font-size: 1.0em;
+    display: block;
+}
+
+#content-search-form {
+    margin: 0 4px 5px 0;
+    padding: 0;
+    overflow: auto;
+    float: right;
+}
+
+#search-title {
+    margin: 3px;
+    padding: 2px 5px 3px 5px;
+    height: 14px;
+    font-size: 0.9em;
+    float: right;
+}
+
+#site_search, #cat_search, #nav_search {
+    margin: 3px;
+    padding: 1px 2px 1px 2px;
+    height: 21px;
+    font-size: 0.9em;
+    float: right;
+}
+
+#search-title:focus {
+    border: solid 1px #52b2e5;
+    background-color: #efefef;
+    box-shadow: 0 0 2px 1px #8cd6ff;
+}
+
+#quick-view {
+    clear: left;
+    margin: 5px 0 0 0;
+    padding: 0 10px 0 0;
+    font-size: 0.9em;
+    float: right;
+    text-align: right;
+}
+
+#trash {
+    margin: 8px 8px 0 0;
+    padding: 2px 10px 2px 5px;
+    border-right: solid 1px #ccc;
+    float: right;
+}
+
+#trash > a {
+    font-weight: normal;
+}

@@ -1,0 +1,43 @@
+<?php include $phireHeader; ?>
+        <h1><?php $i18n->_e('Extensions'); ?> <?php echo $separator; ?> <?php $i18n->_e('Modules'); ?> <?php echo $separator; ?> <?php echo $title; ?></h1>
+        <div id="result" style="display: none;"></div>
+        <a class="small-btn" href="<?php echo BASE_PATH . APP_URI; ?>/extensions/modules"><?php $i18n->_e('Back'); ?></a>
+        <form id="content-config-form" action="<?php echo BASE_PATH . APP_URI; ?>/content/config" method="post">
+            <table class="data-table"  cellpadding="0" cellspacing="0" border="0">
+                <tr><th class="border-left">&nbsp;</th><th class="border-right">&nbsp;</th></tr>
+                <tr>
+                    <td class="border-left" style="width: 30%;">
+                        <strong><?php $i18n->_e('Feed Type'); ?></strong>
+                    </td>
+                    <td class="border-right">
+                        <?php echo $feed_type . PHP_EOL; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-left" style="width: 30%;">
+                        <strong><?php $i18n->_e('Feed Limit'); ?></strong>
+                    </td>
+                    <td class="border-right">
+                        <?php echo $feed_limit; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-left" style="width: 30%;">
+                        <strong><?php $i18n->_e('Open Authoring'); ?></strong>
+                    </td>
+                    <td class="border-right">
+                        <?php echo $open_authoring; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border-left" style="width: 30%;">
+                        <strong><?php $i18n->_e('In-Content Editing'); ?></strong>
+                    </td>
+                    <td class="border-right">
+                        <?php echo $incontent_editing; ?>
+                    </td>
+                </tr>
+                <tr class="table-bottom-row"><td colspan="2" class="table-bottom-row" style="background: transparent;"><input type="submit" name="submit" id="submit" class="save-btn" value="<?php $i18n->_e('Save'); ?>" /></td></tr>
+            </table>
+        </form>
+<?php include $phireFooter; ?>

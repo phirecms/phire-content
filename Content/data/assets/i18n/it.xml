@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE language [
+        <!ELEMENT language ANY>
+        <!ELEMENT locale ANY>
+        <!ELEMENT text (source,output)>
+        <!ELEMENT source ANY>
+        <!ELEMENT output ANY>
+        <!ATTLIST language
+                src       CDATA    #REQUIRED
+                output    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        <!ATTLIST locale
+                region    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        ]>
+<language src="en" output="it" name="Italian" native="Italiano">
+    <locale region="IT" name="Italy" native="Italia">
+        <text>
+            <source>Feed &amp; Page Settings</source>
+            <output>Feed &amp; pagina Impostazioni</output>
+        </text>
+        <text>
+            <source>Feed Type</source>
+            <output>Tipo di feed</output>
+        </text>
+        <text>
+            <source>Feed Limit</source>
+            <output>Flux Limit</output>
+        </text>
+        <text>
+            <source>Open Authoring</source>
+            <output>Aperto Authoring</output>
+        </text>
+        <text>
+            <source>In-Content Editing</source>
+            <output>In -Content Editing</output>
+        </text>
+        <text>
+            <source>Recent Content</source>
+            <output>Contenuti recenti</output>
+        </text>
+        <text>
+            <source>Content</source>
+            <output>Contenuto</output>
+        </text>
+        <text>
+            <source>Content Types</source>
+            <output>Tipi di contenuto</output>
+        </text>
+        <text>
+            <source>Navigation</source>
+            <output>Navigazione</output>
+        </text>
+        <text>
+            <source>Templates</source>
+            <output>Modelli</output>
+        </text>
+        <text>
+            <source>Categories</source>
+            <output>Categorie</output>
+        </text>
+        <text>
+            <source>Publish</source>
+            <output>Pubblicare</output>
+        </text>
+        <text>
+            <source>Published</source>
+            <output>Pubblicato</output>
+        </text>
+        <text>
+            <source>Draft</source>
+            <output>Bozza</output>
+        </text>
+        <text>
+            <source>Unpublish</source>
+            <output>Annullare la pubblicazione</output>
+        </text>
+        <text>
+            <source>Unpublished</source>
+            <output>Inedito</output>
+        </text>
+        <text>
+            <source>Start Date</source>
+            <output>Data di inizio</output>
+        </text>
+        <text>
+            <source>End Date</source>
+            <output>Data di fine</output>
+        </text>
+        <text>
+            <source>Batch</source>
+            <output>Partita</output>
+        </text>
+        <text>
+            <source>Migrate</source>
+            <output>Migrare</output>
+        </text>
+        <text>
+            <source>MIGRATE</source>
+            <output>MIGRAZIONE</output>
+        </text>
+        <text>
+            <source>Parent</source>
+            <output>Genitore</output>
+        </text>
+        <text>
+            <source>Template</source>
+            <output>Sagoma</output>
+        </text>
+        <text>
+            <source>Category</source>
+            <output>Categoria</output>
+        </text>
+        <text>
+            <source>Include in Feed</source>
+            <output>Includi nei mangimi</output>
+        </text>
+        <text>
+            <source>There is currently no content under the %1 content type.</source>
+            <output>Non vi è attualmente alcun contenuto sotto il tipo di contenuto %1.</output>
+        </text>
+        <text>
+            <source>You can add new content %1here%2 or add a new content type %3here%4.</source>
+            <output>È possibile aggiungere nuovi contenuti %1qui%2 o aggiungere un nuovo tipo di contenuto %3qui%4.</output>
+        </text>
+        <text>
+            <source>Archive of Multiple Files</source>
+            <output>Archivio di più file</output>
+        </text>
+        <text>
+            <source>Top Node</source>
+            <output>Top Node</output>
+        </text>
+        <text>
+            <source>ID</source>
+            <output>ID</output>
+        </text>
+        <text>
+            <source>Class</source>
+            <output>Classe</output>
+        </text>
+        <text>
+            <source>Attributes</source>
+            <output>Attributi</output>
+        </text>
+        <text>
+            <source>Parent Node</source>
+            <output>Nodo principale</output>
+        </text>
+        <text>
+            <source>Child Node</source>
+            <output>Nodo bambino</output>
+        </text>
+        <text>
+            <source>"On" Class</source>
+            <output>Class " On"</output>
+        </text>
+        <text>
+            <source>"Off" Class</source>
+            <output>Class " Off"</output>
+        </text>
+        <text>
+            <source>Indentation Spaces</source>
+            <output>Spazi di indentazione</output>
+        </text>
+        <text>
+            <source>Slug</source>
+            <output>Slug</output>
+        </text>
+        <text>
+            <source>Show Total</source>
+            <output>Mostra Total</output>
+        </text>
+        <text>
+            <source>There are currently no assets. Use the upload form above to add some.</source>
+            <output>Ci sono attualmente presenti attività. Usa il modulo di upload qui sopra per aggiungere un po '.</output>
+        </text>
+        <text>
+            <source>There are currently no categories.</source>
+            <output>Attualmente non ci sono categorie.</output>
+        </text>
+        <text>
+            <source>There is currently no navigation.</source>
+            <output>Attualmente non esiste la navigazione.</output>
+        </text>
+        <text>
+            <source>There are currently no templates.</source>
+            <output>Attualmente non ci sono modelli.</output>
+        </text>
+        <text>
+            <source>There are currently no content types.</source>
+            <output>Attualmente non ci sono tipi di contenuto.</output>
+        </text>
+        <text>
+            <source>Caution: This action can possibly overwrite content.</source>
+            <output>Attenzione: Questa azione può eventualmente sovrascrivere il contenuto.</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent category.</source>
+            <output>Che URI esiste già in tale categoria superiore.</output>
+        </text>
+        <text>
+            <source>Select Content Type</source>
+            <output>Seleziona tipo di contenuto</output>
+        </text>
+        <text>
+            <source>The root URI already exists.</source>
+            <output>L'URI radice esiste già.</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent content.</source>
+            <output>Che URI già esiste in forza di tale contenuto padre.</output>
+        </text>
+        <text>
+            <source>Generate URI</source>
+            <output>Genera URI</output>
+        </text>
+        <text>
+            <source>That content type name already exists. The name must be unique.</source>
+            <output>Esiste già il nome del tipo di contenuto. Il nome deve essere univoco.</output>
+        </text>
+        <text>
+            <source>All Content</source>
+            <output>Tutto il contenuto</output>
+        </text>
+        <text>
+            <source>URIs Only (pages, etc.)</source>
+            <output>Solo URI ( pagine , ecc )</output>
+        </text>
+        <text>
+            <source>Files Only (media, etc.)</source>
+            <output>Solo Files ( media, ecc )</output>
+        </text>
+        <text>
+            <source>The sites cannot be the same.</source>
+            <output>I siti non possono essere uguali.</output>
+        </text>
+        <text>
+            <source>That navigation name already exists.</source>
+            <output>Esiste già nome di navigazione.</output>
+        </text>
+        <text>
+            <source>That template name already exists. The name must be unique.</source>
+            <output>Esiste già il nome del modello. Il nome deve essere univoco.</output>
+        </text>
+        <text>
+            <source>That device is already added to that template.</source>
+            <output>Tale dispositivo è già stato aggiunto a tale modello.</output>
+        </text>
+        <text>
+            <source>URI Type</source>
+            <output>Tipo URI</output>
+        </text>
+        <text>
+            <source>Images</source>
+            <output>Immagini</output>
+        </text>
+        <text>
+            <source>URIs &amp; Files</source>
+            <output>URI &amp; Files</output>
+        </text>
+        <text>
+            <source>All Categories</source>
+            <output>Tutte le categorie</output>
+        </text>
+        <text>
+            <source>All Navigation</source>
+            <output>Tutti Navigation</output>
+        </text>
+        <text>
+            <source>Trash</source>
+            <output>Spazzatura</output>
+        </text>
+        <text>
+            <source>Scheduled</source>
+            <output>Programmato</output>
+        </text>
+        <text>
+            <source>Expired</source>
+            <output>Scaduto</output>
+        </text>
+        <text>
+            <source>Filter By</source>
+            <output>Filtra Per</output>
+        </text>
+    </locale>
+</language>

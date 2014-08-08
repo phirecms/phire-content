@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE language [
+        <!ELEMENT language ANY>
+        <!ELEMENT locale ANY>
+        <!ELEMENT text (source,output)>
+        <!ELEMENT source ANY>
+        <!ELEMENT output ANY>
+        <!ATTLIST language
+                src       CDATA    #REQUIRED
+                output    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        <!ATTLIST locale
+                region    CDATA    #REQUIRED
+                name      CDATA    #REQUIRED
+                native    CDATA    #REQUIRED
+                >
+        ]>
+<language src="en" output="ja" name="Japanese" native="日本">
+    <locale region="JA" name="Japan" native="日本">
+        <text>
+            <source>Feed &amp; Page Settings</source>
+            <output>フィード·ページの設定</output>
+        </text>
+        <text>
+            <source>Feed Type</source>
+            <output>フィードタイプ</output>
+        </text>
+        <text>
+            <source>Feed Limit</source>
+            <output>フィードリミット</output>
+        </text>
+        <text>
+            <source>Open Authoring</source>
+            <output>オープンオーサリング</output>
+        </text>
+        <text>
+            <source>In-Content Editing</source>
+            <output>インコンテンツ編集</output>
+        </text>
+        <text>
+            <source>Recent Content</source>
+            <output>最近のコンテンツ</output>
+        </text>
+        <text>
+            <source>Content</source>
+            <output>コンテンツ</output>
+        </text>
+        <text>
+            <source>Content Types</source>
+            <output>コンテンツの種類</output>
+        </text>
+        <text>
+            <source>Navigation</source>
+            <output>ナビゲーション</output>
+        </text>
+        <text>
+            <source>Templates</source>
+            <output>テンプレート</output>
+        </text>
+        <text>
+            <source>Categories</source>
+            <output>カテゴリー</output>
+        </text>
+        <text>
+            <source>Publish</source>
+            <output>パブリッシュ</output>
+        </text>
+        <text>
+            <source>Published</source>
+            <output>公表</output>
+        </text>
+        <text>
+            <source>Draft</source>
+            <output>ドラフト</output>
+        </text>
+        <text>
+            <source>Unpublish</source>
+            <output>非公開</output>
+        </text>
+        <text>
+            <source>Unpublished</source>
+            <output>未発表</output>
+        </text>
+        <text>
+            <source>Start Date</source>
+            <output>開始日</output>
+        </text>
+        <text>
+            <source>End Date</source>
+            <output>終了日</output>
+        </text>
+        <text>
+            <source>Batch</source>
+            <output>バッチ</output>
+        </text>
+        <text>
+            <source>Migrate</source>
+            <output>移動する</output>
+        </text>
+        <text>
+            <source>MIGRATE</source>
+            <output>移動する</output>
+        </text>
+        <text>
+            <source>Parent</source>
+            <output>親</output>
+        </text>
+        <text>
+            <source>Template</source>
+            <output>テンプレート</output>
+        </text>
+        <text>
+            <source>Category</source>
+            <output>カテゴリ</output>
+        </text>
+        <text>
+            <source>Include in Feed</source>
+            <output>フィードに含める</output>
+        </text>
+        <text>
+            <source>There is currently no content under the %1 content type.</source>
+            <output>%1コンテンツタイプの下にはコンテンツが現在ありません。</output>
+        </text>
+        <text>
+            <source>You can add new content %1here%2 or add a new content type %3here%4.</source>
+            <output>新規コンテンツの%1ここに%2を追加したり、新しいコンテンツタイプ%3ここに%4を追加することができます。</output>
+        </text>
+        <text>
+            <source>Archive of Multiple Files</source>
+            <output>複数のファイルのアーカイブ</output>
+        </text>
+        <text>
+            <source>Top Node</source>
+            <output>最上位ノード</output>
+        </text>
+        <text>
+            <source>ID</source>
+            <output>ID</output>
+        </text>
+        <text>
+            <source>Class</source>
+            <output>クラス</output>
+        </text>
+        <text>
+            <source>Attributes</source>
+            <output>属性</output>
+        </text>
+        <text>
+            <source>Parent Node</source>
+            <output>親ノード</output>
+        </text>
+        <text>
+            <source>Child Node</source>
+            <output>子ノード</output>
+        </text>
+        <text>
+            <source>"On" Class</source>
+            <output>「 「クラス</output>
+        </text>
+        <text>
+            <source>"Off" Class</source>
+            <output>「オフ」クラス</output>
+        </text>
+        <text>
+            <source>Indentation Spaces</source>
+            <output>インデントのスペース</output>
+        </text>
+        <text>
+            <source>Slug</source>
+            <output>ナメクジ</output>
+        </text>
+        <text>
+            <source>Show Total</source>
+            <output>合計表示</output>
+        </text>
+        <text>
+            <source>There are currently no assets. Use the upload form above to add some.</source>
+            <output>全く資産はありません。いくつかを追加するには、上記のアップロードフォームを使用してください。</output>
+        </text>
+        <text>
+            <source>There are currently no categories.</source>
+            <output>カテゴリーなしは現在ありません。</output>
+        </text>
+        <text>
+            <source>There is currently no navigation.</source>
+            <output>全くナビゲーションは現在ありません。</output>
+        </text>
+        <text>
+            <source>There are currently no templates.</source>
+            <output>何のテンプレートがありません。</output>
+        </text>
+        <text>
+            <source>There are currently no content types.</source>
+            <output>ないコンテンツの種類は現在ありません。</output>
+        </text>
+        <text>
+            <source>Caution: This action can possibly overwrite content.</source>
+            <output>注意：このアクションは、おそらくコンテンツを上書きすることができます。</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent category.</source>
+            <output>そのURIはすでにその親カテゴリの下に存在します。</output>
+        </text>
+        <text>
+            <source>Select Content Type</source>
+            <output>コンテンツタイプを選択します。</output>
+        </text>
+        <text>
+            <source>The root URI already exists.</source>
+            <output>ルートURIがすでに存在しています。</output>
+        </text>
+        <text>
+            <source>That URI already exists under that parent content.</source>
+            <output>そのURIはすでにその親コンテンツの下に存在します。</output>
+        </text>
+        <text>
+            <source>Generate URI</source>
+            <output>URIの生成を</output>
+        </text>
+        <text>
+            <source>That content type name already exists. The name must be unique.</source>
+            <output>そのコンテンツタイプ名はすでに存在しています。名前は一意である必要があります。</output>
+        </text>
+        <text>
+            <source>All Content</source>
+            <output>すべてのコンテンツ</output>
+        </text>
+        <text>
+            <source>URIs Only (pages, etc.)</source>
+            <output>のURIのみ（ページなど）</output>
+        </text>
+        <text>
+            <source>Files Only (media, etc.)</source>
+            <output>ファイルのみ（メディアなど）</output>
+        </text>
+        <text>
+            <source>The sites cannot be the same.</source>
+            <output>サイトは同じにすることはできません。</output>
+        </text>
+        <text>
+            <source>That navigation name already exists.</source>
+            <output>そのナビゲーション名はすでに存在しています。</output>
+        </text>
+        <text>
+            <source>That template name already exists. The name must be unique.</source>
+            <output>そのテンプレート名がすでに存在しています。名前は一意である必要があります。</output>
+        </text>
+        <text>
+            <source>That device is already added to that template.</source>
+            <output>そのデバイスがすでにそのテンプレートに追加されます。</output>
+        </text>
+        <text>
+            <source>URI Type</source>
+            <output>URIタイプ</output>
+        </text>
+        <text>
+            <source>Images</source>
+            <output>イメージズ</output>
+        </text>
+        <text>
+            <source>URIs &amp; Files</source>
+            <output>URIのとファイル</output>
+        </text>
+        <text>
+            <source>All Categories</source>
+            <output>すべてのカテゴリ</output>
+        </text>
+        <text>
+            <source>All Navigation</source>
+            <output>すべてのナビゲーション</output>
+        </text>
+        <text>
+            <source>Trash</source>
+            <output>ごみ</output>
+        </text>
+        <text>
+            <source>Scheduled</source>
+            <output>予定の</output>
+        </text>
+        <text>
+            <source>Expired</source>
+            <output>有効期限が切れ</output>
+        </text>
+        <text>
+            <source>Filter By</source>
+            <output>で絞り込み</output>
+        </text>
+    </locale>
+</language>

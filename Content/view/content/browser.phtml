@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<!-- Header //-->
+<html>
+
+<head>
+    <title><?php echo $title;?></title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<?php if ($editor == 'ckeditor'): ?>
+    <script type="text/javascript">
+        function getUrlParam(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i');
+            var match = window.location.search.match(reParam);
+            return (match && match.length > 1) ? match[1] : '';
+        }
+        var funcNum = getUrlParam('CKEditorFuncNum');
+    </script>
+<?php endif; ?>
+
+    <script type="text/javascript">
+        if (phire == undefined) {
+            var phire = {
+                showLoading : function() {
+                    document.getElementById('loading').style.display = 'block';
+                }
+            };
+        }
+    </script>
+
+    <style type="text/css">
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: arial, helvetica, verdana, sans-serif;
+            font-size: 0.75em;
+            color: #606060;
+            background-color: #fcf9f9;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 2.4em;
+        }
+
+        h2 {
+            margin: 0 0 8px 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 2.0em;
+        }
+
+        h3 {
+            margin: 0 0 6px 0;
+            padding: 0;
+            font-weight: normal;
+            font-size: 1.6em;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+            padding: 0;
+            line-height: 1.4em;
+        }
+
+        a {
+            font-weight: bold;
+            text-decoration: none;
+            color: #006bc9;
+        }
+
+        a:hover {
+            font-weight: bold;
+            text-decoration: underline;
+            color: #e86000;
+        }
+
+        img {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        dt {
+            clear: left;
+            float: left;
+            margin: 0;
+            padding: 15px 3px 3px 3px;
+            width: 200px;
+            text-align: right;
+            line-height: 1.0em;
+        }
+
+        dd {
+            float: left;
+            margin: 0;
+            padding: 6px 3px 9px 3px;
+            line-height: 1.0em;
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0 3px 6px 3px;
+            border: none;
+        }
+
+        #media-form > dl > dd > input[type=file] {
+            margin: 0;
+            padding: 2px;
+            width: 300px;
+            height: 26px;
+            border: none;
+            border-radius: 4px;
+            background-color: #d3d3d3;
+            font-family: arial, helvetica, verdana, sans-serif;
+        }
+
+        select {
+            margin: 0;
+            padding: 4px;
+            font-size: 1.1em;
+            border: solid 1px #d3d3d3;
+            background-color: #d3d3d3;
+            border-radius: 4px;
+        }
+
+        option {
+            margin: 2px;
+            padding: 2px 2px 0 2px;
+        }
+
+        #media-form > dl > dd > input[type=file]:focus, #media-form > dl > dd > select:focus {
+            border: none;
+            border-radius: 4px;
+            background-color: #efefef;
+            box-shadow: 0px 0px 5px 2px #8cd6ff;
+        }
+
+        #header {
+            margin: 0 auto;
+            padding: 0;
+            width: 100%;
+            height: 100px;
+            overflow: auto;
+            color: #ccc;
+            background-image: url(<?php echo BASE_PATH . CONTENT_PATH; ?>/assets/phire/img/media-assets.png);
+            background-position: 25px center;
+            background-repeat: no-repeat;
+            background-color: #211f1e;
+            box-shadow: inset 0px 0px 20px 2px #000;
+            border-bottom: solid 1px #353331;
+        }
+
+        #content {
+            margin: 0 auto;
+            padding: 1%;
+            width: 95%;
+        }
+
+        #media-form {
+            margin: 20px 10px 0 0;
+            padding: 0;
+            float: right;
+        }
+
+        #loading {
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+            background-color: #000;
+            display: none;
+        }
+
+        #loading img {
+            display: block;
+            margin: 30% auto auto auto;
+        }
+
+        #browser-filter {
+            margin: 11px 0.5% 0 0;
+            padding: 0;
+            font-size: 0.9em;
+            float: right;
+        }
+
+        .required {
+            color: #006bc9;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #f00;
+            font-weight: bold;
+        }
+
+        .upload-btn {
+            margin: 0;
+            padding: 5px 0 6px 0;
+            width: 100px;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            text-transform: uppercase;
+            border-radius: 4px;
+            font-size: 1.2em;
+            background-color: #1481bc;
+        }
+
+        .upload-btn:hover {
+            background-color: #37ade8;
+        }
+
+        .data-table {
+            margin: 0 auto 10px auto;
+            padding: 0;
+            width: 99.5%;
+            border-top: solid 1px #ccc;
+        }
+
+        .data-table tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        .data-table tr:hover {
+            background-color: #e8f4f7;
+        }
+
+        .data-table th {
+            margin: 0;
+            text-align: left;
+            padding: 8px 5px 8px 5px;
+            background-color: #dedede;
+        }
+
+        .data-table td {
+            margin: 0;
+            padding: 8px 5px 8px 5px;
+            border-top: solid 1px #ccc;
+            font-size: 0.9em;
+        }
+
+        .data-table tr:nth-child(odd) {
+            background-color: #eee;
+        }
+
+        .data-table tr:nth-child(odd):hover {
+            background-color: #e8f4f7;
+        }
+
+        .page-links {
+            margin: 0 0 6px 2px;
+            padding: 0;
+            font-size: 0.9em;
+            float: left;
+        }
+
+        .page-links > span {
+            margin: 0 5px 0 0;
+            padding: 4px 8px 4px 8px;
+            display: inline-block;
+            background-color: #dedede;
+            border-radius: 4px;
+        }
+
+        .page-links > a {
+            margin: 0 5px 0 0;
+            padding: 4px 8px 4px 8px;
+            display: inline-block;
+            color: #666;
+            background-color: #c6c6c6;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .page-links > a:hover {
+            color: #fff;
+            background-color: #999;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="header">
+<?php echo $form; ?>
+    </div>
+    <div id="content">
+<?php if (isset($types) && (count($types) > 0)):
+    $uri = $_SERVER['REQUEST_URI'];
+    if (strpos($uri, '&type_id') !== false):
+        $uri = substr($uri, 0, strpos($uri, '&type_id'));
+    endif;
+    if (strpos($uri, '?page=') !== false):
+        $uri1 = substr($uri, 0, strpos($uri, '?page='));
+        $uri2 = substr($uri, (strpos($uri, '&') + 1));
+        $uri  = $uri1 . '?' . $uri2;
+    endif;
+?>
+        <div id="browser-filter">
+            <strong><?php $i18n->_e('Filter By'); ?>:</strong> <a href="<?php echo $uri; ?>"><?php $i18n->_e('All'); ?></a> | <?php
+$i = 0;
+foreach ($types as $tid => $type): ?>
+ <a href="<?php echo $uri; ?>&type_id=<?php echo $tid; ?>"><?php echo $type; ?></a><?php echo ($i < (count($types) - 1) ? ' |' : PHP_EOL); ?>
+<?php
+$i++;
+endforeach; ?>
+        </div>
+<?php endif; ?>
+        <h1><?php echo $title; ?></h1>
+<?php if (isset($page_links)): ?>
+        <div class="page-links"><?php echo $page_links; ?></div>
+<?php endif; ?>
+<?php if (isset($content[0])): ?>
+        <table class="data-table" cellspacing="0" cellpadding="0" style="border-bottom: solid 1px #ccc; border-left: solid 1px #ccc; border-right: solid 1px #ccc;">
+            <tr><th><?php $i18n->_e('Domain'); ?></th><th><?php $i18n->_e('Title'); ?></th><th><?php $i18n->_e('URI'); ?> / <?php $i18n->_e('File'); ?></th><th><?php $i18n->_e('Select'); ?></th><th style="width: 10%;"><?php $i18n->_e('Size'); ?></th><th style="width: 10%; text-align: center;"><?php $i18n->_e('Thumbnail'); ?></th></tr>
+<?php foreach ($content as $cont): ?>
+            <tr><td><?php echo $cont->domain; ?></td><td><?php echo $cont->content_title; ?></td><td><?php echo $cont->content_uri; ?></td><td><?php echo $cont->select; ?></td><td style="width: 10%;"><?php echo $cont->file_size; ?></td><td style="width: 10%; text-align: center;"><?php echo (null !== $cont->file_icon) ? '<img src="http://' . $cont->domain . $cont->base_path . CONTENT_PATH . $cont->file_icon . '" width="30" />' : null; ?></td></tr>
+<?php endforeach; ?>
+        </table>
+<?php endif; ?>
+<?php if (!isset($content[0])): ?>
+        <p><?php $i18n->_e('There are currently no assets. Use the upload form above to add some.'); ?></p>
+<?php endif; ?>
+<?php if (isset($page_links)): ?>
+        <div class="page-links"><?php echo $page_links; ?></div>
+<?php endif; ?>
+    </div>
+    <div id="loading"><img src="<?php echo BASE_PATH . CONTENT_PATH;?>/assets/phire/img/loading2.gif" /></div>
+</body>
+</html>
