@@ -1,0 +1,48 @@
+<?php include $phireHeader; ?>
+    <h1 class="content-header"><?=$title; ?></h1>
+<?php if (count($content) > 0): ?>
+<?php if (null !== $pages): ?>
+    <div class="page-links"><?=$pages; ?></div>
+<?php endif; ?>
+    <nav id="sub-nav">
+<?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>
+        <nav><a href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
+<?php endif; ?>
+        <nav><a href="<?=$phireUri . '/content'; ?>">Back</a></nav>
+    </nav>
+<?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?>
+    <form id="contents-form" action="<?=$phireUri . '/content/remove/' . $tid; ?>" method="post">
+<?php endif; ?>
+        <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <th><a href="<?=$phireUri . '/content?sort=id';?>">#</a></th>
+                <th><a href="<?=$phireUri . '/content?sort=title';?>">Title</a></th>
+                <th class="text-center">URI</th>
+                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?><input type="checkbox" name="checkall" id="checkall" value="rm_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
+            </tr>
+<?php $i = 1; ?>
+<?php foreach ($content as $c): ?>
+            <tr>
+                <td><?=$c->id; ?></td>
+                <td><?=$c->title; ?></td>
+                <td class="text-center"><a href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . $c->uri; ?></a></td>
+                <td><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $tid . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
+                <td class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?><input type="checkbox" name="rm_content[]" id="rm_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
+            </tr>
+<?php endforeach; ?>
+        </table>
+<?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?>
+        <div id="form-footer"><input type="submit" name="submit" class="process-btn" value="Remove" /></div>
+    </form>
+<?php endif; ?>
+<?php else: ?>
+    <nav id="sub-nav">
+<?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>
+        <nav><a href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
+<?php endif; ?>
+        <nav><a href="<?=$phireUri . '/content'; ?>">Back</a></nav>
+    </nav>
+    <p>There are currently no content of this content type.</p>
+<?php endif; ?>
+<?php include $phireFooter; ?>

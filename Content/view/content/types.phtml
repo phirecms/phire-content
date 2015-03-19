@@ -1,0 +1,21 @@
+<?php include $phireHeader; ?>
+    <h1 class="content-header"><?=$title; ?></h1>
+<?php if (count($libraries) > 0): ?>
+<?php if (null !== $pages): ?>
+    <div class="page-links"><?=$pages; ?></div>
+<?php endif; ?>
+    <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <th>Content Types</th>
+        </tr>
+<?php $i = 1; ?>
+<?php foreach ($types as $type): ?>
+        <tr>
+            <td><?php if ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'index')): ?><a href="<?=$phireUri . '/content/' . $type->id; ?>"><?=$type->name; ?></a><?php else: echo $type->name; ?><?php endif; ?></td>
+        </tr>
+<?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <p>There are currently no content types.</p>
+<?php endif; ?>
+<?php include $phireFooter; ?>

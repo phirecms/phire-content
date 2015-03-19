@@ -1,0 +1,97 @@
+/**
+ * Content Module Style Sheet for Phire CMS 2
+ */
+
+#content-from, #content-type-form {
+    margin: 10px auto 10px auto;
+    padding: 15px 0 15px 0;
+    width: 100%;
+    min-height: 460px;
+    border-top: solid 1px #ccc;
+}
+
+#content-from > dl:first-child, #content-type-form > dl:first-child {
+    margin: 0 0 0 20px;
+    padding: 0 0 0 20px;
+    width: 160px;
+    border-left: solid 1px #ccc;
+    float: right;
+    min-height: 460px;
+    height: 100%;
+}
+
+#content-from > dl:first-child > dd, #content-from > dl:first-child > dt,
+#content-type-form > dl:first-child > dd, #content-type-form > dl:first-child > dt {
+    width: 100%;
+}
+
+#content-from > dl:first-child > dt, #content-type-form > dl:first-child > dt {
+    margin: 0 0 5px 0;
+    border-bottom: dotted 1px #aaa;
+}
+
+#content-from-field-group-2, #content-type-form-field-group-2 {
+    width: calc(100% - 220px);
+}
+
+#content-from-field-group-2 > dt, #content-from-field-group-2 > dd,
+#content-type-form-field-group-2 > dt, #content-type-form-field-group-2 > dd {
+    width: 98%;
+    padding-left: 4px;
+}
+
+#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > input.checkbox {
+    margin: 4px 4px 0 0;
+    padding: 0;
+    clear: none;
+    float: left;
+}
+
+#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > span.checkbox-span {
+    margin: 2px 10px 0 0;
+    padding: 0 10px 0 0;
+    clear: none;
+    float: left;
+    font-size: 0.825em;
+    width: 40px;
+}
+
+#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > input.checkbox:nth-of-type(6n+1) {
+    clear: left;
+}
+
+#content-type-form-field-group-3 > dt, #content-type-form-field-group-3 > dd {
+    padding-left: 6px;
+}
+
+#content-type-form-field-group-3 > dd > input[type=text] {
+    margin: 0 0 5px 0;
+    padding: 4px;
+    font-size: 0.825em;
+    border-radius: 4px;
+    display: block;
+    height: 16px;
+}
+
+#content-type-form-field-group-3 > dd > select {
+    margin: 0 0 5px 0;
+    padding: 1px 3px 1px 3px;
+    border-radius: 4px;
+    font-size: 0.825em;
+    display: block;
+    height: 26px;
+}
+
+.content-nav-icon {
+    background-image: url(../img/content-icon-sm.png);
+    background-position: 8px center;
+    background-repeat: no-repeat;
+}
+
+.content-header {
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 40px;
+    background-image: url(../img/content-icon-lg.png);
+    background-position: left center;
+    background-repeat: no-repeat;
+}
