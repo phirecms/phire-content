@@ -131,7 +131,7 @@ return [
                     'size'  => 60,
                     'style' => 'width: 99.5%'
                 ]
-            ],,
+            ],
             'content_type' => [
                 'type'       => 'select',
                 'label'      => 'Content Type',
@@ -146,7 +146,7 @@ return [
                     'application/json'    => 'application/json',
                     'other'               => 'other'
                 ]
-            ]
+            ],
             'content_type_other' => [
                 'type'       => 'text',
                 'attributes' => [
