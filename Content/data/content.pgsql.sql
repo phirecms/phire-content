@@ -9,7 +9,6 @@
 
 CREATE SEQUENCE type_id_seq START 50001;
 
-DROP TABLE IF EXISTS "[{prefix}]content_types" CASCADE;
 CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "id" integer NOT NULL DEFAULT nextval('type_id_seq'),
   "name" varchar(255) NOT NULL,
@@ -29,7 +28,6 @@ ALTER SEQUENCE type_id_seq OWNED BY "[{prefix}]content_types"."id";
 
 CREATE SEQUENCE content_id_seq START 51001;
 
-DROP TABLE IF EXISTS "[{prefix}]content" CASCADE;
 CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "id" integer NOT NULL DEFAULT nextval('content_id_seq'),
   "type_id" integer NOT NULL,

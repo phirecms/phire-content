@@ -16,7 +16,6 @@ PRAGMA foreign_keys = ON;
 -- Table structure for table "content_types"
 --
 
-DROP TABLE IF EXISTS "[{prefix}]content_types";
 CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   "name" varchar NOT NULL,
@@ -33,7 +32,6 @@ INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content_types',
 -- Table structure for table "content"
 --
 
-DROP TABLE IF EXISTS "[{prefix}]content";
 CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   "type_id" integer NOT NULL,

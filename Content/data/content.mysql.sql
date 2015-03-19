@@ -12,7 +12,6 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for table `content_types`
 --
 
-DROP TABLE IF EXISTS "[{prefix}]content_types";
 CREATE TABLE IF NOT EXISTS `[{prefix}]content_types` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -27,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content_types` (
 -- Table structure for table `content`
 --
 
-DROP TABLE IF EXISTS "[{prefix}]content";
 CREATE TABLE IF NOT EXISTS `[{prefix}]content` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `type_id` int(16) NOT NULL,
