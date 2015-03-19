@@ -29,7 +29,7 @@ class TypeController extends AbstractController
             $pages = null;
         }
 
-        $this->prepareView('types/index.phtml');
+        $this->prepareView('content/types/index.phtml');
         $this->view->title = 'Content Types';
         $this->view->pages = $pages;
         $this->view->types = $type->getAll(
@@ -46,7 +46,7 @@ class TypeController extends AbstractController
      */
     public function add()
     {
-        $this->prepareView('types/add.phtml');
+        $this->prepareView('content/types/add.phtml');
         $this->view->title = 'Content Types : Add';
 
         $fields = $this->application->config()['forms']['Content\Form\ContentType'];
@@ -82,7 +82,7 @@ class TypeController extends AbstractController
         $type = new Model\ContentType();
         $type->getById($id);
 
-        $this->prepareView('types/edit.phtml');
+        $this->prepareView('content/types/edit.phtml');
         $this->view->title = 'Content Types : ' . $type->name;
 
         $fields = $this->application->config()['forms']['Content\Form\ContentType'];

@@ -134,11 +134,10 @@ class Content extends AbstractModel
     /**
      * Save new content
      *
-     * @param  array $file
      * @param  array $fields
      * @return void
      */
-    public function save(array $file, array $fields)
+    public function save(array $fields)
     {
         $publish = null;
         $expire  = null;
@@ -152,7 +151,7 @@ class Content extends AbstractModel
         }
 
         if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') && ($fields['expire_day'] != '--')) {
-            $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day']
+            $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
             $expire = (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
                 ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
         }
@@ -173,11 +172,10 @@ class Content extends AbstractModel
     /**
      * Update an existing content
      *
-     * @param  array $file
      * @param  array $fields
      * @return void
      */
-    public function update(array $file = null, array $fields)
+    public function update(array $fields)
     {
         $content = Table\Content::findById($fields['id']);
         if (isset($content->id)) {
@@ -193,7 +191,7 @@ class Content extends AbstractModel
             }
 
             if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') && ($fields['expire_day'] != '--')) {
-                $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day']
+                $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
                 $expire = (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
                     ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
             }

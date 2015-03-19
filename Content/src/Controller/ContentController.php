@@ -20,7 +20,7 @@ class ContentController extends AbstractController
     public function index($tid = null)
     {
         if (null === $tid) {
-            $this->prepareView('types.phtml');
+            $this->prepareView('content/types.phtml');
             $type = new Model\ContentType();
 
             if ($type->hasPages($this->config->pagination)) {
@@ -38,7 +38,7 @@ class ContentController extends AbstractController
                 $limit, $this->request->getQuery('page'), $this->request->getQuery('sort')
             );
         } else {
-            $this->prepareView('index.phtml');
+            $this->prepareView('content/index.phtml');
             $content = new Model\Content(['tid' => $tid]);
             $type    = new Model\ContentType();
             $type->getById($tid);
@@ -86,7 +86,7 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        $this->prepareView('add.phtml');
+        $this->prepareView('content/add.phtml');
         $this->view->title = 'Content : ' . $type->name . ' : Add';
         $this->view->tid   = $tid;
 
@@ -135,7 +135,7 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
         }
 
-        $this->prepareView('edit.phtml');
+        $this->prepareView('content/edit.phtml');
         $this->view->title = 'Content : ' . $content->title;
         $this->view->tid   = $tid;
 
