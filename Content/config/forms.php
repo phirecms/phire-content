@@ -10,6 +10,13 @@ return [
                     'class'  => 'save-btn wide'
                 ]
             ],
+            'parent_id' => [
+                'type'  => 'select',
+                'label' => 'Parent',
+                'value' => [
+                    '----' => '----',
+                ]
+            ],
             'status' => [
                 'type'  => 'select',
                 'label' => 'Status',
@@ -99,6 +106,11 @@ return [
                     'size'  => 60,
                     'style' => 'width: 99.5%'
                 ]
+            ],
+            'slug' => [
+                'type'  => 'hidden',
+                'label' => '&nbsp;',
+                'value' => ''
             ]
         ]
     ],
