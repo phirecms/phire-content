@@ -34,9 +34,13 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content` (
   `title` varchar(255) NOT NULL,
   `uri` varchar(255) NOT NULL,
   `slug` varchar(255),
+  `status` int(1) NOT NULL,
   `publish` datetime,
   `expire` datetime,
-  `status` int(1) NOT NULL,
+  `created` datetime,
+  `updated` datetime,
+  `created_by` int(16),
+  `updated_by` int(16),
   PRIMARY KEY (`id`),
   INDEX `content_type_id` (`type_id`),
   INDEX `content_title` (`title`),
@@ -46,7 +50,9 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content` (
   INDEX `content_publish` (`publish`),
   INDEX `content_expire` (`expire`),
   CONSTRAINT `fk_content_type` FOREIGN KEY (`type_id`) REFERENCES `[{prefix}]content_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_content_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `[{prefix}]content` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `fk_content_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `[{prefix}]content` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_created_by` FOREIGN KEY (`created_by`) REFERENCES `[{prefix}]users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_updated_by` FOREIGN KEY (`updated_by`) REFERENCES `[{prefix}]users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=51001;
 
 -- --------------------------------------------------------
