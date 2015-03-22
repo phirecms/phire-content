@@ -2,7 +2,7 @@
  * Content Module Style Sheet for Phire CMS 2
  */
 
-#content-from, #content-type-form {
+#content-form, #content-type-form {
     margin: 10px auto 10px auto;
     padding: 15px 0 15px 0;
     width: 100%;
@@ -10,7 +10,17 @@
     border-top: solid 1px #ccc;
 }
 
-#content-from > dl:first-child, #content-type-form > dl:first-child {
+#content-form > dl:first-child {
+    margin: 0 0 0 20px;
+    padding: 0 0 0 20px;
+    width: 240px;
+    border-left: solid 1px #ccc;
+    float: right;
+    min-height: 460px;
+    height: 100%;
+}
+
+#content-type-form > dl:first-child {
     margin: 0 0 0 20px;
     padding: 0 0 0 20px;
     width: 160px;
@@ -20,21 +30,29 @@
     height: 100%;
 }
 
-#content-from > dl:first-child > dd, #content-from > dl:first-child > dt,
+#content-form > dl:first-child > dt,
 #content-type-form > dl:first-child > dd, #content-type-form > dl:first-child > dt {
     width: 100%;
 }
 
-#content-from > dl:first-child > dt, #content-type-form > dl:first-child > dt {
+#content-form > dl:first-child > dt, #content-type-form > dl:first-child > dt {
     margin: 0 0 5px 0;
     border-bottom: dotted 1px #aaa;
 }
 
-#content-from-field-group-2, #content-type-form-field-group-2 {
+#content-form-field-group-1 > dd:first-child, #parent_id, #status {
+    width: 200px;
+}
+
+#content-form-field-group-2 {
+    width: calc(100% - 300px);
+}
+
+#content-type-form-field-group-2 {
     width: calc(100% - 220px);
 }
 
-#content-from-field-group-2 > dt, #content-from-field-group-2 > dd,
+#content-form-field-group-2 > dt, #content-form-field-group-2 > dd,
 #content-type-form-field-group-2 > dt, #content-type-form-field-group-2 > dd {
     width: 98%;
     padding-left: 4px;
@@ -82,6 +100,12 @@
     height: 26px;
 }
 
+#uri-span {
+    margin: 0;
+    padding: 0 0 0 6px;
+    font-size: 0.825em;
+}
+
 .content-nav-icon {
     background-image: url(../img/content-icon-sm.png);
     background-position: 8px center;
@@ -94,4 +118,20 @@
     background-image: url(../img/content-icon-lg.png);
     background-position: left center;
     background-repeat: no-repeat;
+}
+
+select.date-select {
+    margin: 0 2px 0 0;
+    padding: 1px 2px 1px 1px;
+    font-size: 0.825em;
+}
+
+select.date-select-end {
+    margin: 0;
+    padding: 1px 2px 1px 1px;
+    font-size: 0.825em;
+}
+
+select.date-select option, select.date-select-end option {
+    padding: 1px 2px 1px 1px;
 }

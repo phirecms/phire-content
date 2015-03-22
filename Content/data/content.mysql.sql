@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content_types` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `content_type` varchar(255) NOT NULL,
+  `open_authoring` int(1) NOT NULL,
   `order` int(16),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50001 ;

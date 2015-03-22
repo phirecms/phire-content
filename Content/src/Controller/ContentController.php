@@ -86,12 +86,16 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
+        $content = new Model\Content();
+
         $this->prepareView('content/add.phtml');
         $this->view->title = 'Content : ' . $type->name . ' : Add';
         $this->view->tid   = $tid;
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
-        $fields[0]['type_id']['value'] = $tid;
+        $fields[0]['type_id']['value']   = $tid;
+        $fields[0]['parent_id']['value'] = $fields[0]['parent_id']['value'] + $content->getParents($tid);
+
         $this->view->form = new Form\Content($fields);
 
         if ($this->request->isPost()) {
@@ -140,7 +144,8 @@ class ContentController extends AbstractController
         $this->view->tid   = $tid;
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
-        $fields[0]['type_id']['value'] = $tid;
+        $fields[0]['type_id']['value']  = $tid;
+        $fields[0]['parent_id']['value'] = $fields[0]['parent_id']['value'] + $content->getParents($tid, $id);
 
         $this->view->form = new Form\Content($fields);
         $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])

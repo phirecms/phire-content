@@ -82,10 +82,14 @@ class ContentType extends AbstractModel
      */
     public function save(array $fields)
     {
+        $contentType = (!empty($fields['content_type_other']) && ($fields['content_type'] == 'other')) ?
+            $fields['content_type_other'] : $fields['content_type'];
+
         $type = new Table\ContentTypes([
-            'name'         => $fields['name'],
-            'content_type' => (!empty($fields['content_type_other']) ? $fields['content_type_other'] : $fields['content_type']),
-            'order'        => (int)$fields['order']
+            'name'           => $fields['name'],
+            'content_type'   => $contentType,
+            'open_authoring' => (int)$fields['open_authoring'],
+            'order'          => (int)$fields['order']
         ]);
         $type->save();
 
@@ -102,10 +106,13 @@ class ContentType extends AbstractModel
     {
         $type = Table\ContentTypes::findById($fields['id']);
         if (isset($type->id)) {
+            $contentType = (!empty($fields['content_type_other']) && ($fields['content_type'] == 'other')) ?
+                $fields['content_type_other'] : $fields['content_type'];
 
-            $type->name         = $fields['name'];
-            $type->content_type = (!empty($fields['content_type_other']) ? $fields['content_type_other'] : $fields['content_type']);
-            $type->order        = (int)$fields['order'];
+            $type->name           = $fields['name'];
+            $type->content_type   = $contentType;
+            $type->open_authoring = (int)$fields['open_authoring'];
+            $type->order          = (int)$fields['order'];
             $type->save();
 
             $this->data = array_merge($this->data, $type->getColumns());
@@ -121,7 +128,7 @@ class ContentType extends AbstractModel
     public function remove(array $fields)
     {
         if (isset($fields['rm_content_types'])) {
-            foreach ($fields['rm_media_libraries'] as $id) {
+            foreach ($fields['rm_content_types'] as $id) {
                 $type = Table\ContentTypes::findById((int)$id);
                 if (isset($type->id)) {
                     $type->delete();

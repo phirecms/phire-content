@@ -17,7 +17,7 @@
             <tr>
                 <th><a href="<?=$phireUri . '/content?sort=id';?>">#</a></th>
                 <th><a href="<?=$phireUri . '/content?sort=title';?>">Title</a></th>
-                <th class="text-center">URI</th>
+                <th>URI</th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?><input type="checkbox" name="checkall" id="checkall" value="rm_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
@@ -26,7 +26,7 @@
             <tr>
                 <td><?=$c->id; ?></td>
                 <td><?=$c->title; ?></td>
-                <td class="text-center"><a href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . $c->uri; ?></a></td>
+                <td><a href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . $c->uri; ?></a></td>
                 <td><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $tid . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 <td class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'remove')): ?><input type="checkbox" name="rm_content[]" id="rm_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>

@@ -2,6 +2,10 @@
  * Content Module Scripts for Phire CMS 2
  */
 
+phire.changeUri = function() {
+
+};
+
 jax(document).ready(function(){
     if (jax('#contents-form')[0] != undefined) {
         jax('#checkall').click(function(){
@@ -26,5 +30,10 @@ jax(document).ready(function(){
         jax('#content-types-form').submit(function(){
             return jax('#content-types-form').checkValidate('checkbox', true);
         });
+    }
+    if (jax('#content-form')[0] != undefined) {
+        if (jax('#uri').val() != '') {
+            jax('#uri-span').val(jax('#uri').val());
+        }
     }
 });

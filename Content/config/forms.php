@@ -15,6 +15,9 @@ return [
                 'label' => 'Parent',
                 'value' => [
                     '----' => '----',
+                ],
+                'attributes' => [
+                    'onchange' => 'phire.changeUri();'
                 ]
             ],
             'status' => [
@@ -25,59 +28,84 @@ return [
                     '0' => 'Draft',
                     '1' => 'Published'
                 ],
-                'marked' => 0
+                'marked' => -1
             ],
             'publish_month' => [
                 'type'   => 'select',
                 'label'  => 'Publish / Start',
-                'value'  => \Pop\Form\Element\Select::MONTHS_SHORT,
-                'marked' => date('m')
+                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MONTHS_SHORT),
+                'marked' => date('m'),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'publish_day' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::DAYS_OF_MONTH,
-                'marked' => date('d')
+                'value'  => ['--' => 'DD'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::DAYS_OF_MONTH),
+                'marked' => date('d'),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'publish_year' => [
                 'type'   => 'select',
-                'value'  => 'YEAR_' . (date('Y') - 10) . '_' . (date('Y') + 10),
-                'marked' => date('Y')
+                'value'  => ['----' => 'YYYY'] + \Pop\Form\Element\Select::parseValues('YEAR_' . (date('Y') + 10) . '_' . (date('Y') - 20)),
+                'marked' => date('Y'),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'publish_hour' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::HOURS_24,
-                'marked' => date('H')
+                'value'  => ['--' => 'HH'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::HOURS_24),
+                'marked' => date('H'),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'publish_minute' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::MINUTES,
-                'marked' => date('i')
+                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MINUTES),
+                'marked' => date('i'),
+                'attributes' => [
+                    'class' => 'date-select-end'
+                ]
             ],
             'expire_month' => [
                 'type'   => 'select',
                 'label'  => 'Expire / End',
-                'value'  => \Pop\Form\Element\Select::MONTHS_SHORT,
-                'marked' => date('m')
+                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MONTHS_SHORT),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'expire_day' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::DAYS_OF_MONTH,
-                'marked' => date('d')
+                'value'  => ['--' => 'DD'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::DAYS_OF_MONTH),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'expire_year' => [
                 'type'   => 'select',
-                'value'  => 'YEAR_' . (date('Y') - 10) . '_' . (date('Y') + 10),
-                'marked' => date('Y')
+                'value'  => ['----' => 'YYYY'] + \Pop\Form\Element\Select::parseValues('YEAR_' . (date('Y') + 10) . '_' . (date('Y') - 20)),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'expire_hour' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::HOURS_24,
-                'marked' => date('H')
+                'value'  => ['--' => 'HH'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::HOURS_24),
+                'attributes' => [
+                    'class' => 'date-select'
+                ]
             ],
             'expire_minute' => [
                 'type'   => 'select',
-                'value'  => \Pop\Form\Element\Select::MINUTES,
-                'marked' => date('i')
+                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MINUTES),
+                'attributes' => [
+                    'class' => 'date-select-end'
+                ]
             ],
             'type_id' => [
                 'type'  => 'hidden',
@@ -95,21 +123,22 @@ return [
                 'attributes' => [
                     'size'   => 60,
                     'style'  => 'width: 99.5%',
-                    'onkeyup' => "phire.createSlug(this.value, '#uri');"
+                    'onkeyup' => "phire.createSlug(this.value, '#slug');"
                 ]
             ],
-            'uri' => [
+            'slug' => [
                 'type'       => 'text',
                 'label'      => 'URI',
                 'required'   => true,
                 'attributes' => [
-                    'size'  => 60,
-                    'style' => 'width: 99.5%'
+                    'size'     => 60,
+                    'style'    => 'width: 99.5%',
+                    'onkeyup' => 'phire.changeUri();'
                 ]
             ],
-            'slug' => [
+            'uri' => [
                 'type'  => 'hidden',
-                'label' => '&nbsp;',
+                'label' => '<span id="uri-span"></span>',
                 'value' => ''
             ]
         ]
@@ -122,6 +151,15 @@ return [
                 'attributes' => [
                     'class'  => 'save-btn wide'
                 ]
+            ],
+            'open_authoring' => [
+                'type'       => 'radio',
+                'label'      => 'Open Authoring',
+                'value'      => [
+                    '1' => 'Yes',
+                    '0' => 'No'
+                ],
+                'marked' => 1
             ],
             'order' => [
                 'type'       => 'text',
@@ -143,7 +181,9 @@ return [
                     'size'  => 60,
                     'style' => 'width: 99.5%'
                 ]
-            ],
+            ]
+        ],
+        [
             'content_type' => [
                 'type'       => 'select',
                 'label'      => 'Content Type',

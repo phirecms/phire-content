@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "id" integer NOT NULL DEFAULT nextval('type_id_seq'),
   "name" varchar(255) NOT NULL,
   "content_type" varchar(255) NOT NULL,
+  "open_authoring" integer NOT NULL,
   "order" integer,
   PRIMARY KEY ("id")
 ) ;

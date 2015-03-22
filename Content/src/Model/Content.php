@@ -59,26 +59,25 @@ class Content extends AbstractModel
             if (null !== $data['publish']) {
                 $publish     = explode(' ', $data['publish']);
                 $publishDate = explode('-', $publish[0]);
-                $publishTime = explode('-', $publish[1]);
+                $publishTime = explode(':', $publish[1]);
 
                 $data['publish_month']  = $publishDate[1];
                 $data['publish_day']    = $publishDate[2];
                 $data['publish_year']   = $publishDate[0];
                 $data['publish_hour']   = $publishTime[0];
                 $data['publish_minute'] = $publishTime[1];
-
             }
 
             if (null !== $data['expire']) {
                 $expire     = explode(' ', $data['expire']);
                 $expireDate = explode('-', $expire[0]);
-                $expireTime = explode('-', $expire[1]);
+                $expireTime = explode(':', $expire[1]);
 
                 $data['expire_month']  = $expireDate[1];
                 $data['expire_day']    = $expireDate[2];
                 $data['expire_year']   = $expireDate[0];
                 $data['expire_hour']   = $expireTime[0];
-                $data['expire_minute'] = $publishTime[1];
+                $data['expire_minute'] = $expireTime[1];
             }
 
             $this->data = array_merge($this->data, $data);
@@ -112,7 +111,6 @@ class Content extends AbstractModel
                 $data['publish_year']   = $publishDate[0];
                 $data['publish_hour']   = $publishTime[0];
                 $data['publish_minute'] = $publishTime[1];
-
             }
 
             if (null !== $data['expire']) {
@@ -124,11 +122,32 @@ class Content extends AbstractModel
                 $data['expire_day']    = $expireDate[2];
                 $data['expire_year']   = $expireDate[0];
                 $data['expire_hour']   = $expireTime[0];
-                $data['expire_minute'] = $publishTime[1];
+                $data['expire_minute'] = $expireTime[1];
             }
 
             $this->data = array_merge($this->data, $data);
         }
+    }
+
+    /**
+     * Get parents
+     *
+     * @param  int $tid
+     * @param  int $id
+     * @return array
+     */
+    public function getParents($tid, $id = null)
+    {
+        $parents = [];
+
+        $content = Table\Content::findBy(['type_id' => $tid]);
+        foreach ($content->rows() as $c) {
+            if ($c->id != $id) {
+                $parents[$c->id] = $c->title;
+            }
+        }
+
+        return $parents;
     }
 
     /**
@@ -142,7 +161,8 @@ class Content extends AbstractModel
         $publish = null;
         $expire  = null;
 
-        if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--') && ($fields['publish_day'] != '--')) {
+        if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--')
+            && ($fields['publish_day'] != '--')) {
             $publish = $fields['publish_year'] . '-' . $fields['publish_month'] . '-' . $fields['publish_day'];
             $publish .= (($fields['publish_hour'] != '--') && ($fields['publish_minute'] != '--')) ?
                 ' ' . $fields['publish_hour'] . ':' . $fields['publish_minute'] . ':00' : ' 00:00:00';
@@ -150,19 +170,28 @@ class Content extends AbstractModel
             $publish = date('Y-m-d H:i:s');
         }
 
-        if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') && ($fields['expire_day'] != '--')) {
+        if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--')
+            && ($fields['expire_day'] != '--')) {
             $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
-            $expire = (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
+            $expire .= (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
                 ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
         }
 
+        if ($fields['parent_id'] != '----') {
+
+        } else {
+            $uri = '/' . $fields['slug'];
+        }
+
         $content = new Table\Content([
-            'type_id' => $fields['type_id'],
-            'title'   => $fields['title'],
-            'uri'     => $fields['uri'],
-            'publish' => $publish,
-            'expire'  => $expire,
-            'status'  => (int)$fields['status']
+            'type_id'   => $fields['type_id'],
+            'parent_id' => ($fields['parent_id'] != '----') ? $fields['parent_id'] : null,
+            'title'     => $fields['title'],
+            'uri'       => $uri,
+            'slug'      => $fields['slug'],
+            'publish'   => $publish,
+            'expire'    => $expire,
+            'status'    => (int)$fields['status']
         ]);
         $content->save();
 
@@ -182,7 +211,8 @@ class Content extends AbstractModel
             $publish = null;
             $expire  = null;
 
-            if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--') && ($fields['publish_day'] != '--')) {
+            if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--') &&
+                ($fields['publish_day'] != '--')) {
                 $publish = $fields['publish_year'] . '-' . $fields['publish_month'] . '-' . $fields['publish_day'];
                 $publish .= (($fields['publish_hour'] != '--') && ($fields['publish_minute'] != '--')) ?
                     ' ' . $fields['publish_hour'] . ':' . $fields['publish_minute'] . ':00' : ' 00:00:00';
@@ -190,18 +220,27 @@ class Content extends AbstractModel
                 $publish = date('Y-m-d H:i:s');
             }
 
-            if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') && ($fields['expire_day'] != '--')) {
+            if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') &&
+                ($fields['expire_day'] != '--')) {
                 $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
-                $expire = (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
+                $expire .= (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
                     ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
             }
 
-            $content->type_id = $fields['type_id'];
-            $content->title   = $fields['title'];
-            $content->uri     = $fields['uri'];
-            $content->publish = $publish;
-            $content->expire  = $expire;
-            $content->status  = (int)$fields['status'];
+            if ($fields['parent_id'] != '----') {
+
+            } else {
+                $uri = '/' . $fields['slug'];
+            }
+
+            $content->type_id   = $fields['type_id'];
+            $content->parent_id = ($fields['parent_id'] != '----') ? $fields['parent_id'] : null;
+            $content->title     = $fields['title'];
+            $content->uri       = $uri;
+            $content->slug      = $fields['slug'];
+            $content->publish   = $publish;
+            $content->expire    = $expire;
+            $content->status    = (int)$fields['status'];
             $content->save();
 
             $this->data = array_merge($this->data, $content->getColumns());
