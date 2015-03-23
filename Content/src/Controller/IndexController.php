@@ -21,7 +21,7 @@ class IndexController extends AbstractController
         if ($content->isLive($this->sess)) {
             $this->prepareView('content-public/index.phtml');
             $this->view->title = $content->title;
-            $this->send();
+            $this->send(200, ['Content-Type' => $content->content_type]);
         } else {
             $this->error();
         }

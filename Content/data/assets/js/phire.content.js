@@ -6,10 +6,10 @@ phire.changeUri = function() {
     var slug = jax('#slug').val();
     var uri  = '';
 
-    if ((jax('#parent_id').val() != '----') && (jax.cookie.load('phire') != '')) {
+    if ((jax('#content_parent_id').val() != '----') && (jax.cookie.load('phire') != '')) {
         var phireCookie = jax.cookie.load('phire');
         var path = phireCookie.base_path + phireCookie.app_uri;
-        var json = jax.get(path + '/content/json/' + jax('#parent_id').val());
+        var json = jax.get(path + '/content/json/' + jax('#content_parent_id').val());
         uri = json.parent_uri;
     }
 

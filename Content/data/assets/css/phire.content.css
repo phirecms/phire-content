@@ -13,7 +13,7 @@
 #content-form > dl:first-child {
     margin: 0 0 0 20px;
     padding: 0 0 0 20px;
-    width: 240px;
+    width: 250px;
     border-left: solid 1px #ccc;
     float: right;
     min-height: 460px;
@@ -45,7 +45,7 @@
 }
 
 #content-form-field-group-2 {
-    width: calc(100% - 300px);
+    width: calc(100% - 310px);
 }
 
 #content-type-form-field-group-2 {

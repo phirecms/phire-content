@@ -89,6 +89,11 @@ endswitch;
 <?php endif; ?>
         <nav><a href="<?=$phireUri . '/content'; ?>">Back</a></nav>
     </nav>
-    <p>There are currently no content of this content type.</p>
+    <p>
+        There are currently no content of this content type.
+<?php if (($trash > 0) && ($acl->isAllowed($user->role, 'content', 'trash'))): ?>
+        <span><a class="small-link" href="<?=$phireUri . '/content/trash/' . $tid; ?>">Trash (<?=$trash; ?>)</a></span>
+<?php endif; ?>
+    </p>
 <?php endif; ?>
 <?php include $phireFooter; ?>
