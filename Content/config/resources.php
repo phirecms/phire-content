@@ -5,7 +5,10 @@ return [
         'index',
         'add',
         'edit',
-        'remove'
+        'copy',
+        'search',
+        'trash',
+        'process'
     ],
     'content-types' => [
         'index',

@@ -18,7 +18,7 @@ class IndexController extends AbstractController
         $content = new Model\Content();
         $content->getByUri($this->request->getRequestUri());
 
-        if (isset($content->id)) {
+        if ($content->isLive($this->sess)) {
             $this->prepareView('content-public/index.phtml');
             $this->view->title = $content->title;
             $this->send();

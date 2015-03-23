@@ -36,12 +36,36 @@ return [
                 'permission' => 'edit'
             ]
         ],
-        '/content/remove/:tid' => [
+        '/content/copy/:tid/:id' => [
             'controller' => 'Content\Controller\ContentController',
-            'action'     => 'remove',
+            'action'     => 'copy',
             'acl'        => [
                 'resource'   => 'content',
-                'permission' => 'remove'
+                'permission' => 'copy'
+            ]
+        ],
+        '/content/trash/:tid' => [
+            'controller' => 'Content\Controller\ContentController',
+            'action'     => 'trash',
+            'acl'        => [
+                'resource'   => 'content',
+                'permission' => 'trash'
+            ]
+        ],
+        '/content/process/:tid' => [
+            'controller' => 'Content\Controller\ContentController',
+            'action'     => 'process',
+            'acl'        => [
+                'resource'   => 'content',
+                'permission' => 'process'
+            ]
+        ],
+        '/content/json/:id' => [
+            'controller' => 'Content\Controller\ContentController',
+            'action'     => 'json',
+            'acl'        => [
+                'resource'   => 'content',
+                'permission' => 'json'
             ]
         ],
         '/content/types[/]' => [

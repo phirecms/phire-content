@@ -30,7 +30,7 @@ class TypeController extends AbstractController
         }
 
         $this->prepareView('content/types/index.phtml');
-        $this->view->title = 'Content Types';
+        $this->view->title = 'Content : Types';
         $this->view->pages = $pages;
         $this->view->types = $type->getAll(
             $limit, $this->request->getQuery('page'), $this->request->getQuery('sort')
@@ -47,7 +47,7 @@ class TypeController extends AbstractController
     public function add()
     {
         $this->prepareView('content/types/add.phtml');
-        $this->view->title = 'Content Types : Add';
+        $this->view->title = 'Content : Types : Add';
 
         $fields = $this->application->config()['forms']['Content\Form\ContentType'];
 
@@ -83,9 +83,12 @@ class TypeController extends AbstractController
         $type->getById($id);
 
         $this->prepareView('content/types/edit.phtml');
-        $this->view->title = 'Content Types : ' . $type->name;
+        $this->view->title              = 'Content : Types';
+        $this->view->content_type_name = $type->name;
 
         $fields = $this->application->config()['forms']['Content\Form\ContentType'];
+
+        $fields[1]['name']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
 
         $this->view->form = new Form\ContentType($fields);
         $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])

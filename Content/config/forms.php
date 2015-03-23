@@ -10,7 +10,7 @@ return [
                     'class'  => 'save-btn wide'
                 ]
             ],
-            'parent_id' => [
+            'content_parent_id' => [
                 'type'  => 'select',
                 'label' => 'Parent',
                 'value' => [
@@ -20,7 +20,7 @@ return [
                     'onchange' => 'phire.changeUri();'
                 ]
             ],
-            'status' => [
+            'content_status' => [
                 'type'  => 'select',
                 'label' => 'Status',
                 'value' => [
@@ -122,8 +122,7 @@ return [
                 'label'      => 'Title',
                 'attributes' => [
                     'size'   => 60,
-                    'style'  => 'width: 99.5%',
-                    'onkeyup' => "phire.createSlug(this.value, '#slug');"
+                    'style'  => 'width: 99.5%'
                 ]
             ],
             'slug' => [
@@ -132,8 +131,7 @@ return [
                 'required'   => true,
                 'attributes' => [
                     'size'     => 60,
-                    'style'    => 'width: 99.5%',
-                    'onkeyup' => 'phire.changeUri();'
+                    'style'    => 'width: 99.5%'
                 ]
             ],
             'uri' => [

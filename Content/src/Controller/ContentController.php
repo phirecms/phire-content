@@ -57,11 +57,13 @@ class ContentController extends AbstractController
                     $pages = null;
                 }
 
-                $this->view->title   = 'Content : ' . $type->name;
-                $this->view->pages   = $pages;
-                $this->view->tid     = $tid;
-                $this->view->content = $content->getAll(
-                    $limit, $this->request->getQuery('page'), $this->request->getQuery('sort')
+                $this->view->title          = 'Content : ' . $type->name;
+                $this->view->pages          = $pages;
+                $this->view->tid            = $tid;
+                $this->view->open_authoring = $type->open_authoring;
+                $this->view->trash          = $content->getCount(-2);
+                $this->view->content        = $content->getAll(
+                    $limit, $this->request->getQuery('page'), $this->request->getQuery('sort'), $this->request->getQuery('title')
                 );
             } else {
                 $this->redirect(BASE_PATH . APP_URI . '/content');
@@ -86,6 +88,10 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
+        if (!$this->services['acl']->isAllowed($this->sess->user->role, 'content-type-' . $tid, 'add')) {
+            $this->redirect(BASE_PATH . APP_URI . '/content');
+        }
+
         $content = new Model\Content();
 
         $this->prepareView('content/add.phtml');
@@ -94,7 +100,10 @@ class ContentController extends AbstractController
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
-        $fields[0]['parent_id']['value'] = $fields[0]['parent_id']['value'] + $content->getParents($tid);
+        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $content->getParents($tid);
+
+        $fields[1]['slug']['attributes']['onkeyup']  = "phire.changeUri();";
+        $fields[1]['title']['attributes']['onkeyup'] = "phire.createSlug(this.value, '#slug'); phire.changeUri();";
 
         $this->view->form = new Form\Content($fields);
 
@@ -107,7 +116,7 @@ class ContentController extends AbstractController
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
                      ->filter();
                 $content = new Model\Content();
-                $content->save($this->view->form->getFields());
+                $content->save($this->view->form->getFields(), $this->sess->user->id);
                 $this->view->id = $content->id;
                 $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id . '?saved=' . time());
             }
@@ -132,6 +141,10 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
+        if (!$this->services['acl']->isAllowed($this->sess->user->role, 'content-type-' . $tid, 'edit')) {
+            $this->redirect(BASE_PATH . APP_URI . '/content');
+        }
+
         $content = new Model\Content();
         $content->getById($id);
 
@@ -139,13 +152,30 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
         }
 
+        if ((!$type->open_authoring) && ($content->created_by != $this->sess->user->id)) {
+            $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
+        }
+
         $this->prepareView('content/edit.phtml');
-        $this->view->title = 'Content : ' . $content->title;
-        $this->view->tid   = $tid;
+        $this->view->title               = 'Content';
+        $this->view->content_title       = $content->title;
+        $this->view->tid                 = $tid;
+        $this->view->uri                 = $content->uri;
+        $this->view->created             = $content->created;
+        $this->view->created_by          = $content->created_by;
+        $this->view->created_by_username = $content->created_by_username;
+        $this->view->updated             = $content->updated;
+        $this->view->updated_by          = $content->updated_by;
+        $this->view->updated_by_username = $content->updated_by_username;
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
-        $fields[0]['type_id']['value']  = $tid;
-        $fields[0]['parent_id']['value'] = $fields[0]['parent_id']['value'] + $content->getParents($tid, $id);
+        $fields[0]['type_id']['value']   = $tid;
+        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $content->getParents($tid, $id);
+        $fields[1]['slug']['label']     .=
+            ' [ <a href="#" class="small-link" onclick="phire.createSlug(jax(\'#title\').val(), \'#slug\');' .
+            ' return phire.changeUri();">Generate URI</a> ]';
+
+        $fields[1]['title']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
 
         $this->view->form = new Form\Content($fields);
         $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])
@@ -159,7 +189,7 @@ class ContentController extends AbstractController
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
                      ->filter();
                 $content = new Model\Content();
-                $content->update($this->view->form->getFields());
+                $content->update($this->view->form->getFields(), $this->sess->user->id);
                 $this->view->id = $content->id;
                 $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id . '?saved=' . time());
             }
@@ -169,18 +199,102 @@ class ContentController extends AbstractController
     }
 
     /**
+     * Copy action method
+     *
+     * @param  int $tid
+     * @param  int $id
+     * @return void
+     */
+    public function copy($tid, $id)
+    {
+        $type = new Model\ContentType();
+        $type->getById($tid);
+
+        if (!isset($type->id)) {
+            $this->redirect(BASE_PATH . APP_URI . '/content');
+        }
+
+        $content = new Model\Content();
+        $content->getById($id);
+
+        if (!isset($content->id)) {
+            $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
+        }
+
+        $content->copy($this->sess->user->id, $this->application->modules()->isRegistered('Fields'));
+        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid . '?saved=' . time());
+    }
+
+    /**
      * Remove action method
      *
      * @param  int $tid
      * @return void
      */
-    public function remove($tid)
+    public function process($tid)
     {
         if ($this->request->isPost()) {
             $content = new Model\Content();
-            $content->remove($this->request->getPost());
+            $content->process($this->request->getPost());
         }
-        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid .  '?removed=' . time());
+        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid .  '?saved=' . time());
+    }
+
+    /**
+     * Trash action method
+     *
+     * @param  int $tid
+     * @return void
+     */
+    public function trash($tid)
+    {
+
+        $this->prepareView('content/trash.phtml');
+        $content = new Model\Content(['tid' => $tid]);
+        $type    = new Model\ContentType();
+        $type->getById($tid);
+
+        if (!isset($type->id)) {
+            $this->redirect(BASE_PATH . APP_URI . '/content');
+        }
+
+        if ($content->hasPages($this->config->pagination)) {
+            $limit = $this->config->pagination;
+            $pages = new Paginator($content->getCount(-2), $limit);
+            $pages->useInput(true);
+        } else {
+            $limit = null;
+            $pages = null;
+        }
+
+        $this->view->title   = 'Content : ' . $type->name . ' : Trash';
+        $this->view->pages   = $pages;
+        $this->view->tid     = $tid;
+        $this->view->content = $content->getAll(
+            $limit, $this->request->getQuery('page'), $this->request->getQuery('sort'),
+            $this->request->getQuery('title'), true
+        );
+
+        $this->send();
+    }
+
+    /**
+     * JSON action method
+     *
+     * @param  int $id
+     * @return void
+     */
+    public function json($id)
+    {
+        $json = ['parent_uri' => ''];
+
+        $content = Table\Content::findById($id);
+        if (isset($content->id)) {
+            $json['parent_uri'] = $content->uri;
+        }
+
+        $this->response->setBody(json_encode($json, JSON_PRETTY_PRINT));
+        $this->send(200, ['Content-Type' => 'application/json']);
     }
 
     /**
