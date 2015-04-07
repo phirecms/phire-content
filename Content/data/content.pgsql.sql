@@ -7,7 +7,7 @@
 -- Table structure for table "content_types"
 --
 
-CREATE SEQUENCE type_id_seq START 50001;
+CREATE SEQUENCE type_id_seq START 5001;
 
 CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "id" integer NOT NULL DEFAULT nextval('type_id_seq'),
@@ -27,7 +27,7 @@ ALTER SEQUENCE type_id_seq OWNED BY "[{prefix}]content_types"."id";
 -- Table structure for table "content"
 --
 
-CREATE SEQUENCE content_id_seq START 51001;
+CREATE SEQUENCE content_id_seq START 601;
 
 CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "id" integer NOT NULL DEFAULT nextval('content_id_seq'),

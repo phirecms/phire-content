@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   PRIMARY KEY ("id")
 ) ;
 
-INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content_types', 50000);
+INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content_types', 5000);
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   CONSTRAINT "fk_updated_by" FOREIGN KEY ("updated_by") REFERENCES "[{prefix}]users" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 ) ;
 
-INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content', 51000);
+INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content', 6000);
 CREATE INDEX "content_type_id" ON "[{prefix}]content" ("type_id");
 CREATE INDEX "content_title" ON "[{prefix}]content" ("title");
 CREATE INDEX "content_uri" ON "[{prefix}]content" ("uri");

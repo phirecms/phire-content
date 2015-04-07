@@ -128,7 +128,6 @@ return [
             'slug' => [
                 'type'       => 'text',
                 'label'      => 'URI',
-                'required'   => true,
                 'attributes' => [
                     'size'     => 60,
                     'style'    => 'width: 99.5%'

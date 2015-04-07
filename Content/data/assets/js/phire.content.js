@@ -13,7 +13,9 @@ phire.changeUri = function() {
         uri = json.parent_uri;
     }
 
-    if (slug != '') {
+    if (slug == '') {
+        uri = '/';
+    } else {
         uri = uri + '/' + slug;
     }
 
