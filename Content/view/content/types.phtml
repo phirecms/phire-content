@@ -16,6 +16,11 @@
 <?php endforeach; ?>
     </table>
 <?php else: ?>
+<?php if ($acl->isAllowed($user->role, 'content-types', 'add')): ?>
+    <nav id="sub-nav">
+        <nav><a href="<?=$phireUri . '/content/types/add'; ?>">+ Add</a></nav>
+    </nav>
+<?php endif; ?>
     <p>There are currently no content types.</p>
 <?php endif; ?>
 <?php include $phireFooter; ?>
