@@ -9,6 +9,12 @@ class IndexController extends AbstractController
 {
 
     /**
+     * Current template reference
+     * @var mixed
+     */
+    protected $template = null;
+
+    /**
      * Index action method
      *
      * @return void
@@ -21,6 +27,7 @@ class IndexController extends AbstractController
         if ($content->isLive($this->sess)) {
             $this->prepareView('content-public/index.phtml');
             $this->view->title = $content->title;
+            $this->template    = $content->template;
             $this->send(200, ['Content-Type' => $content->content_type]);
         } else {
             $this->error();
@@ -36,7 +43,30 @@ class IndexController extends AbstractController
     {
         $this->prepareView('content-public/error.phtml');
         $this->view->title = '404 Error';
+        $this->template    = -1;
         $this->send(404);
+    }
+
+    /**
+     * Get current template
+     *
+     * @return mixed
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * Set current template
+     *
+     * @param  string $template
+     * @return IndexController
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+        return $this;
     }
 
     /**

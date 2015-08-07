@@ -21,11 +21,11 @@
 <?php endif; ?>
         <table class="data-table" cellpadding="0" cellspacing="0" border="0">
             <tr>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=id';?>">#</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=title';?>">Title</a></th>
-                <th>URI</th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created';?>">Created</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=updated';?>">Updated</a></th>
+                <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=id';?>">#</a></th>
+                <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=title';?>">Title</a></th>
+                <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=uri';?>">URI</a></th>
+                <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=created';?>">Created</a></th>
+                <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=updated';?>">Updated</a></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
 <?php $i = 1; ?>
@@ -33,7 +33,7 @@
             <tr>
                 <td><?=$c->id; ?></td>
                 <td><?=$c->title; ?></td>
-                <td><a href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . $c->uri; ?></a></td>
+                <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
                 <td><?=date($config->datetime_format, strtotime($c->created)); ?></td>
                 <td><?=((null !== $c->updated) ? date($config->datetime_format, strtotime($c->updated)) : null); ?></td>
                 <td class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
@@ -59,6 +59,6 @@
 <?php endif; ?>
         <nav><a href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
     </nav>
-    <p>There are currently no trash for this content type.</p>
+    <p>There are currently nothing in the trash for this content type.</p>
 <?php endif; ?>
 <?php include $phireFooter; ?>

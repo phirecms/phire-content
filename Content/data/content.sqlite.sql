@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "uri" varchar NOT NULL,
   "slug" varchar,
   "status" integer NOT NULL,
+  "template" varchar,
+  "roles" text,
   "publish" datetime,
   "expire" datetime,
   "created" datetime,
@@ -56,8 +58,9 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
 
 INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content', 6000);
 CREATE INDEX "content_type_id" ON "[{prefix}]content" ("type_id");
+CREATE INDEX "content_parent_id" ON "[{prefix}]content" ("parent_id");
 CREATE INDEX "content_title" ON "[{prefix}]content" ("title");
-CREATE INDEX "content_uri" ON "[{prefix}]content" ("uri");
+CREATE UNIQUE INDEX "content_uri" ON "[{prefix}]content" ("uri");
 CREATE INDEX "content_slug" ON "[{prefix}]content" ("slug");
 CREATE INDEX "content_publish" ON "[{prefix}]content" ("publish");
 CREATE INDEX "content_expire" ON "[{prefix}]content" ("expire");

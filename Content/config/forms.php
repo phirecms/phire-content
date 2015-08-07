@@ -20,6 +20,13 @@ return [
                     'onchange' => 'phire.changeUri();'
                 ]
             ],
+            'content_template' => [
+                'type'  => 'select',
+                'label' => 'Template',
+                'value' => [
+                    '0' => '(Default)'
+                ]
+            ],
             'content_status' => [
                 'type'  => 'select',
                 'label' => 'Status',
@@ -107,6 +114,11 @@ return [
                     'class' => 'date-select-end'
                 ]
             ],
+            'roles' => [
+                'type'  => 'checkbox',
+                'label' => 'Roles',
+                'value' => []
+            ],
             'type_id' => [
                 'type'  => 'hidden',
                 'value' => 0
@@ -120,6 +132,7 @@ return [
             'title' => [
                 'type'       => 'text',
                 'label'      => 'Title',
+                'required'   => true,
                 'attributes' => [
                     'size'   => 60,
                     'style'  => 'width: 99.5%'

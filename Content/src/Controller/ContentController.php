@@ -105,6 +105,11 @@ class ContentController extends AbstractController
         $fields[1]['slug']['attributes']['onkeyup']  = "phire.changeUri();";
         $fields[1]['title']['attributes']['onkeyup'] = "phire.createSlug(this.value, '#slug'); phire.changeUri();";
 
+        $roles = (new \Phire\Model\Role())->getAll();
+        foreach ($roles as $role) {
+            $fields[0]['roles']['value'][$role->id] = $role->name;
+        }
+
         $this->view->form = new Form\Content($fields);
 
         if ($this->request->isPost()) {
@@ -176,6 +181,11 @@ class ContentController extends AbstractController
             ' return phire.changeUri();">Generate URI</a> ]';
 
         $fields[1]['title']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
+
+        $roles = (new \Phire\Model\Role())->getAll();
+        foreach ($roles as $role) {
+            $fields[0]['roles']['value'][$role->id] = $role->name;
+        }
 
         $this->view->form = new Form\Content($fields);
         $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])

@@ -41,7 +41,7 @@ class Content extends Form
             $content = Table\Content::findBy(['uri' => $this->uri]);
             if (isset($content->id) && ($this->id != $content->id)) {
                 $this->getElement('uri')
-                     ->addValidator(new Validator\NotEqual($this->uri, 'That content URI already exists.'));
+                     ->addValidator(new Validator\NotEqual($this->uri, 'That URI already exists.'));
             }
         }
 

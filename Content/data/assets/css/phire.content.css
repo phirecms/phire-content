@@ -40,7 +40,7 @@
     border-bottom: dotted 1px #aaa;
 }
 
-#content-form-field-group-1 > dd:first-child, #content_parent_id, #content_status {
+#content-form-field-group-1 > dd:first-child, #content_parent_id, #content_status, #content_template {
     width: 200px;
 }
 
