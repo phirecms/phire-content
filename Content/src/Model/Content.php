@@ -488,6 +488,7 @@ class Content extends AbstractModel
 
         $data['content_parent_id'] = $data['parent_id'];
         $data['content_status']    = $data['status'];
+        $data['content_template']  = $data['template'];
         $data['roles']             = unserialize($data['roles']);
 
         $this->data = array_merge($this->data, $data);
