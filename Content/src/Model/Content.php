@@ -4,9 +4,7 @@ namespace Content\Model;
 
 use Content\Table;
 use Phire\Model\AbstractModel;
-use Pop\Archive\Archive;
-use Pop\File\Dir;
-use Pop\File\Upload;
+use Pop\Paginator\Paginator;
 
 class Content extends AbstractModel
 {
@@ -90,14 +88,108 @@ class Content extends AbstractModel
      * Get content by URI
      *
      * @param  string $uri
+     * @param  boolean $fields
      * @return void
      */
-    public function getByUri($uri)
+    public function getByUri($uri, $fields = false)
     {
         $content = Table\Content::findBy(['uri' => $uri]);
         if (isset($content->id)) {
-            $this->getContent($content);
+            $this->getContent($content, $fields);
         }
+    }
+
+    /**
+     * Get content by date
+     *
+     * @param  string  $date
+     * @param  string  $dateTimeFormat
+     * @param  int     $summaryLength
+     * @param  string  $limit
+     * @param  string  $page
+     * @param  boolean $fields
+     * @return array
+     */
+    public function getByDate($date, $dateTimeFormat, $summaryLength, $limit = null, $page = null, $fields = false)
+    {
+        $sql1 = Table\Content::sql();
+        $sql2 = clone $sql1;
+        $sql2->select(['count' => 'COUNT(*)']);
+
+        $sql1->select([
+            'id'        => DB_PREFIX . 'content.id',
+            'type_id'   => DB_PREFIX . 'content.type_id',
+            'parent_id' => DB_PREFIX . 'content.parent_id',
+            'title'     => DB_PREFIX . 'content.title',
+            'uri'       => DB_PREFIX . 'content.uri',
+            'slug'      => DB_PREFIX . 'content.slug',
+            'status'    => DB_PREFIX . 'content.status',
+            'publish'   => DB_PREFIX . 'content.publish',
+            'expire'    => DB_PREFIX . 'content.expire'
+        ]);
+
+        $dateAry = explode('/', $date);
+        if (count($dateAry) == 3) {
+            $start = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 00:00:00';
+            $end   = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 23:59:59';
+        } else if (count($dateAry) == 2) {
+            $start = $dateAry[0] . '-' . $dateAry[1] . '-01 00:00:00';
+            $end   = $dateAry[0] . '-' . $dateAry[1] . '-' .
+                date('t', strtotime($dateAry[0] . '-' . $dateAry[1] . '-01')) . ' 23:59:59';
+        } else {
+            $start = $dateAry[0] . '-01-01 00:00:00';
+            $end   = $dateAry[0] . '-12-31 23:59:59';
+        }
+
+        $sql1->select()
+            ->where('status = :status')
+            ->where('publish >= :publish1')
+            ->where('publish <= :publish2');
+
+        $sql2->select()
+            ->where('status = :status')
+            ->where('publish >= :publish1')
+            ->where('publish <= :publish2');
+
+        $params = [
+            'status' => 1,
+            'publish' => [
+                $start,
+                $end
+            ]
+        ];
+
+        $count = Table\Content::execute((string)$sql2, $params)->count;
+
+        if ($count > $limit) {
+            $page = ((null !== $page) && ((int)$page > 1)) ?
+                ($page * $limit) - $limit : null;
+
+            $sql1->select()->offset($page)->limit($limit);
+            $pages = new Paginator($count, $limit);
+            $pages->useInput(true);
+        } else {
+            $pages = null;
+        }
+
+        $rows = Table\Content::execute((string)$sql1, $params)->rows();
+
+        if ($fields) {
+            $filters = ['strip_tags' => null];
+            if ($summaryLength > 0) {
+                $filters['substr'] = [0, $summaryLength];
+            };
+            foreach ($rows as $i => $row) {
+                $fieldValues = \Fields\Model\FieldValue::getModelObjectValues('Content\Model\Content', $row->id, $filters);
+                $rows[$i] = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
+                $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
+            }
+        }
+
+        return [
+            'rows'  => $rows,
+            'pages' => $pages
+        ];
     }
 
     /**
@@ -438,11 +530,18 @@ class Content extends AbstractModel
      * Get content
      *
      * @param  Table\Content $content
+     * @param  boolean       $fields
      * @return void
      */
-    protected function getContent(Table\Content $content)
+    protected function getContent(Table\Content $content, $fields = false)
     {
-        $data = $content->getColumns();
+        if ($fields) {
+            $c    = \Fields\Model\FieldValue::getModelObject('Content\Model\Content', [$content->id]);
+            $data = $c->toArray();
+        } else {
+            $data = $content->getColumns();
+        }
+
         $type = new ContentType();
         $type->getById($data['type_id']);
 
@@ -489,7 +588,10 @@ class Content extends AbstractModel
         $data['content_parent_id'] = $data['parent_id'];
         $data['content_status']    = $data['status'];
         $data['content_template']  = $data['template'];
-        $data['roles']             = unserialize($data['roles']);
+
+        if (!is_array($data['roles']) && is_string($data['roles'])) {
+            $data['roles'] = unserialize($data['roles']);
+        }
 
         $this->data = array_merge($this->data, $data);
     }

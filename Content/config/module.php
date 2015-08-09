@@ -42,6 +42,7 @@ return [
                 'action'   => 'Content\Event\Content::bootstrap',
                 'priority' => 1000
             ]
-        ]
+        ],
+        'summary_length' => 150
     ]
 ];
