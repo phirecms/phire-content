@@ -301,7 +301,7 @@ class Content extends AbstractModel
             'publish'    => $publish,
             'expire'     => $expire,
             'status'     => (int)$fields['content_status'],
-            'template'   => (($fields['content_template'] != 0) ? $fields['content_template'] : null),
+            'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
@@ -351,7 +351,7 @@ class Content extends AbstractModel
             $content->publish    = $publish;
             $content->expire     = $expire;
             $content->status     = (int)$fields['content_status'];
-            $content->template   = (($fields['content_template'] != 0) ? $fields['content_template'] : null);
+            $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
