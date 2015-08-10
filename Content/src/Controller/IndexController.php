@@ -22,7 +22,9 @@ class IndexController extends AbstractController
     public function index()
     {
         $content = new Model\Content();
-        $date = $this->isDate($this->request->getRequestUri());
+        $date    = $this->isDate($this->request->getRequestUri());
+
+        $content->separator = $this->application->module('Content')->config()['separator'];
 
         if (null !== $date) {
             $dateResult = $content->getByDate(

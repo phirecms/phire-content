@@ -262,6 +262,37 @@ class Content extends AbstractModel
         return $parents;
     }
 
+
+    /**
+     * Method to get content breadcrumb
+     *
+     * @param  int    $id
+     * @param  string $sep
+     * @return string
+     */
+    public function getBreadcrumb($id, $sep = '&gt;')
+    {
+        $breadcrumb = null;
+        $content    = Table\Content::findById($id);
+        if (isset($content->id)) {
+            $breadcrumb = $content->title;
+            $pId        = $content->parent_id;
+
+            while (null !== $pId) {
+                $content = Table\Content::findById($pId);
+                if (isset($content->id)) {
+                    if ($content->status == 1) {
+                        $breadcrumb = '<a href="' . BASE_PATH . $content->uri . '">' . $content->title . '</a>' .
+                            '<span>' . $sep . '</span>' . $breadcrumb;
+                    }
+                    $pId = $content->parent_id;
+                }
+            }
+        }
+
+        return $breadcrumb;
+    }
+
     /**
      * Save new content
      *
@@ -588,6 +619,8 @@ class Content extends AbstractModel
         $data['content_parent_id'] = $data['parent_id'];
         $data['content_status']    = $data['status'];
         $data['content_template']  = $data['template'];
+        $data['breadcrumb']        = $this->getBreadcrumb($data['id'], ((null !== $this->separator) ? $this->separator : '&gt;'));
+        $data['breadcrumb_text']   = strip_tags($data['breadcrumb'], 'span');
 
         if (!is_array($data['roles']) && is_string($data['roles'])) {
             $data['roles'] = unserialize($data['roles']);

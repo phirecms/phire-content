@@ -43,6 +43,7 @@ return [
                 'priority' => 1000
             ]
         ],
+        'separator'      => ' &gt; ',
         'summary_length' => 150
     ]
 ];
