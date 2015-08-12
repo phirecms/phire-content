@@ -315,8 +315,7 @@ class ContentController extends AbstractController
         $this->view->pages   = $pages;
         $this->view->tid     = $tid;
         $this->view->content = $content->getAll(
-            $limit, $this->request->getQuery('page'), $this->request->getQuery('sort'),
-            $this->request->getQuery('title'), true
+            $this->request->getQuery('sort'), $this->request->getQuery('title'), true
         );
 
         $this->send();
