@@ -2,21 +2,26 @@
  * Content Module Scripts for Phire CMS 2
  */
 
+phire.currentParentId  = '----';
+phire.currentParentUri = '';
+
 phire.changeUri = function() {
     var slug = jax('#slug').val();
-    var uri  = '';
 
-    if ((jax('#content_parent_id').val() != '----') && (jax.cookie.load('phire') != '')) {
+    if ((jax('#content_parent_id').val() != phire.currentParentId) && (jax.cookie.load('phire') != '')) {
+        phire.currentParentId = jax('#content_parent_id').val();
         var phireCookie = jax.cookie.load('phire');
         var path = phireCookie.base_path + phireCookie.app_uri;
-        var json = jax.get(path + '/content/json/' + jax('#content_parent_id').val());
-        uri = json.parent_uri;
+        var json = jax.get(path + '/content/json/' + phire.currentParentId);
+        phire.currentParentUri = json.parent_uri;
     }
 
-    if (slug == '') {
+    var uri = phire.currentParentUri;
+
+    if ((slug == '') && (uri == '')) {
         uri = '/';
     } else {
-        uri = uri + '/' + slug;
+        uri = uri + ((slug != '') ? '/' + slug : '');
     }
 
     jax('#uri').val(uri);

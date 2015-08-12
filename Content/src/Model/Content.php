@@ -9,20 +9,19 @@ use Pop\Paginator\Paginator;
 class Content extends AbstractModel
 {
 
+    protected $flatMap = [];
+
     /**
      * Get all content
      *
-     * @param  int     $limit
-     * @param  int     $page
      * @param  string  $sort
      * @param  string  $title
      * @param  boolean $trash
      * @return array
      */
-    public function getAll($limit = null, $page = null, $sort = null, $title = null, $trash = false)
+    public function getAll($sort = null, $title = null, $trash = false)
     {
-        $sql = Table\Content::sql();
-        $sql->select([
+        $selectFields = [
             'id'                  => DB_PREFIX . 'content.id',
             'type_id'             => DB_PREFIX . 'content.type_id',
             'parent_id'           => DB_PREFIX . 'content.parent_id',
@@ -37,21 +36,18 @@ class Content extends AbstractModel
             'created_by'          => DB_PREFIX . 'content.created_by',
             'updated_by'          => DB_PREFIX . 'content.updated_by',
             'created_by_username' => DB_PREFIX . 'users.username'
-        ])->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
-
-        if (null !== $limit) {
-            $page = ((null !== $page) && ((int)$page > 1)) ?
-                ($page * $limit) - $limit : null;
-
-            $sql->select()->offset($page)->limit($limit);
-        }
-
-        $params = [
-            'type_id' => $this->tid,
-            'status'  => -2
         ];
 
-        $order  = (null !== $sort) ? $this->getSortOrder($sort, $page) : 'id DESC';
+        $sql = Table\Content::sql();
+        $sql->select($selectFields)
+            ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
+
+        $params = [
+            'type_id'   => $this->tid,
+            'status'    => -2
+        ];
+
+        $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'id DESC';
         $by     = explode(' ', $order);
         $sql->select()->orderBy($by[0], $by[1]);
         $sql->select()->where('type_id = :type_id');
@@ -65,9 +61,39 @@ class Content extends AbstractModel
         if (null !== $title) {
             $params['title'] = '%' . $title . '%';
             $sql->select()->where('title LIKE :title');
+        } else if (!$trash) {
+            $sql->select()->where('parent_id IS NULL');
         }
 
-        return Table\Content::execute((string)$sql, $params)->rows();
+        $content    = Table\Content::execute((string)$sql, $params);
+        $contentAry = [];
+
+        foreach ($content->rows() as $c) {
+            $this->flatMap[] = new \ArrayObject([
+                'id'                  => $c->id,
+                'type_id'             => $c->type_id,
+                'parent_id'           => $c->parent_id,
+                'title'               => $c->title,
+                'uri'                 => $c->uri,
+                'slug'                => $c->slug,
+                'status'              => $c->status,
+                'publish'             => $c->publish,
+                'expire'              => $c->expire,
+                'created'             => $c->created,
+                'updated'             => $c->updated,
+                'created_by'          => $c->created_by,
+                'updated_by'          => $c->updated_by,
+                'created_by_username' => $c->created_by_username,
+                'depth' => 0
+            ], \ArrayObject::ARRAY_AS_PROPS);
+            $c->depth     = 0;
+            if ((null === $title) && (!$trash)) {
+                $c->children = $this->getChildren($c, $selectFields, $params, $trash, $order);
+            }
+            $contentAry[] = $c;
+        }
+
+        return $contentAry;
     }
 
     /**
@@ -224,46 +250,6 @@ class Content extends AbstractModel
     }
 
     /**
-     * Get parents
-     *
-     * @param  int $tid
-     * @param  int $id
-     * @return array
-     */
-    public function getParents($tid, $id = null)
-    {
-        $parents = [];
-
-        $content = Table\Content::findBy(['type_id' => $tid]);
-        foreach ($content->rows() as $c) {
-            if ($c->id != $id) {
-                $pid   = $c->parent_id;
-                $depth = 0;
-                $isAncestor = false;
-                while (null !== $pid) {
-                    if ($pid ==  $id) {
-                        $isAncestor = true;
-                        break;
-                    }
-                    $parent = Table\Content::findById($pid);
-                    if (isset($parent->id)) {
-                        $pid = $parent->parent_id;
-                        $depth++;
-                    }
-                }
-
-                if (!$isAncestor) {
-                    $parents[$c->id] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $depth) .
-                        (($depth > 0) ? ' - ' : '') . $c->title;
-                }
-            }
-        }
-
-        return $parents;
-    }
-
-
-    /**
      * Method to get content breadcrumb
      *
      * @param  int    $id
@@ -334,6 +320,7 @@ class Content extends AbstractModel
             'status'     => (int)$fields['content_status'],
             'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
+            'order'      => (int)$fields['order'],
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
         ]);
@@ -384,6 +371,7 @@ class Content extends AbstractModel
             $content->status     = (int)$fields['content_status'];
             $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
+            $content->order      = (int)$fields['order'];
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
             $content->save();
@@ -431,6 +419,9 @@ class Content extends AbstractModel
                 'publish'    => date('Y-m-d H:i:s'),
                 'expire'     => null,
                 'status'     => -1,
+                'template'   => $content->content_template,
+                'roles'      => $content->roles,
+                'order'      => $content->order,
                 'created'    => date('Y-m-d H:i:s'),
                 'created_by' => $userId
             ]);
@@ -506,30 +497,14 @@ class Content extends AbstractModel
             Table\Content::findAll()->count();
     }
 
-
     /**
-     * Determine if child is ancestor of parent
+     * Get category flat map
      *
-     * @param  int $id
-     * @param  int $pid
-     * @return boolean
+     * @return array
      */
-    public function isAncestor($id, $pid = null)
+    public function getFlatMap()
     {
-        $result = false;
-
-        while (null !== $pid) {
-            if ($pid ==  $id) {
-                $result = true;
-                break;
-            }
-            $parent = Table\Content::findById($pid);
-            if (isset($parent->id)) {
-                $pid = $parent->parent_id;
-            }
-        }
-
-        return $result;
+        return $this->flatMap;
     }
 
     /**
@@ -627,6 +602,72 @@ class Content extends AbstractModel
         }
 
         $this->data = array_merge($this->data, $data);
+    }
+
+    /**
+     * Get content children
+     *
+     * @param  \ArrayObject|array $content
+     * @param  array              $selectFields
+     * @param  array              $params
+     * @param  boolean            $trash
+     * @param  string             $order
+     * @param  int                $depth
+     * @return array
+     */
+    protected function getChildren($content, $selectFields, $params, $trash, $order, $depth = 0)
+    {
+        $children = [];
+
+        $sql = Table\Content::sql();
+        $sql->select($selectFields)
+            ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
+
+        $params = ['parent_id' => $content->id] + $params;
+
+        $by = explode(' ', $order);
+        $sql->select()->orderBy($by[0], $by[1]);
+        $sql->select()->where('parent_id = :parent_id');
+        $sql->select()->where('type_id = :type_id');
+
+        if ($trash) {
+            $sql->select()->where('status = :status');
+        } else {
+            $sql->select()->where('status > :status');
+        }
+
+        if (isset($params['title'])) {
+            $sql->select()->where('title LIKE :title');
+        }
+
+        $child = Table\Content::execute((string)$sql, $params);
+
+        if ($child->hasRows()) {
+            foreach ($child->rows() as $c) {
+                $this->flatMap[] = new \ArrayObject([
+                    'id'                  => $c->id,
+                    'type_id'             => $c->type_id,
+                    'parent_id'           => $c->parent_id,
+                    'title'               => $c->title,
+                    'uri'                 => $c->uri,
+                    'slug'                => $c->slug,
+                    'status'              => $c->status,
+                    'publish'             => $c->publish,
+                    'expire'              => $c->expire,
+                    'created'             => $c->created,
+                    'updated'             => $c->updated,
+                    'created_by'          => $c->created_by,
+                    'updated_by'          => $c->updated_by,
+                    'created_by_username' => $c->created_by_username,
+                    'depth' => $depth + 1
+                ], \ArrayObject::ARRAY_AS_PROPS);
+                $c->depth    = $depth + 1;
+                $c->children = $this->getChildren($c, $selectFields, $params, $trash, $order, ($depth + 1));
+                $children[]  = $c;
+            }
+        }
+
+        return $children;
     }
 
 }

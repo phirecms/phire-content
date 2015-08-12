@@ -2,7 +2,7 @@
 <?php if ($acl->isAllowed($user->role, 'content', 'search')): ?>
     <form id="content-search-form" action="<?=$phireUri . '/content/' . $tid; ?>" method="get">
         <div><input tabindex="2" type="submit" id="submit" value="Search" /></div>
-        <div><input tabindex="1" type="text" name="title" id="title" value="" placeholder="Title" size="25" /></div>
+        <div><input tabindex="1" type="text" name="title" id="title" value="<?=$searchValue; ?>" placeholder="Title" size="25" /></div>
     </form>
 <?php endif; ?>
     <h1 class="content-header"><?=$title; ?></h1>
@@ -36,7 +36,7 @@
 <?php foreach ($content as $c): ?>
             <tr>
                 <td><?=$c->id; ?></td>
-                <td><?=$c->title; ?></td>
+                <td><?=str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $c->depth) . (($c->depth > 0) ? '&rarr; ' : '') . $c->title; ?></td>
                 <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
                 <td><?=$c->created_by_username; ?></td>
                 <td><?=date($config->datetime_format, strtotime($c->created)); ?></td>

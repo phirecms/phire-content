@@ -57,14 +57,30 @@ class ContentController extends AbstractController
                     $pages = null;
                 }
 
+                $content->getAll(
+                    $this->request->getQuery('sort'), $this->request->getQuery('title')
+                );
+
+                $contentFlatMap = $content->getFlatMap();
+
+                if (count($contentFlatMap) > $this->config->pagination) {
+                    $page  = $this->request->getQuery('page');
+                    $pages = new Paginator(count($contentFlatMap), $limit);
+                    $pages->useInput(true);
+                    $offset = ((null !== $page) && ((int)$page > 1)) ?
+                        ($page * $limit) - $limit : 0;
+                    $contentFlatMap = array_slice($contentFlatMap, $offset, $limit, true);
+                } else {
+                    $pages = null;
+                }
+
                 $this->view->title          = 'Content : ' . $type->name;
                 $this->view->pages          = $pages;
                 $this->view->tid            = $tid;
                 $this->view->open_authoring = $type->open_authoring;
                 $this->view->trash          = $content->getCount(-2);
-                $this->view->content        = $content->getAll(
-                    $limit, $this->request->getQuery('page'), $this->request->getQuery('sort'), $this->request->getQuery('title')
-                );
+                $this->view->content        = $contentFlatMap;
+                $this->view->searchValue    = htmlentities(strip_tags($this->request->getQuery('title')), ENT_QUOTES, 'UTF-8');
             } else {
                 $this->redirect(BASE_PATH . APP_URI . '/content');
             }
@@ -92,7 +108,14 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        $content = new Model\Content();
+        $content = new Model\Content(['tid' => $tid]);
+        $content->getAll();
+
+        $parents = [];
+        foreach ($content->getFlatMap() as $c) {
+            $parents[$c->id] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $c->depth) .
+                (($c->depth > 0) ? '&rarr; ' : '') . $c->title;
+        }
 
         $this->prepareView('content/add.phtml');
         $this->view->title = 'Content : ' . $type->name . ' : Add';
@@ -100,7 +123,7 @@ class ContentController extends AbstractController
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
-        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $content->getParents($tid);
+        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
 
         $fields[1]['slug']['attributes']['onkeyup']  = "phire.changeUri();";
         $fields[1]['title']['attributes']['onkeyup'] = "phire.createSlug(this.value, '#slug'); phire.changeUri();";
@@ -161,6 +184,17 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
         }
 
+        $contents = new Model\Content(['tid' => $tid]);
+        $contents->getAll();
+
+        $parents = [];
+        foreach ($contents->getFlatMap() as $c) {
+            if ($c->id != $id) {
+                $parents[$c->id] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $c->depth) .
+                    (($c->depth > 0) ? '&rarr; ' : '') . $c->title;
+            }
+        }
+
         $this->prepareView('content/edit.phtml');
         $this->view->title               = 'Content';
         $this->view->content_title       = $content->title;
@@ -175,7 +209,7 @@ class ContentController extends AbstractController
 
         $fields = $this->application->config()['forms']['Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
-        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $content->getParents($tid, $id);
+        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
         $fields[1]['slug']['label']     .=
             ' [ <a href="#" class="small-link" onclick="phire.createSlug(jax(\'#title\').val(), \'#slug\');' .
             ' return phire.changeUri();">Generate URI</a> ]';

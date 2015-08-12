@@ -119,6 +119,14 @@ return [
                 'label' => 'Roles',
                 'value' => []
             ],
+            'order' => [
+                'type'  => 'text',
+                'label' => 'Order',
+                'value' => 0,
+                'attributes' => [
+                    'size'  => 2
+                ]
+            ],
             'type_id' => [
                 'type'  => 'hidden',
                 'value' => 0

@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "status" integer NOT NULL,
   "template" varchar,
   "roles" text,
+  "order" integer,
   "publish" datetime,
   "expire" datetime,
   "created" datetime,
