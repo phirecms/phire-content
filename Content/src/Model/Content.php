@@ -307,11 +307,12 @@ class Content extends AbstractModel
                 ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
         }
 
-        $roles = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+        $roles    = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+        $parentId = ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null;
 
         $content = new Table\Content([
             'type_id'    => $fields['type_id'],
-            'parent_id'  => ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null,
+            'parent_id'  => $parentId,
             'title'      => $fields['title'],
             'uri'        => $fields['uri'],
             'slug'       => $fields['slug'],
@@ -321,7 +322,7 @@ class Content extends AbstractModel
             'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
             'order'      => (int)$fields['order'],
-            'hierarchy'  => null,
+            'hierarchy'  => $this->getHierarchy($parentId),
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
         ]);
@@ -360,10 +361,11 @@ class Content extends AbstractModel
                     ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
             }
 
-            $roles = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+            $roles    = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+            $parentId = ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null;
 
             $content->type_id    = $fields['type_id'];
-            $content->parent_id  = ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null;
+            $content->parent_id  = $parentId;
             $content->title      = $fields['title'];
             $content->uri        = $fields['uri'];
             $content->slug       = $fields['slug'];
@@ -373,7 +375,7 @@ class Content extends AbstractModel
             $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
             $content->order      = (int)$fields['order'];
-            $content->hierarchy  = null;
+            $content->hierarchy  = $this->getHierarchy($parentId);
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
             $content->save();
@@ -532,6 +534,27 @@ class Content extends AbstractModel
         }
 
         return $children;
+    }
+
+    /**
+     * Get parental hierarchy
+     *
+     * @param  int $parentId
+     * @return string
+     */
+    protected function getHierarchy($parentId = null)
+    {
+        $parents = [];
+
+        while (null !== $parentId) {
+            array_unshift($parents, $parentId);
+            $category = Table\Content::findById($parentId);
+            if (isset($category->id)) {
+                $parentId = $category->parent_id;
+            }
+        }
+
+        return (count($parents) > 0) ? implode('|', $parents) : '';
     }
 
     /**
