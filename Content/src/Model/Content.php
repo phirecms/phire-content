@@ -321,6 +321,7 @@ class Content extends AbstractModel
             'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
             'order'      => (int)$fields['order'],
+            'hierarchy'  => null,
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
         ]);
@@ -372,6 +373,7 @@ class Content extends AbstractModel
             $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
             $content->order      = (int)$fields['order'];
+            $content->hierarchy  = null;
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
             $content->save();

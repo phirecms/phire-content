@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "template" varchar,
   "roles" text,
   "order" integer,
+  "hierarchy" varchar,
   "publish" datetime,
   "expire" datetime,
   "created" datetime,

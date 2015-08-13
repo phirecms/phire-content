@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content` (
   `template` varchar(255),
   `roles` text,
   `order` int(16),
+  `hierarchy` varchar(255),
   `publish` datetime,
   `expire` datetime,
   `created` datetime,

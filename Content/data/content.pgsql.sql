@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "template" varchar(255),
   "roles" text,
   "order" integer,
+  "hierarchy" varchar(255),
   "publish" timestamp,
   "expire" timestamp,
   "created" timestamp,
