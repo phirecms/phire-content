@@ -22,7 +22,13 @@ class IndexController extends AbstractController
     public function index()
     {
         $content = new Model\Content();
-        $date    = $this->isDate($this->request->getRequestUri());
+        $uri     = $this->request->getRequestUri();
+
+        if (($uri != '/') && (substr($uri, -1) == '/')) {
+            $uri = substr($uri, 0, -1);
+        }
+
+        $date = $this->isDate($uri);
 
         $content->separator = $this->application->module('Content')->config()['separator'];
 
@@ -39,7 +45,7 @@ class IndexController extends AbstractController
             $this->template    = -2;
             $this->send();
         } else {
-            $content->getByUri($this->request->getRequestUri(), $this->application->modules()->isRegistered('Fields'));
+            $content->getByUri($uri, $this->application->modules()->isRegistered('Fields'));
 
             if ($content->isLive($this->sess)) {
                 $this->prepareView('content-public/index.phtml');

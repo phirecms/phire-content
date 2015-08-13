@@ -269,7 +269,7 @@ class Content extends AbstractModel
                 if (isset($content->id)) {
                     if ($content->status == 1) {
                         $breadcrumb = '<a href="' . BASE_PATH . $content->uri . '">' . $content->title . '</a>' .
-                            '<span>' . $sep . '</span>' . $breadcrumb;
+                            ' <span>' . $sep . '</span> ' . $breadcrumb;
                     }
                     $pId = $content->parent_id;
                 }
