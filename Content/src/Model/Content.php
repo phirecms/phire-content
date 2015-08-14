@@ -29,6 +29,7 @@ class Content extends AbstractModel
             'uri'                 => DB_PREFIX . 'content.uri',
             'slug'                => DB_PREFIX . 'content.slug',
             'status'              => DB_PREFIX . 'content.status',
+            'roles'               => DB_PREFIX . 'content.roles',
             'publish'             => DB_PREFIX . 'content.publish',
             'expire'              => DB_PREFIX . 'content.expire',
             'created'             => DB_PREFIX . 'content.created',
@@ -77,6 +78,7 @@ class Content extends AbstractModel
                 'uri'                 => $c->uri,
                 'slug'                => $c->slug,
                 'status'              => $c->status,
+                'roles'               => $c->roles,
                 'publish'             => $c->publish,
                 'expire'              => $c->expire,
                 'created'             => $c->created,
@@ -307,7 +309,7 @@ class Content extends AbstractModel
                 ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
         }
 
-        $roles    = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+        $roles    = (isset($_POST['roles']) && is_array($_POST['roles']) && (count($_POST['roles']) > 0)) ? $_POST['roles'] : [];
         $parentId = ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null;
 
         $content = new Table\Content([
@@ -361,7 +363,7 @@ class Content extends AbstractModel
                     ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
             }
 
-            $roles    = (isset($fields['roles']) && is_array($fields['roles']) && (count($fields['roles']) > 0)) ? $fields['roles'] : [];
+            $roles    = (isset($_POST['roles']) && is_array($_POST['roles']) && (count($_POST['roles']) > 0)) ? $_POST['roles'] : [];
             $parentId = ($fields['content_parent_id'] != '----') ? $fields['content_parent_id'] : null;
 
             $content->type_id    = $fields['type_id'];
@@ -677,6 +679,7 @@ class Content extends AbstractModel
                     'uri'                 => $c->uri,
                     'slug'                => $c->slug,
                     'status'              => $c->status,
+                    'roles'               => $c->roles,
                     'publish'             => $c->publish,
                     'expire'              => $c->expire,
                     'created'             => $c->created,
