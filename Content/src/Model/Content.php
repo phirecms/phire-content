@@ -48,7 +48,7 @@ class Content extends AbstractModel
             'status'    => -2
         ];
 
-        $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'id DESC';
+        $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'order ASC';
         $by     = explode(' ', $order);
         $sql->select()->orderBy($by[0], $by[1]);
         $sql->select()->where('type_id = :type_id');
