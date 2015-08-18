@@ -35,7 +35,7 @@ class IndexController extends AbstractController
         if (null !== $date) {
             $dateResult = $content->getByDate(
                 $date, $this->config->datetime_format, $this->application->module('phire-content')->config()['summary_length'],
-                $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()->isRegistered('Fields')
+                $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()->isRegistered('phire-fields')
             );
 
             $this->prepareView('content-public/date.phtml');
@@ -45,7 +45,7 @@ class IndexController extends AbstractController
             $this->template    = -2;
             $this->send();
         } else {
-            $content->getByUri($uri, $this->application->modules()->isRegistered('Fields'));
+            $content->getByUri($uri, $this->application->modules()->isRegistered('phire-fields'));
 
             if ($content->isLive($this->sess)) {
                 $this->prepareView('content-public/index.phtml');

@@ -265,7 +265,7 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
         }
 
-        $content->copy($this->sess->user->id, $this->application->modules()->isRegistered('Fields'));
+        $content->copy($this->sess->user->id, $this->application->modules()->isRegistered('phire-fields'));
         $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid . '?saved=' . time());
     }
 
