@@ -12,13 +12,13 @@
 
 <body>
     <h1><?=$title; ?></h1>
-<?php if (count($rows) > 0): ?>
-<?php foreach ($rows as $row): ?>
+<?php if (count($items) > 0): ?>
+<?php foreach ($items as $item): ?>
     <div class="date-div">
-        <h4><a href="<?=$row->uri; ?>"><?=$row->title; ?></a></h4>
-        <h5><?=date($config->datetime_format, strtotime($row->publish)); ?></h5>
-<?php if (!empty($row->content)): ?>
-        <p><?=strip_tags($row->content); ?></p>
+        <h4><a href="<?=$item->uri; ?>"><?=$item->title; ?></a></h4>
+        <h5><?=date($config->datetime_format, strtotime($item->publish)); ?></h5>
+<?php if (!empty($item->content)): ?>
+        <p><?=strip_tags($item->content); ?></p>
 <?php endif; ?>
     </div>
 <?php endforeach; ?>

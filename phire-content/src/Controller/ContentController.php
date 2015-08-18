@@ -1,10 +1,10 @@
 <?php
 
-namespace Content\Controller;
+namespace Phire\Content\Controller;
 
-use Content\Model;
-use Content\Form;
-use Content\Table;
+use Phire\Content\Model;
+use Phire\Content\Form;
+use Phire\Content\Table;
 use Phire\Controller\AbstractController;
 use Pop\Paginator\Paginator;
 
@@ -121,7 +121,7 @@ class ContentController extends AbstractController
         $this->view->title = 'Content : ' . $type->name . ' : Add';
         $this->view->tid   = $tid;
 
-        $fields = $this->application->config()['forms']['Content\Form\Content'];
+        $fields = $this->application->config()['forms']['Phire\Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
         $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
 
@@ -207,7 +207,7 @@ class ContentController extends AbstractController
         $this->view->updated_by          = $content->updated_by;
         $this->view->updated_by_username = $content->updated_by_username;
 
-        $fields = $this->application->config()['forms']['Content\Form\Content'];
+        $fields = $this->application->config()['forms']['Phire\Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
         $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
         $fields[1]['slug']['label']     .=

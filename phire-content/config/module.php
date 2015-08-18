@@ -1,13 +1,13 @@
 <?php
 /**
- * Module Name: Content
+ * Module Name: phire-content
  * Author: Nick Sagona
  * Description: This is the content module for Phire CMS 2
  * Version: 1.0
  */
 return [
-    'Content' => [
-        'prefix'     => 'Content\\',
+    'phire-content' => [
+        'prefix'     => 'Phire\Content\\',
         'src'        => __DIR__ . '/../src',
         'routes'     => include 'routes.php',
         'resources'  => include 'resources.php',
@@ -34,12 +34,12 @@ return [
             ]
         ],
         'models' => [
-            'Content\Model\Content' => []
+            'Phire\Content\Model\Content' => []
         ],
         'events' => [
             [
                 'name'     => 'app.route.pre',
-                'action'   => 'Content\Event\Content::bootstrap',
+                'action'   => 'Phire\Content\Event\Content::bootstrap',
                 'priority' => 1000
             ]
         ],

@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Model;
+namespace Phire\Content\Model;
 
-use Content\Table;
+use Phire\Content\Table;
 use Phire\Model\AbstractModel;
 use Pop\Paginator\Paginator;
 
@@ -170,14 +170,14 @@ class Content extends AbstractModel
         }
 
         $sql1->select()
-            ->where('status = :status')
-            ->where('publish >= :publish1')
-            ->where('publish <= :publish2');
+             ->where('status = :status')
+             ->where('publish >= :publish1')
+             ->where('publish <= :publish2');
 
         $sql2->select()
-            ->where('status = :status')
-            ->where('publish >= :publish1')
-            ->where('publish <= :publish2');
+             ->where('status = :status')
+             ->where('publish >= :publish1')
+             ->where('publish <= :publish2');
 
         $params = [
             'status' => 1,
@@ -208,14 +208,14 @@ class Content extends AbstractModel
                 $filters['substr'] = [0, $summaryLength];
             };
             foreach ($rows as $i => $row) {
-                $fieldValues = \Fields\Model\FieldValue::getModelObjectValues('Content\Model\Content', $row->id, $filters);
+                $fieldValues = \Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
                 $rows[$i] = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
                 $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
             }
         }
 
         return [
-            'rows'  => $rows,
+            'items' => $rows,
             'pages' => $pages
         ];
     }
@@ -569,7 +569,7 @@ class Content extends AbstractModel
     protected function getContent(Table\Content $content, $fields = false)
     {
         if ($fields) {
-            $c    = \Fields\Model\FieldValue::getModelObject('Content\Model\Content', [$content->id]);
+            $c    = \Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
             $data = $c->toArray();
         } else {
             $data = $content->getColumns();

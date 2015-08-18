@@ -1,10 +1,10 @@
 <?php
 
-namespace Content\Controller;
+namespace Phire\Content\Controller;
 
-use Content\Model;
-use Content\Form;
-use Content\Table;
+use Phire\Content\Model;
+use Phire\Content\Form;
+use Phire\Content\Table;
 use Phire\Controller\AbstractController;
 use Pop\Paginator\Paginator;
 
@@ -49,7 +49,7 @@ class TypeController extends AbstractController
         $this->prepareView('content/types/add.phtml');
         $this->view->title = 'Content : Types : Add';
 
-        $fields = $this->application->config()['forms']['Content\Form\ContentType'];
+        $fields = $this->application->config()['forms']['Phire\Content\Form\ContentType'];
 
         $this->view->form = new Form\ContentType($fields);
 
@@ -86,7 +86,7 @@ class TypeController extends AbstractController
         $this->view->title              = 'Content : Types';
         $this->view->content_type_name = $type->name;
 
-        $fields = $this->application->config()['forms']['Content\Form\ContentType'];
+        $fields = $this->application->config()['forms']['Phire\Content\Form\ContentType'];
 
         $fields[1]['name']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
 

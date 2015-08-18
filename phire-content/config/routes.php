@@ -3,17 +3,17 @@
 return [
     '' => [
         '/' => [
-            'controller' => 'Content\Controller\IndexController',
+            'controller' => 'Phire\Content\Controller\IndexController',
             'action'     => 'index'
         ],
         '*' => [
-            'controller' => 'Content\Controller\IndexController',
+            'controller' => 'Phire\Content\Controller\IndexController',
             'action'     => 'index'
         ]
     ],
     APP_URI => [
         '/content[/:tid]' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'index',
             'acl'        => [
                 'resource'   => 'content',
@@ -21,7 +21,7 @@ return [
             ]
         ],
         '/content/add/:tid' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'add',
             'acl'        => [
                 'resource'   => 'content',
@@ -29,7 +29,7 @@ return [
             ]
         ],
         '/content/edit/:tid/:id' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'edit',
             'acl'        => [
                 'resource'   => 'content',
@@ -37,7 +37,7 @@ return [
             ]
         ],
         '/content/copy/:tid/:id' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'copy',
             'acl'        => [
                 'resource'   => 'content',
@@ -45,7 +45,7 @@ return [
             ]
         ],
         '/content/trash/:tid' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'trash',
             'acl'        => [
                 'resource'   => 'content',
@@ -53,7 +53,7 @@ return [
             ]
         ],
         '/content/process/:tid' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'process',
             'acl'        => [
                 'resource'   => 'content',
@@ -61,7 +61,7 @@ return [
             ]
         ],
         '/content/json/:id' => [
-            'controller' => 'Content\Controller\ContentController',
+            'controller' => 'Phire\Content\Controller\ContentController',
             'action'     => 'json',
             'acl'        => [
                 'resource'   => 'content',
@@ -69,7 +69,7 @@ return [
             ]
         ],
         '/content/types[/]' => [
-            'controller' => 'Content\Controller\TypeController',
+            'controller' => 'Phire\Content\Controller\TypeController',
             'action'     => 'index',
             'acl'        => [
                 'resource'   => 'content-types',
@@ -77,7 +77,7 @@ return [
             ]
         ],
         '/content/types/add' => [
-            'controller' => 'Content\Controller\TypeController',
+            'controller' => 'Phire\Content\Controller\TypeController',
             'action'     => 'add',
             'acl'        => [
                 'resource'   => 'content-types',
@@ -85,7 +85,7 @@ return [
             ]
         ],
         '/content/types/edit/:id' => [
-            'controller' => 'Content\Controller\TypeController',
+            'controller' => 'Phire\Content\Controller\TypeController',
             'action'     => 'edit',
             'acl'        => [
                 'resource'   => 'content-types',
@@ -93,7 +93,7 @@ return [
             ]
         ],
         '/content/types/remove' => [
-            'controller' => 'Content\Controller\TypeController',
+            'controller' => 'Phire\Content\Controller\TypeController',
             'action'     => 'remove',
             'acl'        => [
                 'resource'   => 'content-types',

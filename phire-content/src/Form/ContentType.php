@@ -1,12 +1,12 @@
 <?php
 
-namespace Content\Form;
+namespace Phire\Content\Form;
 
-use Content\Table;
+use Phire\Content\Table;
 use Pop\Form\Form;
 use Pop\Validator;
 
-class Content extends Form
+class ContentType extends Form
 {
 
     /**
@@ -17,12 +17,12 @@ class Content extends Form
      * @param  array  $fields
      * @param  string $action
      * @param  string $method
-     * @return Content
+     * @return ContentType
      */
     public function __construct(array $fields, $action = null, $method = 'post')
     {
         parent::__construct($fields, $action, $method);
-        $this->setAttribute('id', 'content-form');
+        $this->setAttribute('id', 'content-type-form');
         $this->setIndent('    ');
     }
 
@@ -30,18 +30,18 @@ class Content extends Form
      * Set the field values
      *
      * @param  array $values
-     * @return Content
+     * @return ContentType
      */
     public function setFieldValues(array $values = null)
     {
         parent::setFieldValues($values);
 
-        if (($_POST) && (null !== $this->uri)) {
+        if (($_POST) && (null !== $this->name)) {
             // Check for dupe name
-            $content = Table\Content::findBy(['uri' => $this->uri]);
-            if (isset($content->id) && ($this->id != $content->id)) {
-                $this->getElement('uri')
-                     ->addValidator(new Validator\NotEqual($this->uri, 'That URI already exists.'));
+            $type = Table\ContentTypes::findBy(['name' => $this->name]);
+            if (isset($type->id) && ($this->id != $type->id)) {
+                $this->getElement('name')
+                     ->addValidator(new Validator\NotEqual($this->name, 'That content type already exists.'));
             }
         }
 

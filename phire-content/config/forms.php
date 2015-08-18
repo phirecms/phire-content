@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Content\Form\Content' => [
+    'Phire\Content\Form\Content' => [
         [
             'submit' => [
                 'type'       => 'submit',
@@ -161,7 +161,7 @@ return [
             ]
         ]
     ],
-    'Content\Form\ContentType' => [
+    'Phire\Content\Form\ContentType' => [
         [
             'submit' => [
                 'type'       => 'submit',

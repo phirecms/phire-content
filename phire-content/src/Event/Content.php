@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Event;
+namespace Phire\Content\Event;
 
-use Content\Table;
+use Phire\Content\Table;
 use Pop\Application;
 
 class Content
@@ -18,17 +18,17 @@ class Content
     {
         $resources = $application->config()['resources'];
         $params    = $application->services()->getParams('nav.phire');
-        $config    = $application->module('Content');
+        $config    = $application->module('phire-content');
         $models    = (isset($config['models'])) ? $config['models'] : null;
-        $types     = \Content\Table\ContentTypes::findAll(null, ['order' => 'order ASC']);
+        $types     = \Phire\Content\Table\ContentTypes::findAll(null, ['order' => 'order ASC']);
 
         foreach ($types->rows() as $type) {
             if (null !== $models) {
-                if (!isset($models['Content\Model\Content'])) {
-                    $models['Content\Model\Content'] = [];
+                if (!isset($models['Phire\Content\Model\Content'])) {
+                    $models['Phire\Content\Model\Content'] = [];
                 }
 
-                $models['Content\Model\Content'][] = [
+                $models['Phire\Content\Model\Content'][] = [
                     'type_field' => 'type_id',
                     'type_value' => $type->id,
                     'type_name'  => $type->name
@@ -56,7 +56,7 @@ class Content
         $application->mergeConfig(['resources' => $resources]);
         $application->services()->setParams('nav.phire', $params);
         if (null !== $models) {
-            $application->module('Content')->mergeConfig(['models' => $models]);
+            $application->module('phire-content')->mergeConfig(['models' => $models]);
         }
     }
 

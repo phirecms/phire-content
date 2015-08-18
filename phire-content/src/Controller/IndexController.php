@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Controller;
+namespace Phire\Content\Controller;
 
-use Content\Model;
+use Phire\Content\Model;
 use Phire\Controller\AbstractController;
 
 class IndexController extends AbstractController
@@ -30,18 +30,18 @@ class IndexController extends AbstractController
 
         $date = $this->isDate($uri);
 
-        $content->separator = $this->application->module('Content')->config()['separator'];
+        $content->separator = $this->application->module('phire-content')->config()['separator'];
 
         if (null !== $date) {
             $dateResult = $content->getByDate(
-                $date, $this->config->datetime_format, $this->application->module('Content')->config()['summary_length'],
+                $date, $this->config->datetime_format, $this->application->module('phire-content')->config()['summary_length'],
                 $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()->isRegistered('Fields')
             );
 
             $this->prepareView('content-public/date.phtml');
             $this->view->title = $this->formatDateTitle($date);
             $this->view->pages = $dateResult['pages'];
-            $this->view->rows  = $dateResult['rows'];
+            $this->view->items = $dateResult['items'];
             $this->template    = -2;
             $this->send();
         } else {
