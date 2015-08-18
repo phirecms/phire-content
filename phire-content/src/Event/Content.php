@@ -20,7 +20,7 @@ class Content
         $params    = $application->services()->getParams('nav.phire');
         $config    = $application->module('phire-content');
         $models    = (isset($config['models'])) ? $config['models'] : null;
-        $types     = \Phire\Content\Table\ContentTypes::findAll(null, ['order' => 'order ASC']);
+        $types     = Table\ContentTypes::findAll(null, ['order' => 'order ASC']);
 
         foreach ($types->rows() as $type) {
             if (null !== $models) {
@@ -57,6 +57,13 @@ class Content
         $application->services()->setParams('nav.phire', $params);
         if (null !== $models) {
             $application->module('phire-content')->mergeConfig(['models' => $models]);
+        }
+
+        $content = Table\Content::findBy(['roles!=' => 'a:0:{}']);
+        if ($content->hasRows()) {
+            foreach ($content->rows() as $c) {
+                $application->services()->get('acl')->addResource(new \Pop\Acl\Resource\Resource('content-' . $c->id));
+            }
         }
     }
 
