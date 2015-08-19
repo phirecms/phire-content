@@ -21,7 +21,11 @@ phire.changeUri = function() {
     if ((slug == '') && (uri == '')) {
         uri = '/';
     } else {
-        uri = uri + ((slug != '') ? '/' + slug : '');
+        if (uri == '/') {
+            uri = uri + slug;
+        } else {
+            uri = uri + ((slug != '') ? '/' + slug : '');
+        }
     }
 
     jax('#uri').val(uri);
