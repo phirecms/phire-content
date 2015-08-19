@@ -208,7 +208,7 @@ class Content extends AbstractModel
                 $filters['substr'] = [0, $summaryLength];
             };
             foreach ($rows as $i => $row) {
-                $fieldValues = \Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
+                $fieldValues = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
                 $rows[$i] = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
                 $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
             }
@@ -434,10 +434,10 @@ class Content extends AbstractModel
             $newContent->save();
 
             if ($fields) {
-                $fv = \Fields\Table\FieldValues::findBy(['model_id' => $oldId]);
+                $fv = \Phire\Fields\Table\FieldValues::findBy(['model_id' => $oldId]);
                 if ($fv->count() > 0) {
                     foreach ($fv->rows() as $value) {
-                        $v = new \Fields\Table\FieldValues([
+                        $v = new \Phire\Fields\Table\FieldValues([
                             'field_id'  => $value->field_id,
                             'model_id'  => $newContent->id,
                             'value'     => $value->value,
@@ -569,7 +569,7 @@ class Content extends AbstractModel
     protected function getContent(Table\Content $content, $fields = false)
     {
         if ($fields) {
-            $c    = \Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
+            $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
             $data = $c->toArray();
         } else {
             $data = $content->getColumns();
