@@ -1,0 +1,91 @@
+<?php include $phireHeader; ?>
+    <h1 class="dashboard-header"><?=$title; ?></h1>
+<?php if ($acl->isAllowed($user->role, 'dashboard')): ?>
+    <div class="dashboard-left-column">
+        <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <th colspan="5">
+                    Recent Content
+                </th>
+            </tr>
+<?php if (count($recent) > 0): ?>
+<?php foreach ($recent as $c): ?>
+            <tr>
+                <td><?php if ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'index')): ?><a class="normal-link" href="<?=$phireUri . '/content/' . $c->type_id; ?>"><?=$c->content_type_name; ?></a><?php else: echo $c->content_type_name; ?><?php endif; ?></td>
+                <td><?=$c->title; ?></td>
+                <td><a class="normal-link" href="<?=$c->uri; ?>" target="_blank"><?=(($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
+                <td><?php
+switch ($c->status):
+    case -1:
+        echo '<strong class="red">Unpublished</strong>';
+        break;
+    case 0:
+        echo '<strong class="orange">Draft</strong>';
+        break;
+    case 1:
+        if ((null !== $c->expire) && (strtotime($c->expire) <= time())):
+            echo '<strong class="red">Expired</strong>';
+        elseif (strtotime($c->publish) > time()):
+            echo '<strong class="blue">Scheduled</strong>';
+        else:
+            echo '<strong class="green">Published</strong>';
+        endif;
+        break;
+endswitch;
+?></td>
+                <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && (($c->open_authoring) || ((!$c->open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $c->type_id . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
+            </tr>
+<?php endforeach; ?>
+<?php else: ?>
+            <tr>
+                <td colspan="5">
+                    There is currently no recent content.
+                </td>
+            </tr>
+<?php endif; ?>
+        </table>
+        <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <th colspan="2">
+                    Modules
+                </th>
+            </tr>
+<?php if (count($modules) > 0): ?>
+<?php foreach ($modules as $module): ?>
+<?php
+    $assets = unserialize($module->assets);
+    $moduleName = (isset($assets['info']['Module Name'])) ? $assets['info']['Module Name'] : $module->folder;
+?>
+            <tr>
+                <td><strong><?=$moduleName; ?></strong></td>
+                <td><?=(($module->active) ? 'Active' : 'Not Active'); ?></td>
+            </tr>
+<?php endforeach; ?>
+<?php else: ?>
+            <tr>
+                <td colspan="2">
+                    There are currently no modules installed.
+                </td>
+            </tr>
+<?php endif; ?>
+        </table>
+    </div>
+    <div class="dashboard-right-column">
+        <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <th colspan="2">
+                    System Overview
+                </th>
+            </tr>
+<?php foreach ($overview as $key => $value): ?>
+<?php if ((stripos($key, 'path') === false) && (stripos($key, 'root') === false)): ?>
+            <tr>
+                <td><strong><?=(ucwords(str_replace(array('_', 'php'), array(' ', 'PHP'), $key))); ?>:</strong></td>
+                <td><?=$value; ?></td>
+            </tr>
+<?php endif; ?>
+<?php endforeach; ?>
+        </table>
+    </div>
+<?php endif; ?>
+<?php include $phireFooter; ?>

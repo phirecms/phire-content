@@ -41,6 +41,11 @@ return [
                 'name'     => 'app.route.pre',
                 'action'   => 'Phire\Content\Event\Content::bootstrap',
                 'priority' => 1000
+            ],
+            [
+                'name'     => 'app.send',
+                'action'   => 'Phire\Content\Event\Content::setDashboard',
+                'priority' => 1000
             ]
         ],
         'separator'      => ' &gt; ',

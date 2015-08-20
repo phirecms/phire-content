@@ -30,6 +30,7 @@ class Content extends AbstractModel
             'slug'                => DB_PREFIX . 'content.slug',
             'status'              => DB_PREFIX . 'content.status',
             'roles'               => DB_PREFIX . 'content.roles',
+            'order'               => DB_PREFIX . 'content.order',
             'publish'             => DB_PREFIX . 'content.publish',
             'expire'              => DB_PREFIX . 'content.expire',
             'created'             => DB_PREFIX . 'content.created',
@@ -48,7 +49,7 @@ class Content extends AbstractModel
             'status'    => -2
         ];
 
-        $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'order ASC';
+        $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'id DESC';
         $by     = explode(' ', $order);
         $sql->select()->orderBy($by[0], $by[1]);
         $sql->select()->where('type_id = :type_id');
@@ -79,6 +80,7 @@ class Content extends AbstractModel
                 'slug'                => $c->slug,
                 'status'              => $c->status,
                 'roles'               => $c->roles,
+                'order'               => $c->order,
                 'publish'             => $c->publish,
                 'expire'              => $c->expire,
                 'created'             => $c->created,
@@ -680,6 +682,7 @@ class Content extends AbstractModel
                     'slug'                => $c->slug,
                     'status'              => $c->status,
                     'roles'               => $c->roles,
+                    'order'               => $c->order,
                     'publish'             => $c->publish,
                     'expire'              => $c->expire,
                     'created'             => $c->created,
