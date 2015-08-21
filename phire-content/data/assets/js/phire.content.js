@@ -67,5 +67,10 @@ jax(document).ready(function(){
         if (jax('#uri').val() != '') {
             jax('#uri-span').val(jax('#uri').val());
         }
+        phire.currentForm = '#content-form';
+        jax('#content-form').submit(function(){
+            phire.submitted = true;
+        });
+        jax.beforeunload(phire.checkFormChange);
     }
 });
