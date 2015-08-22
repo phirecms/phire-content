@@ -170,6 +170,15 @@ return [
                     'class'  => 'save-btn wide'
                 ]
             ],
+            'strict_publishing' => [
+                'type'       => 'radio',
+                'label'      => 'Strict Publishing',
+                'value'      => [
+                    '1' => 'Yes',
+                    '0' => 'No'
+                ],
+                'marked' => 1
+            ],
             'open_authoring' => [
                 'type'       => 'radio',
                 'label'      => 'Open Authoring',

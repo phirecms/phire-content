@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   "name" varchar NOT NULL,
   "content_type" varchar NOT NULL,
+  "strict_publishing" integer NOT NULL,
   "open_authoring" integer NOT NULL,
   "order" integer,
   PRIMARY KEY ("id")

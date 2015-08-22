@@ -86,10 +86,11 @@ class ContentType extends AbstractModel
             $fields['content_type_other'] : $fields['content_type'];
 
         $type = new Table\ContentTypes([
-            'name'           => $fields['name'],
-            'content_type'   => $contentType,
-            'open_authoring' => (int)$fields['open_authoring'],
-            'order'          => (int)$fields['order']
+            'name'              => $fields['name'],
+            'content_type'      => $contentType,
+            'strict_publishing' => (int)$fields['strict_publishing'],
+            'open_authoring'    => (int)$fields['open_authoring'],
+            'order'             => (int)$fields['order']
         ]);
         $type->save();
 
@@ -109,10 +110,11 @@ class ContentType extends AbstractModel
             $contentType = (!empty($fields['content_type_other']) && ($fields['content_type'] == 'other')) ?
                 $fields['content_type_other'] : $fields['content_type'];
 
-            $type->name           = $fields['name'];
-            $type->content_type   = $contentType;
-            $type->open_authoring = (int)$fields['open_authoring'];
-            $type->order          = (int)$fields['order'];
+            $type->name              = $fields['name'];
+            $type->content_type      = $contentType;
+            $type->strict_publishing = (int)$fields['strict_publishing'];
+            $type->open_authoring    = (int)$fields['open_authoring'];
+            $type->order             = (int)$fields['order'];
             $type->save();
 
             $this->data = array_merge($this->data, $type->getColumns());

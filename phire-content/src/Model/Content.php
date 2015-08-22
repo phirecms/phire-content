@@ -234,9 +234,13 @@ class Content extends AbstractModel
 
         if (isset($this->data['id'])) {
             if ($this->data['status'] == 1) {
-                $live = ((null !== $this->data['publish']) && (time() >= strtotime($this->data['publish'])));
-                if (($live) && (null !== $this->data['expire'])) {
-                    $live = (time() < strtotime($this->data['expire']));
+                if ($this->data['strict_publishing']) {
+                    $live = ((null !== $this->data['publish']) && (time() >= strtotime($this->data['publish'])));
+                    if (($live) && (null !== $this->data['expire'])) {
+                        $live = (time() < strtotime($this->data['expire']));
+                    }
+                } else {
+                    $live = true;
                 }
             } else if (($this->data['status'] == 0) && isset($sess->user->id)) {
                 $live = true;
@@ -580,7 +584,8 @@ class Content extends AbstractModel
         $type = new ContentType();
         $type->getById($data['type_id']);
 
-        $data['content_type'] = $type->content_type;
+        $data['content_type']      = $type->content_type;
+        $data['strict_publishing'] = $type->strict_publishing;
 
         if (null !== $data['publish']) {
             $publish     = explode(' ', $data['publish']);
