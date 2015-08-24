@@ -431,7 +431,7 @@ class Content extends AbstractModel
                 'publish'    => date('Y-m-d H:i:s'),
                 'expire'     => null,
                 'status'     => -1,
-                'template'   => $content->content_template,
+                'template'   => $content->template,
                 'roles'      => $content->roles,
                 'order'      => $content->order,
                 'created'    => date('Y-m-d H:i:s'),
