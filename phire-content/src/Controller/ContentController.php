@@ -215,6 +215,7 @@ class ContentController extends AbstractController
             ' return phire.changeUri();">Generate URI</a> ]';
 
         $fields[1]['title']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
+        $fields[1]['slug']['attributes']['onkeyup']  = "phire.changeUri();";
 
         $roles = (new \Phire\Model\Role())->getAll();
         foreach ($roles as $role) {

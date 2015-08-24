@@ -43,7 +43,7 @@ return [
                 'priority' => 1000
             ],
             [
-                'name'     => 'app.send',
+                'name'     => 'app.send.pre',
                 'action'   => 'Phire\Content\Event\Content::setDashboard',
                 'priority' => 1000
             ]
