@@ -98,6 +98,7 @@ class Content
 
                 $sql->select()->where('status >= -1');
                 $sql->select()->orderBy('id', 'DESC');
+                $sql->select()->limit(10);
 
                 $controller->view()->recent = Table\Content::query((string)$sql)->rows();
             }
