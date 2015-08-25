@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "open_authoring" integer NOT NULL,
   "force_ssl" integer,
   "order" integer,
-  PRIMARY KEY ("id")
+  UNIQUE ("id")
 ) ;
 
 INSERT INTO "sqlite_sequence" ("name", "seq") VALUES ('[{prefix}]content_types', 5000);
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "updated" datetime,
   "created_by" integer,
   "updated_by" integer,
-  PRIMARY KEY ("id"),
+  UNIQUE ("id"),
   CONSTRAINT "fk_content_type" FOREIGN KEY ("type_id") REFERENCES "[{prefix}]content_types" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT "fk_content_parent_id" FOREIGN KEY ("parent_id") REFERENCES "[{prefix}]content" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT "fk_created_by" FOREIGN KEY ("created_by") REFERENCES "[{prefix}]users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
