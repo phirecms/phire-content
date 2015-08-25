@@ -48,6 +48,9 @@ class IndexController extends AbstractController
             $content->getByUri($uri, $this->application->modules()->isRegistered('phire-fields'));
 
             if ($content->isLive($this->sess)) {
+                if ((($content->force_ssl) || ($content->content_type_force_ssl)) && ($_SERVER['SERVER_PORT'] != 443)) {
+                    $this->redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+                }
                 $this->prepareView('content-public/index.phtml');
                 $this->view->merge($content->toArray());
                 $this->template = $content->template;

@@ -90,6 +90,7 @@ class ContentType extends AbstractModel
             'content_type'      => $contentType,
             'strict_publishing' => (int)$fields['strict_publishing'],
             'open_authoring'    => (int)$fields['open_authoring'],
+            'force_ssl'         => (int)$fields['force_ssl'],
             'order'             => (int)$fields['order']
         ]);
         $type->save();
@@ -114,6 +115,7 @@ class ContentType extends AbstractModel
             $type->content_type      = $contentType;
             $type->strict_publishing = (int)$fields['strict_publishing'];
             $type->open_authoring    = (int)$fields['open_authoring'];
+            $type->force_ssl         = (int)$fields['force_ssl'];
             $type->order             = (int)$fields['order'];
             $type->save();
 

@@ -114,18 +114,28 @@ return [
                     'class' => 'date-select-end'
                 ]
             ],
-            'roles' => [
-                'type'  => 'checkbox',
-                'label' => 'Roles',
-                'value' => []
-            ],
             'order' => [
                 'type'  => 'text',
                 'label' => 'Order',
                 'value' => 0,
                 'attributes' => [
-                    'size'  => 2
+                    'size'  => 2,
+                    'class' => 'order-field'
                 ]
+            ],
+            'roles' => [
+                'type'  => 'checkbox',
+                'label' => 'Roles',
+                'value' => []
+            ],
+            'force_ssl' => [
+                'type'  => 'radio',
+                'label' => 'Force SSL',
+                'value' => [
+                    '1' => 'Yes',
+                    '0' => 'No'
+                ],
+                'marked' => 0
             ],
             'type_id' => [
                 'type'  => 'hidden',
@@ -188,10 +198,22 @@ return [
                 ],
                 'marked' => 1
             ],
+            'force_ssl' => [
+                'type'  => 'radio',
+                'label' => 'Force SSL',
+                'value' => [
+                    '1' => 'Yes',
+                    '0' => 'No'
+                ],
+                'marked' => 0
+            ],
             'order' => [
                 'type'       => 'text',
                 'label'      => 'Order',
-                'attributes' => ['size' => 3],
+                'attributes' => [
+                    'size'  => 3,
+                    'class' => 'order-field'
+                ],
                 'value'      => 0
             ],
             'id' => [

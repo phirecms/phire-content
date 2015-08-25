@@ -330,6 +330,7 @@ class Content extends AbstractModel
             'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
             'order'      => (int)$fields['order'],
+            'force_ssl'  => (int)$fields['force_ssl'],
             'hierarchy'  => $this->getHierarchy($parentId),
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
@@ -383,6 +384,7 @@ class Content extends AbstractModel
             $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
             $content->order      = (int)$fields['order'];
+            $content->force_ssl  = (int)$fields['force_ssl'];
             $content->hierarchy  = $this->getHierarchy($parentId);
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
@@ -434,6 +436,7 @@ class Content extends AbstractModel
                 'template'   => $content->template,
                 'roles'      => $content->roles,
                 'order'      => $content->order,
+                'force_ssl'  => $content->force_ssl,
                 'created'    => date('Y-m-d H:i:s'),
                 'created_by' => $userId
             ]);
@@ -584,8 +587,9 @@ class Content extends AbstractModel
         $type = new ContentType();
         $type->getById($data['type_id']);
 
-        $data['content_type']      = $type->content_type;
-        $data['strict_publishing'] = $type->strict_publishing;
+        $data['content_type']           = $type->content_type;
+        $data['content_type_force_ssl'] = $type->force_ssl;
+        $data['strict_publishing']      = $type->strict_publishing;
 
         if (null !== $data['publish']) {
             $publish     = explode(' ', $data['publish']);
