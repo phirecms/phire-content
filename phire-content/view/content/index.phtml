@@ -28,7 +28,6 @@
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created';?>">Created</a></th>
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=updated';?>">Updated</a></th>
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=status';?>">Status</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=order';?>">Order</a></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'copy')): ?>Copy<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
@@ -61,7 +60,6 @@ switch ($c->status):
         break;
 endswitch;
 ?></td>
-                <td><?=(int)$c->order; ?></td>
                 <td><?php if ($acl->isAllowed($user->role, 'content', 'copy')): ?><a class="copy-link" href="<?=$phireUri . '/content/copy/' . $tid . '/' . $c->id; ?>">Copy</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $tid . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 <td class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
