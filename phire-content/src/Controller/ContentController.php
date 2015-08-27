@@ -195,7 +195,12 @@ class ContentController extends AbstractController
             }
         }
 
-        $this->prepareView('content/edit.phtml');
+        if ($this->request->getQuery('in_edit')) {
+            $this->prepareView('content/in-edit.phtml');
+        } else {
+            $this->prepareView('content/edit.phtml');
+        }
+
         $this->view->title               = 'Content';
         $this->view->content_title       = $content->title;
         $this->view->tid                 = $tid;
@@ -236,7 +241,10 @@ class ContentController extends AbstractController
                 $content = new Model\Content();
                 $content->update($this->view->form->getFields(), $this->sess->user->id);
                 $this->view->id = $content->id;
-                $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id . '?saved=' . time());
+                $this->redirect(
+                    BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id .
+                    '?saved=' . time() . ((null !== $this->request->getQuery('in_edit')) ? '&in_edit=1' : null)
+                );
             }
         }
 

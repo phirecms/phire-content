@@ -105,4 +105,68 @@ class Content
         }
     }
 
+    /**
+     * Initialize page editor
+     *
+     * @param  AbstractController $controller
+     * @param  Application        $application
+     * @return void
+     */
+    public static function initPageEditor(AbstractController $controller, Application $application)
+    {
+        if (($controller instanceof \Phire\Content\Controller\IndexController) && ($controller->hasView())) {
+            $sess = $application->services()->get('session');
+            $acl  = $application->services()->get('acl');
+
+            if (isset($sess->user) && ($acl->isAllowed($sess->user->role, 'content', 'in-edit')) &&
+                ($acl->isAllowed($sess->user->role, 'content', 'edit'))) {
+                $body    = $controller->response()->getBody();
+                $head    = substr($body, strpos($body, '<head>'));
+                $head    = substr($head, 0, (strpos($head, '</head>') + 7));
+                $newHead = $head;
+                $assets  = '';
+
+                if ((strpos($newHead, 'jax.4.0.0.min.js') === false) && (strpos($newHead, 'jax.4.0.0.js') === false)) {
+                    if (strpos($newHead, '<script') !== false) {
+                        $newHead1  = substr($newHead, 0, strpos($newHead, '<script'));
+                        $newHead2  = substr($newHead, strpos($newHead, '<script'));
+                        $newHead1 .= '<script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire/js/jax.4.0.0.min.js"></script>' . PHP_EOL;
+                        $newHead1 .= '    <script type="text/javascript">' . PHP_EOL;
+                        $newHead1 .= '        jax.noConflict();' . PHP_EOL;
+                        $newHead1 .= '    </script>' . PHP_EOL . '    ';
+                        $newHead   = $newHead1 . $newHead2;
+                    } else {
+                        $assets .= '    <script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire/js/jax.4.0.0.min.js"></script>' . PHP_EOL;
+                        $assets .= '    <script type="text/javascript">' . PHP_EOL;
+                        $assets .= '        jax.noConflict();' . PHP_EOL;
+                        $assets .= '    </script>' . PHP_EOL;
+                    }
+                }
+
+                $assets .= '    <script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire/js/phire.js"></script>' . PHP_EOL;
+                $assets .= '    <script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/js/phire.content.edit.js"></script>' . PHP_EOL . PHP_EOL;
+                $assets .= '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/css/phire.content.edit.css" />' . PHP_EOL . PHP_EOL;
+                $assets .= '</head>';
+
+                $systemUri = BASE_PATH . APP_URI;
+                if ($systemUri == '') {
+                    $systemUri = '/';
+                }
+
+                $contentUri = BASE_PATH . APP_URI . '/content/edit/' . $controller->view()->type_id . '/' . $controller->view()->id . '?in_edit=1';
+
+                $nav  = PHP_EOL . '<nav id="phire-in-edit-nav">' . PHP_EOL;
+                $nav .= '    <a href="' . $contentUri . '" title="Edit Page" onclick="phire.launchPageEditor(this.href); return false;">Edit</a>' . PHP_EOL;
+                $nav .= '    <a href="' . $systemUri . '" title="Dashboard">Dashboard</a>' . PHP_EOL;
+                $nav .= '</nav>' . PHP_EOL . PHP_EOL;
+                $nav .= '</body>';
+
+                $newHead = str_replace('</head>', $assets, $newHead);
+                $body    = str_replace($head, $newHead, $body);
+                $body    = str_replace('</body>', $nav, $body);
+                $controller->response()->setBody($body);
+            }
+        }
+    }
+
 }

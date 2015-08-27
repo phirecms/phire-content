@@ -230,3 +230,13 @@ select.date-select option, select.date-select-end option {
     padding: 1px 2px 1px 1px;
 }
 
+body.content-in-edit {
+    background: transparent;
+    background-color: #fff;
+}
+
+#content-in-edit {
+    margin: 0 auto;
+    padding: 15px 30px 30px 30px;
+    width: calc(100% - 60px);
+}

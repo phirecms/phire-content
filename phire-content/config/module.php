@@ -46,6 +46,11 @@ return [
                 'name'     => 'app.send.pre',
                 'action'   => 'Phire\Content\Event\Content::setDashboard',
                 'priority' => 1000
+            ],
+            [
+                'name'     => 'app.send.post',
+                'action'   => 'Phire\Content\Event\Content::initPageEditor',
+                'priority' => 1000
             ]
         ],
         'separator'      => ' &gt; ',

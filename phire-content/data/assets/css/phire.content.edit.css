@@ -1,0 +1,59 @@
+/**
+ * Content Module Style Sheet for In-Content Editing in Phire CMS 2
+ */
+
+#phire-in-edit-nav {
+    position: absolute;
+    z-index: 1000000000000;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    width: 90px;
+    height: 30px;
+    background-color: #000;
+    background-image: url(../../phire/img/phire-icon.png);
+    background-position: 70px center;
+    background-repeat: no-repeat;
+}
+
+#phire-in-edit-nav > a {
+    margin: 3px 0 0 0;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -9999px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#phire-in-edit-nav > a:nth-child(1) {
+    margin: 3px 3px 0 6px;
+    background-image: url(../img/in-edit.png);
+    background-size: 18px 18px;
+}
+
+#phire-in-edit-nav > a:nth-child(2) {;
+    background-image: url(../../phire/img/dashboard-icon-lg.png);
+    background-size: contain;
+}
+
+#phire-in-edit-iframe {
+    position: absolute;
+    z-index: 1000000000001;
+    display: none;
+    opacity: 0;
+    margin: auto;
+    top: 80px;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    padding: 0;
+    width: 90%;
+    height: 700px;
+    background-color: #fff;
+    border-radius: 7px;
+    box-shadow: 0 0 8px 4px #666;
+}
