@@ -233,6 +233,7 @@ select.date-select option, select.date-select-end option {
 body.content-in-edit {
     background: transparent;
     background-color: #fff;
+    overflow: auto;
 }
 
 #content-in-edit {
