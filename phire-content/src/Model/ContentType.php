@@ -41,13 +41,13 @@ class ContentType extends AbstractModel
             $page = ((null !== $page) && ((int)$page > 1)) ?
                 ($page * $limit) - $limit : null;
 
-            return Table\ContentTypes::findAll(null, [
+            return Table\ContentTypes::findAll([
                 'offset' => $page,
                 'limit' => $limit,
                 'order' => $order
             ])->rows();
         } else {
-            return  Table\ContentTypes::findAll(null, [
+            return  Table\ContentTypes::findAll([
                 'order'  => $order
             ])->rows();
         }

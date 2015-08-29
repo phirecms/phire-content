@@ -11,7 +11,7 @@ class ContentTypes extends Record
      * Table prefix
      * @var string
      */
-    protected static $prefix = DB_PREFIX;
+    protected $prefix = DB_PREFIX;
 
     /**
      * Primary keys

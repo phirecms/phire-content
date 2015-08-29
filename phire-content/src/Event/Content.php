@@ -21,7 +21,7 @@ class Content
         $params    = $application->services()->getParams('nav.phire');
         $config    = $application->module('phire-content');
         $models    = (isset($config['models'])) ? $config['models'] : null;
-        $types     = Table\ContentTypes::findAll(null, ['order' => 'order ASC']);
+        $types     = Table\ContentTypes::findAll(['order' => 'order ASC']);
 
         foreach ($types->rows() as $type) {
             if (null !== $models) {
