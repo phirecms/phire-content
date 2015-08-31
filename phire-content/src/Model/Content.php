@@ -249,7 +249,9 @@ class Content extends AbstractModel
 
         // Check roles
         if (($live) && (count($this->data['roles']) > 0)) {
-            if ((!isset($sess->user)) || (isset($sess->user) && !in_array($sess->user->role_id, $this->data['roles']))) {
+            if (isset($sess->member) && !in_array($sess->member->role_id, $this->data['roles'])) {
+                $live = false;
+            } else if ((!isset($sess->member) && !isset($sess->user)) || (isset($sess->user) && !in_array($sess->user->role_id, $this->data['roles']))) {
                 $live = false;
             }
         }
