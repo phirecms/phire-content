@@ -37,81 +37,38 @@ return [
                 ],
                 'marked' => -1
             ],
-            'publish_month' => [
-                'type'   => 'select',
+            'publish_date' => [
+                'type'   => 'text',
                 'label'  => 'Publish / Start',
-                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MONTHS_SHORT),
-                'marked' => date('m'),
                 'attributes' => [
-                    'class' => 'date-select'
+                    'placeholder' => 'Date',
+                    'size'        => 12,
+                    'class'       => 'datetime-field'
                 ]
             ],
-            'publish_day' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'DD'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::DAYS_OF_MONTH),
-                'marked' => date('d'),
+            'publish_time' => [
+                'type'   => 'text',
                 'attributes' => [
-                    'class' => 'date-select'
+                    'placeholder' => 'Time',
+                    'size'        => 12,
+                    'class'       => 'datetime-field'
                 ]
             ],
-            'publish_year' => [
-                'type'   => 'select',
-                'value'  => ['----' => 'YYYY'] + \Pop\Form\Element\Select::parseValues('YEAR_' . (date('Y') + 10) . '_' . (date('Y') - 20)),
-                'marked' => date('Y'),
-                'attributes' => [
-                    'class' => 'date-select'
-                ]
-            ],
-            'publish_hour' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'HH'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::HOURS_24),
-                'marked' => date('H'),
-                'attributes' => [
-                    'class' => 'date-select'
-                ]
-            ],
-            'publish_minute' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MINUTES),
-                'marked' => date('i'),
-                'attributes' => [
-                    'class' => 'date-select-end'
-                ]
-            ],
-            'expire_month' => [
-                'type'   => 'select',
+            'expire_date' => [
+                'type'   => 'text',
                 'label'  => 'Expire / End',
-                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MONTHS_SHORT),
                 'attributes' => [
-                    'class' => 'date-select'
+                    'placeholder' => 'Date',
+                    'size'        => 12,
+                    'class'       => 'datetime-field'
                 ]
             ],
-            'expire_day' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'DD'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::DAYS_OF_MONTH),
+            'expire_time' => [
+                'type'   => 'text',
                 'attributes' => [
-                    'class' => 'date-select'
-                ]
-            ],
-            'expire_year' => [
-                'type'   => 'select',
-                'value'  => ['----' => 'YYYY'] + \Pop\Form\Element\Select::parseValues('YEAR_' . (date('Y') + 10) . '_' . (date('Y') - 20)),
-                'attributes' => [
-                    'class' => 'date-select'
-                ]
-            ],
-            'expire_hour' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'HH'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::HOURS_24),
-                'attributes' => [
-                    'class' => 'date-select'
-                ]
-            ],
-            'expire_minute' => [
-                'type'   => 'select',
-                'value'  => ['--' => 'MM'] + \Pop\Form\Element\Select::parseValues(\Pop\Form\Element\Select::MINUTES),
-                'attributes' => [
-                    'class' => 'date-select-end'
+                    'placeholder' => 'Time',
+                    'size'        => 12,
+                    'class'       => 'datetime-field'
                 ]
             ],
             'order' => [

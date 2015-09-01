@@ -301,20 +301,18 @@ class Content extends AbstractModel
         $publish = null;
         $expire  = null;
 
-        if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--')
-            && ($fields['publish_day'] != '--')) {
-            $publish = $fields['publish_year'] . '-' . $fields['publish_month'] . '-' . $fields['publish_day'];
-            $publish .= (($fields['publish_hour'] != '--') && ($fields['publish_minute'] != '--')) ?
-                ' ' . $fields['publish_hour'] . ':' . $fields['publish_minute'] . ':00' : ' 00:00:00';
+        if (isset($fields['publish_date']) && !empty($fields['publish_date'])) {
+            $publish = $fields['publish_date'];
+            $publish .= (isset($fields['publish_time']) && !empty($fields['publish_time'])) ? ' ' . $fields['publish_time'] : ' 00:00:00';
+            $publish = date('Y-m-d H:i:s', strtotime($publish));
         } else {
             $publish = date('Y-m-d H:i:s');
         }
 
-        if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--')
-            && ($fields['expire_day'] != '--')) {
-            $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
-            $expire .= (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
-                ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
+        if (isset($fields['expire_date']) && !empty($fields['expire_date'])) {
+            $expire = $fields['expire_date'];
+            $expire .= (isset($fields['expire_time']) && !empty($fields['expire_time'])) ? ' ' . $fields['expire_time'] : ' 00:00:00';
+            $expire = date('Y-m-d H:i:s', strtotime($expire));
         }
 
         $roles    = (isset($_POST['roles']) && is_array($_POST['roles']) && (count($_POST['roles']) > 0)) ? $_POST['roles'] : [];
@@ -356,20 +354,18 @@ class Content extends AbstractModel
             $publish = null;
             $expire  = null;
 
-            if (isset($fields['publish_year']) && ($fields['publish_year'] != '----') && ($fields['publish_month'] != '--') &&
-                ($fields['publish_day'] != '--')) {
-                $publish = $fields['publish_year'] . '-' . $fields['publish_month'] . '-' . $fields['publish_day'];
-                $publish .= (($fields['publish_hour'] != '--') && ($fields['publish_minute'] != '--')) ?
-                    ' ' . $fields['publish_hour'] . ':' . $fields['publish_minute'] . ':00' : ' 00:00:00';
+            if (isset($fields['publish_date']) && !empty($fields['publish_date'])) {
+                $publish = $fields['publish_date'];
+                $publish .= (isset($fields['publish_time']) && !empty($fields['publish_time'])) ? ' ' . $fields['publish_time'] : ' 00:00:00';
+                $publish = date('Y-m-d H:i:s', strtotime($publish));
             } else {
                 $publish = date('Y-m-d H:i:s');
             }
 
-            if (isset($fields['expire_year']) && ($fields['expire_year'] != '----') && ($fields['expire_month'] != '--') &&
-                ($fields['expire_day'] != '--')) {
-                $expire = $fields['expire_year'] . '-' . $fields['expire_month'] . '-' . $fields['expire_day'];
-                $expire .= (($fields['expire_hour'] != '--') && ($fields['expire_minute'] != '--')) ?
-                    ' ' . $fields['expire_hour'] . ':' . $fields['expire_minute'] . ':00' : ' 00:00:00';
+            if (isset($fields['expire_date']) && !empty($fields['expire_date'])) {
+                $expire = $fields['expire_date'];
+                $expire .= (isset($fields['expire_time']) && !empty($fields['expire_time'])) ? ' ' . $fields['expire_time'] : ' 00:00:00';
+                $expire = date('Y-m-d H:i:s', strtotime($expire));
             }
 
             $roles    = (isset($_POST['roles']) && is_array($_POST['roles']) && (count($_POST['roles']) > 0)) ? $_POST['roles'] : [];
@@ -594,27 +590,28 @@ class Content extends AbstractModel
         $data['strict_publishing']      = $type->strict_publishing;
 
         if (null !== $data['publish']) {
-            $publish     = explode(' ', $data['publish']);
-            $publishDate = explode('-', $publish[0]);
-            $publishTime = explode(':', $publish[1]);
+            $publish = explode(' ', $data['publish']);
+            $data['publish_date'] = $publish[0];
+            $data['publish_time'] = $publish[1];
 
-            $data['publish_month']  = $publishDate[1];
-            $data['publish_day']    = $publishDate[2];
-            $data['publish_year']   = $publishDate[0];
-            $data['publish_hour']   = $publishTime[0];
-            $data['publish_minute'] = $publishTime[1];
+            if (isset($this->date_view_format)) {
+                $data['publish_date'] = date($this->date_view_format, strtotime($data['publish_date']));
+            }
+            if (isset($this->time_view_format)) {
+                $data['publish_time'] = date($this->time_view_format, strtotime($data['publish_time']));
+            }
         }
 
         if (null !== $data['expire']) {
-            $expire     = explode(' ', $data['expire']);
-            $expireDate = explode('-', $expire[0]);
-            $expireTime = explode(':', $expire[1]);
-
-            $data['expire_month']  = $expireDate[1];
-            $data['expire_day']    = $expireDate[2];
-            $data['expire_year']   = $expireDate[0];
-            $data['expire_hour']   = $expireTime[0];
-            $data['expire_minute'] = $expireTime[1];
+            $expire = explode(' ', $data['expire']);
+            $data['expire_date'] = $expire[0];
+            $data['expire_time'] = $expire[1];
+            if (isset($this->date_view_format)) {
+                $data['expire_date'] = date($this->date_view_format, strtotime($data['expire_date']));
+            }
+            if (isset($this->time_view_format)) {
+                $data['expire_time'] = date($this->time_view_format, strtotime($data['expire_time']));
+            }
         }
 
         if (null !== $content->created_by) {

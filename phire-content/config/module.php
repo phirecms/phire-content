@@ -53,7 +53,9 @@ return [
                 'priority' => 1000
             ]
         ],
-        'separator'      => ' &gt; ',
-        'summary_length' => 150
+        'date_view_format' => 'n/j/Y',
+        'time_view_format' => 'H:i',
+        'separator'        => ' &gt; ',
+        'summary_length'   => 150
     ]
 ];
