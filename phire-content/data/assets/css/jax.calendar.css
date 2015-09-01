@@ -1,14 +1,30 @@
 /* Calendar Styles */
 
-#calendar {
+label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
     position: absolute;
     z-index: 10000001;
     margin: 0;
     padding: 0;
-    top: 21px;
-    left: -35px;
+    top: 52px;
+    left: -50px;
     width: 170px;
     background-color: #dcdcdc;
+    border-radius: 4px;
+    overflow: auto;
+    box-shadow: 0 0 6px 2px #808080;
+}
+
+#content-form-field-group-1 > dd > div#calendar {
+    position: absolute;
+    z-index: 10000001;
+    margin: 0;
+    padding: 0;
+    top: 25px;
+    left: -30px;
+    width: 170px;
+    background-color: #dcdcdc;
+    border-radius: 4px;
+    overflow: auto;
     box-shadow: 0 0 6px 2px #808080;
 }
 
@@ -33,8 +49,6 @@
     padding: 0;
     border: none;
     width: 100%;
-    border-bottom: solid 1px #ccc;
-    border-right: solid 1px #ccc;
 }
 
 #calendar-table tr {
@@ -47,8 +61,8 @@
     padding: 0;
     font-size: 0.825em;
     background-color: #ccc;
-    border-top: solid 1px #ccc;
-    border-left: solid 1px #ccc;
+    text-align: center;
+    vertical-align: middle;
 }
 
 #calendar-table tr > td {
@@ -56,38 +70,44 @@
     padding: 0;
     height: 20px;
     font-size: 0.825em;
-    text-align: right;
-    background-color: #efefef;
-    border-top: solid 1px #ccc;
-    border-left: solid 1px #ccc;
-}
-
-#calendar-table tr > td:hover {
-    background-color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ececec;
 }
 
 #calendar-table tr > td > a {
     margin: 0;
-    padding: 2% 4% 2% 2%;
+    padding: 0;
     display: block;
-    width: 94%;
-    height: 96%;
-    color: #0774b7;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    vertical-align: middle;
+    color: #666;
     font-weight: normal;
     text-decoration: none;
     background: transparent;
 }
 
 #calendar-table tr > td > a:hover {
+    color: #000;
     font-weight: normal;
     text-decoration: underline;
     background-color: #fff;
 }
 
 .calendar-open-link {
-    text-decoration: none;
-    color: #425f63;
-    font-size: 0.825em;
+    margin: 2px 5px 0 0;
+    padding: 0;
+    display: block;
+    float: left;
+    width: 15px;
+    height: 15px;
+    background-image: url(../img/calendar-icon.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    text-indent: -9999px;
 }
 
 .calendar-close-link {
@@ -103,6 +123,11 @@
 }
 
 #calendar-table tr > td > a.day-on {
+    margin: 0;
+    padding: 2% 4% 2% 2%;
+    display: block;
+    width: 94%;
+    height: 96%;
     color: #fff;
     font-weight: bold;
     background-color: #0774b7;
