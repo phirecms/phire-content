@@ -72,5 +72,7 @@ jax(document).ready(function(){
             phire.submitted = true;
         });
         jax.beforeunload(phire.checkFormChange);
+        jax('#publish-calendar').calendar('#publish_date');
+        jax('#expire-calendar').calendar('#expire_date');
     }
 });

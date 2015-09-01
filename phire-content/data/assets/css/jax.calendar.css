@@ -5,10 +5,11 @@
     z-index: 10000001;
     margin: 0;
     padding: 0;
-    top: 25px;
-    left: 0;
+    top: 21px;
+    left: -35px;
     width: 170px;
     background-color: #dcdcdc;
+    box-shadow: 0 0 6px 2px #808080;
 }
 
 #calendar-header {
@@ -72,11 +73,13 @@
     width: 94%;
     height: 96%;
     color: #0774b7;
+    font-weight: normal;
     text-decoration: none;
     background: transparent;
 }
 
 #calendar-table tr > td > a:hover {
+    font-weight: normal;
     text-decoration: underline;
     background-color: #fff;
 }
@@ -101,6 +104,6 @@
 
 #calendar-table tr > td > a.day-on {
     color: #fff;
-    font-size: bold;
+    font-weight: bold;
     background-color: #0774b7;
 }

@@ -44,6 +44,10 @@
     width: 200px;
 }
 
+label[for=publish_date], label[for=expire_date] {
+    position: relative;
+}
+
 #content-form-field-group-2 {
     width: calc(100% - 310px);
 }

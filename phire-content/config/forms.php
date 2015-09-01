@@ -39,7 +39,7 @@ return [
             ],
             'publish_date' => [
                 'type'   => 'text',
-                'label'  => 'Publish / Start',
+                'label'  => 'Publish / Start <a href="#" id="publish-calendar" class="calendar-open-link">[+]</a>',
                 'attributes' => [
                     'placeholder' => 'Date',
                     'size'        => 12,
@@ -56,7 +56,7 @@ return [
             ],
             'expire_date' => [
                 'type'   => 'text',
-                'label'  => 'Expire / End',
+                'label'  => 'Expire / End <a href="#" id="expire-calendar" class="calendar-open-link">[+]</a>',
                 'attributes' => [
                     'placeholder' => 'Date',
                     'size'        => 12,
