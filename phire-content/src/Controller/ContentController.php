@@ -148,7 +148,8 @@ class ContentController extends AbstractController
                 $content = new Model\Content();
                 $content->save($this->view->form->getFields(), $this->sess->user->id);
                 $this->view->id = $content->id;
-                $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id . '?saved=' . time());
+                $this->sess->setRequestValue('saved', true, 1);
+                $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id);
             }
         }
 
@@ -245,9 +246,9 @@ class ContentController extends AbstractController
                 $content = new Model\Content();
                 $content->update($this->view->form->getFields(), $this->sess->user->id);
                 $this->view->id = $content->id;
+                $this->sess->setRequestValue('saved', true, 1);
                 $this->redirect(
-                    BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id .
-                    '?saved=' . time() . ((null !== $this->request->getQuery('in_edit')) ? '&in_edit=1' : null)
+                    BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id . ((null !== $this->request->getQuery('in_edit')) ? '?in_edit=1' : null)
                 );
             }
         }
@@ -279,7 +280,8 @@ class ContentController extends AbstractController
         }
 
         $content->copy($this->sess->user->id, $this->application->modules()->isRegistered('phire-fields'));
-        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid . '?saved=' . time());
+        $this->sess->setRequestValue('saved', true, 1);
+        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
     }
 
     /**
@@ -294,7 +296,14 @@ class ContentController extends AbstractController
             $content = new Model\Content();
             $content->process($this->request->getPost());
         }
-        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid .  '?saved=' . time());
+
+        if ((null !== $this->request->getPost('content_process_action')) && ($this->request->getPost('content_process_action') == -3)) {
+            $this->sess->setRequestValue('removed', true, 1);
+        } else {
+            $this->sess->setRequestValue('saved', true, 1);
+        }
+
+        $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
     }
 
     /**
