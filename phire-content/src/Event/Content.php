@@ -114,7 +114,8 @@ class Content
      */
     public static function initPageEditor(AbstractController $controller, Application $application)
     {
-        if (($controller instanceof \Phire\Content\Controller\IndexController) && ($controller->hasView())) {
+        if (($controller instanceof \Phire\Content\Controller\IndexController) &&
+            ($controller->hasView()) && ($controller->response()->getCode() == 200)) {
             $sess = $application->services()->get('session');
             $acl  = $application->services()->get('acl');
 
