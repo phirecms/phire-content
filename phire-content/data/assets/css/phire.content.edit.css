@@ -57,3 +57,17 @@
     border-radius: 7px;
     box-shadow: 0 0 8px 4px #666;
 }
+
+a.in-edit-close-link {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 22px;
+    height: 22px;
+    float: right;
+    background-image: url(../../phire/img/x-black.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    text-indent: -9999px;
+}

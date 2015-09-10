@@ -27,3 +27,15 @@ phire.launchPageEditor = function(href) {
         phire.pageEditorOpened = true;
     }
 };
+
+window.closePageEditor = function() {
+    jax('#phire-in-edit-iframe').fade(0, {
+        "tween"    : 40,
+        "speed"    : 200,
+        "complete" : function() {
+            jax('#phire-in-edit-iframe').remove();
+        }
+    });
+    window.top.location.reload();
+    phire.pageEditorOpened = false;
+};

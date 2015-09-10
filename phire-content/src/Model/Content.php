@@ -447,6 +447,7 @@ class Content extends AbstractModel
                         $v = new \Phire\Fields\Table\FieldValues([
                             'field_id'  => $value->field_id,
                             'model_id'  => $newContent->id,
+                            'model'     => 'Phire\Content\Model\Content',
                             'value'     => $value->value,
                             'timestamp' => time(),
                             'history'   => $value->history
