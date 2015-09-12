@@ -71,23 +71,5 @@ endswitch;
         </table>
 <?php endif; ?>
     </div>
-    <div class="dashboard-right-column">
-<?php if ($acl->isAllowed($user->role, 'dashboard')): ?>
-        <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
-            <tr>
-                <th colspan="2">
-                    System Overview
-                </th>
-            </tr>
-<?php foreach ($overview as $key => $value): ?>
-<?php if ((stripos($key, 'path') === false) && (stripos($key, 'root') === false)): ?>
-            <tr>
-                <td><strong><?=(ucwords(str_replace(array('_', 'php'), array(' ', 'PHP'), $key))); ?>:</strong></td>
-                <td><?=$value; ?></td>
-            </tr>
-<?php endif; ?>
-<?php endforeach; ?>
-        </table>
-<?php endif; ?>
-    </div>
+<?php include $docRoot . $phirePath . '/view/phire/index-sidebar.phtml'; ?>
 <?php include $phireFooter; ?>
