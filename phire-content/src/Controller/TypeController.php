@@ -64,7 +64,7 @@ class TypeController extends AbstractController
                 $type = new Model\ContentType();
                 $type->save($this->view->form->getFields());
                 $this->view->id = $type->id;
-                $this->sess->setRequestValue('saved', true, 1);
+                $this->sess->setRequestValue('saved', true);
                 $this->redirect(BASE_PATH . APP_URI . '/content/types/edit/' . $type->id);
             }
         }
@@ -105,7 +105,7 @@ class TypeController extends AbstractController
                 $type = new Model\ContentType();
                 $type->update($this->view->form->getFields());
                 $this->view->id = $type->id;
-                $this->sess->setRequestValue('saved', true, 1);
+                $this->sess->setRequestValue('saved', true);
                 $this->redirect(BASE_PATH . APP_URI . '/content/types/edit/' . $type->id);
             }
         }
@@ -124,7 +124,7 @@ class TypeController extends AbstractController
             $type = new Model\ContentType();
             $type->remove($this->request->getPost());
         }
-        $this->sess->setRequestValue('removed', true, 1);
+        $this->sess->setRequestValue('removed', true);
         $this->redirect(BASE_PATH . APP_URI . '/content/types');
     }
 
