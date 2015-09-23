@@ -117,30 +117,30 @@ class Content extends AbstractModel
     /**
      * Get content by URI
      *
-     * @param  string $uri
-     * @param  boolean $fields
+     * @param  string              $uri
+     * @param  \Pop\Module\Manager $modules
      * @return void
      */
-    public function getByUri($uri, $fields = false)
+    public function getByUri($uri, \Pop\Module\Manager $modules = null)
     {
         $content = Table\Content::findBy(['uri' => $uri]);
         if (isset($content->id)) {
-            $this->getContent($content, $fields);
+            $this->getContent($content, $modules);
         }
     }
 
     /**
      * Get content by date
      *
-     * @param  string  $date
-     * @param  string  $dateTimeFormat
-     * @param  int     $summaryLength
-     * @param  string  $limit
-     * @param  string  $page
-     * @param  boolean $fields
+     * @param  string              $date
+     * @param  string              $dateTimeFormat
+     * @param  int                 $summaryLength
+     * @param  string              $limit
+     * @param  string              $page
+     * @param  \Pop\Module\Manager $modules
      * @return array
      */
-    public function getByDate($date, $dateTimeFormat, $summaryLength, $limit = null, $page = null, $fields = false)
+    public function getByDate($date, $dateTimeFormat, $summaryLength, $limit = null, $page = null, \Pop\Module\Manager $modules = null)
     {
         $sql1 = Table\Content::sql();
         $sql2 = clone $sql1;
@@ -204,14 +204,24 @@ class Content extends AbstractModel
 
         $rows = Table\Content::execute((string)$sql1, $params)->rows();
 
-        if ($fields) {
+        if ((null !== $modules) && ($modules->isRegistered('phire-fields'))) {
             $filters = ['strip_tags' => null];
             if ($summaryLength > 0) {
                 $filters['substr'] = [0, $summaryLength];
             };
             foreach ($rows as $i => $row) {
-                $fieldValues = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
-                $rows[$i] = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
+                $fieldValues       = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
+                $rows[$i]          = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
+                $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
+            }
+        } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
+            $filters = ['strip_tags' => null];
+            if ($summaryLength > 0) {
+                $filters['substr'] = [0, $summaryLength];
+            };
+            foreach ($rows as $i => $row) {
+                $fieldValues       = \Phire\FieldsPlus\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
+                $rows[$i]          = new \ArrayObject(array_merge((array)$row, (array)$fieldValues), \ArrayObject::ARRAY_AS_PROPS);
                 $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
             }
         }
@@ -236,7 +246,7 @@ class Content extends AbstractModel
             if ($this->data['status'] == 1) {
                 if ($this->data['strict_publishing']) {
                     $live = ((null !== $this->data['publish']) && (time() >= strtotime($this->data['publish'])));
-                    if (($live) && (null !== $this->data['expire'])) {
+                    if (($live) && (!empty($this->data['expire']))) {
                         $live = (time() < strtotime($this->data['expire']));
                     }
                 } else {
@@ -397,11 +407,11 @@ class Content extends AbstractModel
     /**
      * Copy content
      *
-     * @param  int     $userId
-     * @param  boolean $fields
+     * @param  int                 $userId
+     * @param  \Pop\Module\Manager $modules
      * @return void
      */
-    public function copy($userId, $fields = false)
+    public function copy($userId, \Pop\Module\Manager $modules = null)
     {
         $oldId   = (int)$this->data['id'];
         $content = Table\Content::findById($oldId);
@@ -440,7 +450,7 @@ class Content extends AbstractModel
             ]);
             $newContent->save();
 
-            if ($fields) {
+            if ((null !== $modules) && ($modules->isRegistered('phire-fields'))) {
                 $fv = \Phire\Fields\Table\FieldValues::findBy(['model_id' => $oldId]);
                 if ($fv->count() > 0) {
                     foreach ($fv->rows() as $value) {
@@ -453,6 +463,38 @@ class Content extends AbstractModel
                             'history'   => $value->history
                         ]);
                         $v->save();
+                    }
+                }
+            } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
+                $sql = \Phire\FieldsPlus\Table\Fields::sql();
+                $sql->select()->where('models LIKE :models');
+
+                $value  = ($sql->getDbType() == \Pop\Db\Sql::SQLITE) ?
+                    '%' . 'Phire\Content\Model\Content' . '%' : '%' . addslashes('Phire\Content\Model\Content') . '%';
+
+                $fields = \Phire\FieldsPlus\Table\Fields::execute((string)$sql, ['models' => $value]);
+                if ($fields->hasRows()) {
+                    foreach ($fields->rows() as $field) {
+                        $record = new \Pop\Db\Record();
+                        $record->setPrefix(DB_PREFIX)
+                            ->setPrimaryKeys(['id'])
+                            ->setTable('fields_plus_' . $field->id);
+
+                        $record->findRecordsBy(['model_id' => $oldId, 'model' => 'Phire\Content\Model\Content']);
+                        if ($record->hasRows()) {
+                            foreach ($record->rows() as $rec) {
+                                $r = new \Pop\Db\Record([
+                                    'model_id' => $newContent->id,
+                                    'model'     => 'Phire\Content\Model\Content',
+                                    'timestamp' => time(),
+                                    'value'     => $rec->value
+                                ]);
+                                $r->setPrefix(DB_PREFIX)
+                                    ->setPrimaryKeys(['id'])
+                                    ->setTable('fields_plus_' . $field->id);
+                                $r->save();
+                            }
+                        }
                     }
                 }
             }
@@ -570,15 +612,18 @@ class Content extends AbstractModel
     /**
      * Get content
      *
-     * @param  Table\Content $content
-     * @param  boolean       $fields
+     * @param  Table\Content       $content
+     * @param  \Pop\Module\Manager $modules
      * @return void
      */
-    protected function getContent(Table\Content $content, $fields = false)
+    protected function getContent(Table\Content $content, \Pop\Module\Manager$modules = null)
     {
-        if ($fields) {
+        if ((null !== $modules) && ($modules->isRegistered('phire-fields'))) {
             $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
             $data = $c->toArray();
+        } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
+            $c    = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'content', 'Phire\\Content\\Model\\Content', $content->id);
+            $data = (array)$c;
         } else {
             $data = $content->getColumns();
         }
@@ -590,7 +635,7 @@ class Content extends AbstractModel
         $data['content_type_force_ssl'] = $type->force_ssl;
         $data['strict_publishing']      = $type->strict_publishing;
 
-        if (null !== $data['publish']) {
+        if (!empty($data['publish'])) {
             $publish = explode(' ', $data['publish']);
             $data['publish_date'] = $publish[0];
             $data['publish_time'] = $publish[1];
@@ -603,7 +648,7 @@ class Content extends AbstractModel
             }
         }
 
-        if (null !== $data['expire']) {
+        if (!empty($data['expire'])) {
             $expire = explode(' ', $data['expire']);
             $data['expire_date'] = $expire[0];
             $data['expire_time'] = $expire[1];
@@ -615,14 +660,14 @@ class Content extends AbstractModel
             }
         }
 
-        if (null !== $content->created_by) {
+        if (!empty($content->created_by)) {
             $createdBy = \Phire\Table\Users::findById($content->created_by);
             if (isset($createdBy->id)) {
                 $data['created_by_username'] = $createdBy->username;
             }
         }
 
-        if (null !== $content->updated_by) {
+        if (!empty($content->updated_by)) {
             $updatedBy = \Phire\Table\Users::findById($content->updated_by);
             if (isset($updatedBy->id)) {
                 $data['updated_by_username'] = $updatedBy->username;
