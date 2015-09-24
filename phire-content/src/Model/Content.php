@@ -616,7 +616,7 @@ class Content extends AbstractModel
      * @param  \Pop\Module\Manager $modules
      * @return void
      */
-    protected function getContent(Table\Content $content, \Pop\Module\Manager$modules = null)
+    protected function getContent(Table\Content $content, \Pop\Module\Manager $modules = null)
     {
         if ((null !== $modules) && ($modules->isRegistered('phire-fields'))) {
             $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);

@@ -324,7 +324,7 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        if ($content->hasPages($this->config->pagination)) {
+        if ($content->hasPages($this->config->pagination, -2)) {
             $limit = $this->config->pagination;
             $pages = new Paginator($content->getCount(-2), $limit);
             $pages->useInput(true);
