@@ -214,16 +214,6 @@ class Content extends AbstractModel
                 $rows[$i]          = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
                 $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
             }
-        } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
-            $filters = ['strip_tags' => null];
-            if ($summaryLength > 0) {
-                $filters['substr'] = [0, $summaryLength];
-            };
-            foreach ($rows as $i => $row) {
-                $fieldValues       = \Phire\FieldsPlus\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
-                $rows[$i]          = new \ArrayObject(array_merge((array)$row, (array)$fieldValues), \ArrayObject::ARRAY_AS_PROPS);
-                $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
-            }
         }
 
         return [
@@ -465,38 +455,6 @@ class Content extends AbstractModel
                         $v->save();
                     }
                 }
-            } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
-                $sql = \Phire\FieldsPlus\Table\Fields::sql();
-                $sql->select()->where('models LIKE :models');
-
-                $value  = ($sql->getDbType() == \Pop\Db\Sql::SQLITE) ?
-                    '%' . 'Phire\Content\Model\Content' . '%' : '%' . addslashes('Phire\Content\Model\Content') . '%';
-
-                $fields = \Phire\FieldsPlus\Table\Fields::execute((string)$sql, ['models' => $value]);
-                if ($fields->hasRows()) {
-                    foreach ($fields->rows() as $field) {
-                        $record = new \Pop\Db\Record();
-                        $record->setPrefix(DB_PREFIX)
-                            ->setPrimaryKeys(['id'])
-                            ->setTable('fields_plus_' . $field->name);
-
-                        $record->findRecordsBy(['model_id' => $oldId, 'model' => 'Phire\Content\Model\Content']);
-                        if ($record->hasRows()) {
-                            foreach ($record->rows() as $rec) {
-                                $r = new \Pop\Db\Record([
-                                    'model_id' => $newContent->id,
-                                    'model'     => 'Phire\Content\Model\Content',
-                                    'timestamp' => time(),
-                                    'value'     => $rec->value
-                                ]);
-                                $r->setPrefix(DB_PREFIX)
-                                    ->setPrimaryKeys(['id'])
-                                    ->setTable('fields_plus_' . $field->name);
-                                $r->save();
-                            }
-                        }
-                    }
-                }
             }
 
             $this->data = array_replace($this->data, $newContent->getColumns());
@@ -621,9 +579,6 @@ class Content extends AbstractModel
         if ((null !== $modules) && ($modules->isRegistered('phire-fields'))) {
             $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
             $data = $c->toArray();
-        } else if ((null !== $modules) && ($modules->isRegistered('phire-fields-plus'))) {
-            $c    = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'content', 'Phire\\Content\\Model\\Content', $content->id);
-            $data = (array)$c;
         } else {
             $data = $content->getColumns();
         }
