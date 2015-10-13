@@ -53,6 +53,7 @@ return [
                 'priority' => 1000
             ]
         ],
+        'dashboard'        => __DIR__ . '/../view/phire/dashboard.phtml',
         'date_view_format' => 'n/j/Y',
         'time_view_format' => 'H:i',
         'separator'        => ' &gt; ',

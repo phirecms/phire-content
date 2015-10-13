@@ -1,0 +1,42 @@
+            <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <th colspan="5">
+                        Recent Content
+                    </th>
+                </tr>
+<?php if (count($recent) > 0): ?>
+<?php foreach ($recent as $c): ?>
+                <tr>
+                    <td><?php if ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'index')): ?><a class="normal-link" href="<?=$phireUri . '/content/' . $c->type_id; ?>"><?=$c->content_type_name; ?></a><?php else: echo $c->content_type_name; ?><?php endif; ?></td>
+                    <td><?=$c->title; ?></td>
+                    <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
+                    <td><?php
+switch ($c->status):
+    case -1:
+        echo '<strong class="red">Unpublished</strong>';
+        break;
+    case 0:
+        echo '<strong class="orange">Draft</strong>';
+        break;
+    case 1:
+        if ((null !== $c->expire) && (strtotime($c->expire) <= time())):
+            echo '<strong class="red">Expired</strong>';
+        elseif (strtotime($c->publish) > time()):
+            echo '<strong class="blue">Scheduled</strong>';
+        else:
+            echo '<strong class="green">Published</strong>';
+        endif;
+        break;
+endswitch;
+?></td>
+                    <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && (($c->open_authoring) || ((!$c->open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $c->type_id . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
+                </tr>
+<?php endforeach; ?>
+<?php else: ?>
+                <tr>
+                    <td colspan="5">
+                        There is currently no recent content.
+                    </td>
+                </tr>
+<?php endif; ?>
+            </table>

@@ -79,8 +79,6 @@ class Content
     {
         if (($controller instanceof \Phire\Controller\IndexController) && ($controller->hasView())) {
             if (substr($controller->view()->getTemplate()->getTemplate(), -17) == 'phire/index.phtml') {
-                $controller->view()->getTemplate()->setTemplate(__DIR__ . '/../../view/phire/index.phtml');
-
                 $sql = Table\Content::sql();
                 $sql->select([
                     'id'                => DB_PREFIX . 'content.id',
