@@ -71,7 +71,9 @@ jax(document).ready(function(){
         jax('#content-form').submit(function(){
             phire.submitted = true;
         });
-        jax.beforeunload(phire.checkFormChange);
+        if (jax.query('in_edit') == undefined) {
+            jax.beforeunload(phire.checkFormChange);
+        }
         jax('#publish-calendar').calendar('#publish_date');
         jax('#publish_date').calendar('#publish_date');
         jax('#expire-calendar').calendar('#expire_date');

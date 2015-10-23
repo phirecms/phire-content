@@ -19,7 +19,6 @@ phire.launchPageEditor = function(href) {
         jax('body').append('iframe', {id: 'phire-in-edit-iframe'});
         jax('#phire-in-edit-iframe').css({'opacity': 0, 'border': 'none'});
         jax('#phire-in-edit-iframe').attrib('src', href);
-        console.log(jax('#phire-in-edit-iframe').attrib('src'));
         jax('#phire-in-edit-iframe').fade(100, {
             "tween"    : 40,
             "speed"    : 200
