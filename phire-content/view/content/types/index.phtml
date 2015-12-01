@@ -17,6 +17,7 @@
             <tr>
                 <th><a href="<?=$phireUri . '/content/types?sort=id';?>">#</a></th>
                 <th><a href="<?=$phireUri . '/content/types?sort=name';?>">Name</a></th>
+                <th><a href="<?=$phireUri . '/content/types?sort=order';?>">Order</a></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content-types', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content-types', 'remove')): ?><input type="checkbox" name="checkall" id="checkall" value="rm_content_types" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
@@ -25,6 +26,7 @@
             <tr>
                 <td><?=$type->id; ?></td>
                 <td><?=$type->name; ?></td>
+                <td><?=$type->order; ?></td>
                 <td><?php if (($acl->isAllowed($user->role, 'content-types', 'edit') && ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'edit')))): ?><a class="edit-link" href="<?=$phireUri . '/content/types/edit/' . $type->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 <td class="text-center"><?php if (($acl->isAllowed($user->role, 'content-types', 'remove') && ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'remove')))): ?><input type="checkbox" name="rm_content_types[]" id="rm_content_types<?=$i++; ?>" value="<?=$type->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>

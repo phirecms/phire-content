@@ -14,12 +14,13 @@ class Content extends AbstractModel
     /**
      * Get all content
      *
+     * @param  int     $typeId
      * @param  string  $sort
      * @param  string  $title
      * @param  boolean $trash
      * @return array
      */
-    public function getAll($sort = null, $title = null, $trash = false)
+    public function getAll($typeId = null, $sort = null, $title = null, $trash = false)
     {
         $selectFields = [
             'id'                  => DB_PREFIX . 'content.id',
@@ -44,15 +45,21 @@ class Content extends AbstractModel
         $sql->select($selectFields)
             ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
 
-        $params = [
-            'type_id'   => $this->tid,
-            'status'    => -2
-        ];
+        if (null !== $typeId) {
+            $sql->select()->where('type_id = :type_id');
+            $params = [
+                'type_id' => $typeId,
+                'status'  => -2
+            ];
+        } else {
+            $params = [
+                'status'  => -2
+            ];
+        }
 
         $order  = (null !== $sort) ? $this->getSortOrder($sort) : 'id DESC';
         $by     = explode(' ', $order);
         $sql->select()->orderBy($by[0], $by[1]);
-        $sql->select()->where('type_id = :type_id');
 
         if ($trash) {
             $sql->select()->where('status = :status');
@@ -488,27 +495,41 @@ class Content extends AbstractModel
      * Determine if list of libraries has pages
      *
      * @param  int $limit
+     * @param  int $typeId
      * @param  int $status
      * @return boolean
      */
-    public function hasPages($limit, $status = null)
+    public function hasPages($limit, $typeId = null, $status = null)
     {
-        return (null !== $status) ?
-            (Table\Content::findBy(['status' => $status])->count() > $limit) :
-            (Table\Content::findAll()->count() > $limit);
+        if (null !== $typeId) {
+            return (null !== $status) ?
+                (Table\Content::findBy(['type_id' => $typeId, 'status' => $status])->count() > $limit) :
+                (Table\Content::findBy(['type_id' => $typeId])->count() > $limit);
+        } else {
+            return (null !== $status) ?
+                (Table\Content::findBy(['status' => $status])->count() > $limit) :
+                (Table\Content::findAll()->count() > $limit);
+        }
     }
 
     /**
      * Get count of libraries
      *
+     * @param  int $typeId
      * @param  int $status
      * @return int
      */
-    public function getCount($status = null)
+    public function getCount($typeId = null, $status = null)
     {
-        return (null !== $status) ?
-            Table\Content::findBy(['status' => $status])->count() :
-            Table\Content::findAll()->count();
+        if (null !== $typeId) {
+            return (null !== $status) ?
+                Table\Content::findBy(['type_id' => $typeId, 'status' => $status])->count() :
+                Table\Content::findBy(['type_id' => $typeId])->count();
+        } else {
+            return (null !== $status) ?
+                Table\Content::findBy(['status' => $status])->count() :
+                Table\Content::findAll()->count();
+        }
     }
 
     /**

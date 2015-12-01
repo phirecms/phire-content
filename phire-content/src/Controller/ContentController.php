@@ -39,7 +39,7 @@ class ContentController extends AbstractController
             );
         } else {
             $this->prepareView('content/index.phtml');
-            $content = new Model\Content(['tid' => $tid]);
+            $content = new Model\Content();
             $type    = new Model\ContentType();
             $type->getById($tid);
 
@@ -48,9 +48,9 @@ class ContentController extends AbstractController
             }
 
             if ($this->services['acl']->isAllowed($this->sess->user->role, 'content-type-' . $type->id, 'index')) {
-                if ($content->hasPages($this->config->pagination)) {
+                if ($content->hasPages($this->config->pagination, $tid)) {
                     $limit = $this->config->pagination;
-                    $pages = new Paginator($content->getCount(), $limit);
+                    $pages = new Paginator($content->getCount($tid), $limit);
                     $pages->useInput(true);
                 } else {
                     $limit = null;
@@ -58,7 +58,7 @@ class ContentController extends AbstractController
                 }
 
                 $content->getAll(
-                    $this->request->getQuery('sort'), $this->request->getQuery('title')
+                    $tid, $this->request->getQuery('sort'), $this->request->getQuery('title')
                 );
 
                 $contentFlatMap = $content->getFlatMap();
@@ -78,7 +78,7 @@ class ContentController extends AbstractController
                 $this->view->pages          = $pages;
                 $this->view->tid            = $tid;
                 $this->view->open_authoring = $type->open_authoring;
-                $this->view->trash          = $content->getCount(-2);
+                $this->view->trash          = $content->getCount($tid, -2);
                 $this->view->content        = $contentFlatMap;
                 $this->view->searchValue    = htmlentities(strip_tags($this->request->getQuery('title')), ENT_QUOTES, 'UTF-8');
             } else {
@@ -108,8 +108,8 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        $content = new Model\Content(['tid' => $tid]);
-        $content->getAll();
+        $content = new Model\Content();
+        $content->getAll($tid);
 
         $parents = [];
         foreach ($content->getFlatMap() as $c) {
@@ -189,8 +189,8 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content/' . $tid);
         }
 
-        $contents = new Model\Content(['tid' => $tid]);
-        $contents->getAll();
+        $contents = new Model\Content();
+        $contents->getAll($tid);
 
         $parents = [];
         foreach ($contents->getFlatMap() as $c) {
@@ -316,7 +316,7 @@ class ContentController extends AbstractController
     {
 
         $this->prepareView('content/trash.phtml');
-        $content = new Model\Content(['tid' => $tid]);
+        $content = new Model\Content();
         $type    = new Model\ContentType();
         $type->getById($tid);
 
@@ -324,9 +324,9 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        if ($content->hasPages($this->config->pagination, -2)) {
+        if ($content->hasPages($this->config->pagination, $tid, -2)) {
             $limit = $this->config->pagination;
-            $pages = new Paginator($content->getCount(-2), $limit);
+            $pages = new Paginator($content->getCount($tid, -2), $limit);
             $pages->useInput(true);
         } else {
             $limit = null;
@@ -337,7 +337,7 @@ class ContentController extends AbstractController
         $this->view->pages   = $pages;
         $this->view->tid     = $tid;
         $this->view->content = $content->getAll(
-            $this->request->getQuery('sort'), $this->request->getQuery('title'), true
+            $tid, $this->request->getQuery('sort'), $this->request->getQuery('title'), true
         );
 
         $this->send();
