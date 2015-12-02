@@ -147,11 +147,16 @@ class Content extends AbstractModel
      * @param  \Pop\Module\Manager $modules
      * @return array
      */
-    public function getByDate($date, $dateTimeFormat, $summaryLength, $limit = null, $page = null, \Pop\Module\Manager $modules = null)
+    public function getByDate(
+        $date, $dateTimeFormat, $summaryLength, $limit = null, $page = null, \Pop\Module\Manager $modules = null
+    )
     {
         $sql1 = Table\Content::sql();
         $sql2 = clone $sql1;
-        $sql2->select(['count' => 'COUNT(*)']);
+        $sql2->select([
+            'count'   => 'COUNT(*)',
+            'in_date' => DB_PREFIX . 'content_types.in_date'
+        ]);
 
         $sql1->select([
             'id'        => DB_PREFIX . 'content.id',
@@ -162,10 +167,20 @@ class Content extends AbstractModel
             'slug'      => DB_PREFIX . 'content.slug',
             'status'    => DB_PREFIX . 'content.status',
             'publish'   => DB_PREFIX . 'content.publish',
-            'expire'    => DB_PREFIX . 'content.expire'
+            'expire'    => DB_PREFIX . 'content.expire',
+            'in_date'   => DB_PREFIX . 'content_types.in_date'
         ]);
 
+        $sql1->select()->join(
+            DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
+        );
+
+        $sql2->select()->join(
+            DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
+        );
+
         $dateAry = explode('/', $date);
+
         if (count($dateAry) == 3) {
             $start = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 00:00:00';
             $end   = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 23:59:59';
@@ -181,19 +196,22 @@ class Content extends AbstractModel
         $sql1->select()
              ->where('status = :status')
              ->where('publish >= :publish1')
-             ->where('publish <= :publish2');
+             ->where('publish <= :publish2')
+             ->where('in_date = :in_date');
 
         $sql2->select()
              ->where('status = :status')
              ->where('publish >= :publish1')
-             ->where('publish <= :publish2');
+             ->where('publish <= :publish2')
+             ->where('in_date = :in_date');
 
         $params = [
-            'status' => 1,
+            'status'  => 1,
             'publish' => [
                 $start,
                 $end
-            ]
+            ],
+            'in_date' => 1
         ];
 
         $count = Table\Content::execute((string)$sql2, $params)->count;
@@ -201,13 +219,10 @@ class Content extends AbstractModel
         if ($count > $limit) {
             $page = ((null !== $page) && ((int)$page > 1)) ?
                 ($page * $limit) - $limit : null;
-
             $sql1->select()->offset($page)->limit($limit);
-            $pages = new Paginator($count, $limit);
-            $pages->useInput(true);
-        } else {
-            $pages = null;
         }
+
+        $sql1->select()->orderBy('publish', 'DESC');
 
         $rows = Table\Content::execute((string)$sql1, $params)->rows();
 
@@ -223,10 +238,67 @@ class Content extends AbstractModel
             }
         }
 
-        return [
-            'items' => $rows,
-            'pages' => $pages
+        return $rows;
+    }
+
+    /**
+     * Get pages of content by date
+     *
+     * @param  string $date
+     * @param  string $limit
+     * @return array
+     */
+    public function getByDateCount($date, $limit = null)
+    {
+        $sql = Table\Content::sql();
+        $sql->select([
+            'count'   => 'COUNT(*)',
+            'in_date' => DB_PREFIX . 'content_types.in_date'
+        ]);
+
+        $sql->select()->join(
+            DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
+        );
+
+        $dateAry = explode('/', $date);
+
+        if (count($dateAry) == 3) {
+            $start = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 00:00:00';
+            $end   = $dateAry[0] . '-' . $dateAry[1] . '-' . $dateAry[2] . ' 23:59:59';
+        } else if (count($dateAry) == 2) {
+            $start = $dateAry[0] . '-' . $dateAry[1] . '-01 00:00:00';
+            $end   = $dateAry[0] . '-' . $dateAry[1] . '-' .
+                date('t', strtotime($dateAry[0] . '-' . $dateAry[1] . '-01')) . ' 23:59:59';
+        } else {
+            $start = $dateAry[0] . '-01-01 00:00:00';
+            $end   = $dateAry[0] . '-12-31 23:59:59';
+        }
+
+        $sql->select()
+            ->where('status = :status')
+            ->where('publish >= :publish1')
+            ->where('publish <= :publish2')
+            ->where('in_date = :in_date');
+
+        $params = [
+            'status'  => 1,
+            'publish' => [
+                $start,
+                $end
+            ],
+            'in_date' => 1
         ];
+
+        $count = Table\Content::execute((string)$sql, $params)->count;
+
+        if ($count > $limit) {
+            $pages = new Paginator($count, $limit);
+            $pages->useInput(true);
+        } else {
+            $pages = null;
+        }
+
+        return $pages;
     }
 
     /**

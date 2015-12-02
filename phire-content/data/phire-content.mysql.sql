@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content_types` (
   `content_type` varchar(255) NOT NULL,
   `strict_publishing` int(1) NOT NULL,
   `open_authoring` int(1) NOT NULL,
+  `in_date` int(1),
   `force_ssl` int(1),
   `order` int(16),
   PRIMARY KEY (`id`)

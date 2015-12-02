@@ -38,10 +38,14 @@ class IndexController extends AbstractController
                 $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()
             );
 
+            $dateCount  = $content->getByDateCount(
+                $date, $this->config->pagination, $this->request->getQuery('page')
+            );
+
             $this->prepareView('content-public/date.phtml');
             $this->view->title = $this->formatDateTitle($date);
-            $this->view->pages = $dateResult['pages'];
-            $this->view->items = $dateResult['items'];
+            $this->view->pages = $dateCount;
+            $this->view->items = $dateResult;
             $this->template    = -2;
             $this->send();
         } else {

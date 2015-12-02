@@ -155,6 +155,15 @@ return [
                 ],
                 'marked' => 1
             ],
+            'in_date' => [
+                'type'  => 'radio',
+                'label' => 'Include in Date',
+                'value' => [
+                    '1' => 'Yes',
+                    '0' => 'No'
+                ],
+                'marked' => 1
+            ],
             'force_ssl' => [
                 'type'  => 'radio',
                 'label' => 'Force SSL',

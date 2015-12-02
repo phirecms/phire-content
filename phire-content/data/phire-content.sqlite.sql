@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "content_type" varchar NOT NULL,
   "strict_publishing" integer NOT NULL,
   "open_authoring" integer NOT NULL,
+  "in_date" integer,
   "force_ssl" integer,
   "order" integer,
   UNIQUE ("id")
