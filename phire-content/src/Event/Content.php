@@ -160,6 +160,34 @@ class Content
     }
 
     /**
+     * Parse placeholders
+     *
+     * @param  AbstractController $controller
+     * @param  Application        $application
+     * @return void
+     */
+    public static function parsePlaceholders(AbstractController $controller, Application $application)
+    {
+        if (($controller instanceof \Phire\Content\Controller\IndexController) && ($controller->hasView())) {
+            $body    = $controller->response()->getBody();
+            $matches = [];
+
+            preg_match_all('/\[\{(.*)\}\]/', $body, $matches);
+
+            if (isset($matches[0]) && isset($matches[0][0]) && isset($matches[1]) && isset($matches[1][0])) {
+                $data = $controller->view()->getData();
+                foreach ($matches[1] as $match) {
+                    if (isset($data[$match])) {
+                        $body = str_replace('[{' . $match . '}]', $data[$match], $body);
+                    }
+                }
+            }
+
+            $controller->response()->setBody($body);
+        }
+    }
+
+    /**
      * Initialize page editor
      *
      * @param  AbstractController $controller

@@ -54,6 +54,11 @@ return [
             ],
             [
                 'name'     => 'app.send.post',
+                'action'   => 'Phire\Content\Event\Content::parsePlaceholders',
+                'priority' => 1001
+            ],
+            [
+                'name'     => 'app.send.post',
                 'action'   => 'Phire\Content\Event\Content::initPageEditor',
                 'priority' => 1000
             ]
