@@ -48,6 +48,11 @@ return [
                 'priority' => 1000
             ],
             [
+                'name'     => 'app.send.pre',
+                'action'   => 'Phire\Content\Event\Content::initDateValues',
+                'priority' => 1000
+            ],
+            [
                 'name'     => 'app.send.post',
                 'action'   => 'Phire\Content\Event\Content::initPageEditor',
                 'priority' => 1000

@@ -104,6 +104,21 @@ class Content
     }
 
     /**
+     * Init data values
+     *
+     * @param  AbstractController $controller
+     * @param  Application        $application
+     * @return void
+     */
+    public static function initDateValues(AbstractController $controller, Application $application)
+    {
+        if (($controller instanceof \Phire\Content\Controller\IndexController) && ($controller->hasView())) {
+            $controller->view()->set('publish', date($controller->view()->config['datetime_format'], strtotime($controller->view()->publish)));
+            $controller->view()->set('expire', date($controller->view()->config['datetime_format'], strtotime($controller->view()->expire)));
+        }
+    }
+
+    /**
      * Initialize page editor
      *
      * @param  AbstractController $controller
