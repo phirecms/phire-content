@@ -688,11 +688,11 @@ class Content extends AbstractModel
             $data['publish_date'] = $publish[0];
             $data['publish_time'] = $publish[1];
 
-            if (isset($this->date_view_format)) {
-                $data['publish_date'] = date($this->date_view_format, strtotime($data['publish_date']));
+            if (isset($this->date_format)) {
+                $data['publish_date'] = date($this->date_format, strtotime($data['publish_date']));
             }
-            if (isset($this->time_view_format)) {
-                $data['publish_time'] = date($this->time_view_format, strtotime($data['publish_time']));
+            if (isset($this->time_format)) {
+                $data['publish_time'] = date($this->time_format, strtotime($data['publish_time']));
             }
         }
 
@@ -700,11 +700,11 @@ class Content extends AbstractModel
             $expire = explode(' ', $data['expire']);
             $data['expire_date'] = $expire[0];
             $data['expire_time'] = $expire[1];
-            if (isset($this->date_view_format)) {
-                $data['expire_date'] = date($this->date_view_format, strtotime($data['expire_date']));
+            if (isset($this->date_format)) {
+                $data['expire_date'] = date($this->date_format, strtotime($data['expire_date']));
             }
-            if (isset($this->time_view_format)) {
-                $data['expire_time'] = date($this->time_view_format, strtotime($data['expire_time']));
+            if (isset($this->time_format)) {
+                $data['expire_time'] = date($this->time_format, strtotime($data['expire_time']));
             }
         }
 

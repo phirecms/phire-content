@@ -1,7 +1,7 @@
 <?php include $phireHeader; ?>
     <h1 class="content-header"><?=$title; ?> : <span id="title-span"><?=$content_title; ?></span></h1>
     <div id="content-owner">
-        [<span><a href="<?=BASE_PATH . $uri;?>" id="view-link" target="_blank">View</a></span>] [<span><strong>Created:</strong></span><span><?=$created_by_username; ?></span><span><?=date($config->datetime_format, strtotime($created)); ?></span><?php if (null !== $updated):?>] [<span><strong>Updated:</strong></span><span><?=$updated_by_username; ?></span><span><?=date($config->datetime_format, strtotime($updated)); ?></span><?php endif;?>]
+        [<span><a href="<?=BASE_PATH . $uri;?>" id="view-link" target="_blank">View</a></span>] [<span><strong>Created:</strong></span><span><?=$created_by_username; ?></span><span><?=date('M j Y g:i A', strtotime($created)); ?></span><?php if (null !== $updated):?>] [<span><strong>Updated:</strong></span><span><?=$updated_by_username; ?></span><span><?=date('M j Y g:i A', strtotime($updated)); ?></span><?php endif;?>]
     </div>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>

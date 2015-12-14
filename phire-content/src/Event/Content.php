@@ -113,8 +113,49 @@ class Content
     public static function initDateValues(AbstractController $controller, Application $application)
     {
         if (($controller instanceof \Phire\Content\Controller\IndexController) && ($controller->hasView())) {
-            $controller->view()->set('publish', date($controller->view()->config['datetime_format'], strtotime($controller->view()->publish)));
-            $controller->view()->set('expire', date($controller->view()->config['datetime_format'], strtotime($controller->view()->expire)));
+            $publish = $controller->view()->publish;
+            $expire  = $controller->view()->expire;
+            $pubDate = substr($publish, 0, strpos($publish, ' '));
+            $pubTime = substr($publish, (strpos($publish, ' ') + 1));
+            $expDate = substr($publish, 0, strpos($expire, ' '));
+            $expTime = substr($publish, (strpos($expire, ' ') + 1));
+
+            $pubMonth  = date($application->module('phire-content')['month_format'], strtotime($pubDate));
+            $pubDay    = date($application->module('phire-content')['day_format'], strtotime($pubDate));
+            $pubYear   = date($application->module('phire-content')['year_format'], strtotime($pubDate));
+            $pubHour   = date($application->module('phire-content')['hour_format'], strtotime($pubTime));
+            $pubMin    = date($application->module('phire-content')['minute_format'], strtotime($pubTime));
+            $pubPeriod = date($application->module('phire-content')['period_format'], strtotime($pubTime));
+
+            $expMonth  = date($application->module('phire-content')['month_format'], strtotime($expDate));
+            $expDay    = date($application->module('phire-content')['day_format'], strtotime($expDate));
+            $expYear   = date($application->module('phire-content')['year_format'], strtotime($expDate));
+            $expHour   = date($application->module('phire-content')['hour_format'], strtotime($expTime));
+            $expMin    = date($application->module('phire-content')['minute_format'], strtotime($expTime));
+            $expPeriod = date($application->module('phire-content')['period_format'], strtotime($expTime));
+
+            $pubDate   = date($application->module('phire-content')['date_format'], strtotime($pubDate));
+            $pubTime   = date($application->module('phire-content')['time_format'], strtotime($pubTime));
+            $expDate   = date($application->module('phire-content')['date_format'], strtotime($expDate));
+            $expTime   = date($application->module('phire-content')['time_format'], strtotime($expTime));
+
+            $controller->view()->set('publish_date', $pubDate);
+            $controller->view()->set('publish_time', $pubTime);
+            $controller->view()->set('publish_month', $pubMonth);
+            $controller->view()->set('publish_day', $pubDay);
+            $controller->view()->set('publish_year', $pubYear);
+            $controller->view()->set('publish_hour', $pubHour);
+            $controller->view()->set('publish_minute', $pubMin);
+            $controller->view()->set('publish_period', $pubPeriod);
+
+            $controller->view()->set('expire_date', $expDate);
+            $controller->view()->set('expire_time', $expTime);
+            $controller->view()->set('expire_month', $expMonth);
+            $controller->view()->set('expire_day', $expDay);
+            $controller->view()->set('expire_year', $expYear);
+            $controller->view()->set('expire_hour', $expHour);
+            $controller->view()->set('expire_minute', $expMin);
+            $controller->view()->set('expire_period', $expPeriod);
         }
     }
 

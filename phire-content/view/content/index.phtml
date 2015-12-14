@@ -39,8 +39,8 @@
                 <td><?=str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $c->depth) . (($c->depth > 0) ? '&rarr; ' : '') . $c->title; ?></td>
                 <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
                 <td><?=$c->created_by_username; ?></td>
-                <td><?=date($config->datetime_format, strtotime($c->created)); ?></td>
-                <td><?=((null !== $c->updated) ? date($config->datetime_format, strtotime($c->updated)) : null); ?></td>
+                <td><?=date('M j Y', strtotime($c->created)); ?></td>
+                <td><?=((null !== $c->updated) ? date('M j Y', strtotime($c->updated)) : null); ?></td>
                 <td><?php
 switch ($c->status):
     case -1:

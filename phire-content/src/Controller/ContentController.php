@@ -124,8 +124,8 @@ class ContentController extends AbstractController
         $fields = $this->application->config()['forms']['Phire\Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
         $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
-        $fields[0]['publish_date']['value'] = date($this->application->module('phire-content')['date_view_format']);
-        $fields[0]['publish_time']['value'] = date($this->application->module('phire-content')['time_view_format']);
+        $fields[0]['publish_date']['value'] = date($this->application->module('phire-content')['date_format']);
+        $fields[0]['publish_time']['value'] = date($this->application->module('phire-content')['time_format']);
 
         $fields[1]['slug']['attributes']['onkeyup']  = "phire.changeUri();";
         $fields[1]['title']['attributes']['onkeyup'] = "phire.createSlug(this.value, '#slug'); phire.changeUri();";
@@ -177,8 +177,8 @@ class ContentController extends AbstractController
         }
 
         $content = new Model\Content();
-        $content->date_view_format = $this->application->module('phire-content')['date_view_format'];
-        $content->time_view_format = $this->application->module('phire-content')['time_view_format'];
+        $content->date_format = $this->application->module('phire-content')['date_format'];
+        $content->time_format = $this->application->module('phire-content')['time_format'];
         $content->getById($id);
 
         if (!isset($content->id)) {

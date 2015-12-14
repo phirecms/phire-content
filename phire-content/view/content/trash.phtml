@@ -34,8 +34,8 @@
                 <td><?=$c->id; ?></td>
                 <td><?=$c->title; ?></td>
                 <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
-                <td><?=date($config->datetime_format, strtotime($c->created)); ?></td>
-                <td><?=((null !== $c->updated) ? date($config->datetime_format, strtotime($c->updated)) : null); ?></td>
+                <td><?=date('M j Y', strtotime($c->created)); ?></td>
+                <td><?=((null !== $c->updated) ? date('M j Y', strtotime($c->updated)) : null); ?></td>
                 <td class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>
 <?php endforeach; ?>
