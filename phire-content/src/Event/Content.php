@@ -117,8 +117,8 @@ class Content
             $expire  = $controller->view()->expire;
             $pubDate = substr($publish, 0, strpos($publish, ' '));
             $pubTime = substr($publish, (strpos($publish, ' ') + 1));
-            $expDate = substr($publish, 0, strpos($expire, ' '));
-            $expTime = substr($publish, (strpos($expire, ' ') + 1));
+            $expDate = substr($expire, 0, strpos($expire, ' '));
+            $expTime = substr($expire, (strpos($expire, ' ') + 1));
 
             $pubMonth  = date($application->module('phire-content')['month_format'], strtotime($pubDate));
             $pubDay    = date($application->module('phire-content')['day_format'], strtotime($pubDate));
