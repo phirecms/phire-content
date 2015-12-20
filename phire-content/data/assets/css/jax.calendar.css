@@ -9,7 +9,6 @@ label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
     left: -30px;
     width: 170px;
     background-color: #dcdcdc;
-    border-radius: 4px;
     overflow: auto;
     box-shadow: 0 0 6px 2px #808080;
 }
@@ -23,7 +22,6 @@ label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
     left: -10px;
     width: 170px;
     background-color: #dcdcdc;
-    border-radius: 4px;
     overflow: auto;
     box-shadow: 0 0 6px 2px #808080;
 }
