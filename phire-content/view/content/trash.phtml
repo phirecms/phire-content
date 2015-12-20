@@ -1,6 +1,6 @@
 <?php include $phireHeader; ?>
 <?php if ($acl->isAllowed($user->role, 'content', 'search')): ?>
-    <form id="content-search-form" action="<?=$phireUri . '/content/trash/' . $tid; ?>" method="get">
+    <form id="asset-search-form" action="<?=$phireUri . '/content/trash/' . $tid; ?>" method="get">
         <div><input tabindex="2" type="submit" id="submit" value="Search" /></div>
         <div><input tabindex="1" type="text" name="title" id="title" value="" placeholder="Title" size="25" /></div>
     </form>

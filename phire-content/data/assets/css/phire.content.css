@@ -129,65 +129,6 @@ label[for=publish_date], label[for=expire_date] {
     margin: 2px 15px 0 10px;
 }
 
-#content-search-form {
-    margin: 32px 0 0 0;
-    padding: 0;
-    float: right;
-}
-
-#content-search-form > div {
-    margin: 0 0 0 5px;
-    padding: 0;
-    float: right;
-    display: block;
-}
-
-#content-search-form > div > input[type=text] {
-    margin: 0;
-    padding: 2px 4px 2px 4px;
-    height: 16px;
-    color: #666;
-    font-size: 0.825em;
-    background-color: #fff;
-    border: solid 1px #aaa;
-    border-radius: 4px;
-    float: right;
-    display: block;
-}
-
-#content-search-form > div > select {
-    margin: 0;
-    padding: 0 4px 0 2px;
-    color: #666;
-    font-size: 0.9em;
-    height: 22px;
-    background-color: #fff;
-    border: solid 1px #aaa;
-    border-radius: 4px;
-    float: right;
-    display: block;
-}
-
-#content-search-form > div > select > option {
-    margin: 0;
-    padding: 1px;
-    font-size: 0.9em;
-}
-
-#content-search-form > div > input[type=submit] {
-    margin: 0;
-    padding: 0 4px 0 4px;
-    height: 22px;
-    font-size: 0.825em;
-    float: right;
-    display: block;
-    color: #444;
-    border-radius: 4px;
-    border: solid 1px #aaa;
-    background: linear-gradient(#dedede, #ababab);
-    background-color: #ddd;
-}
-
 .green {
     font-weight: bold;
     color: #528435;
