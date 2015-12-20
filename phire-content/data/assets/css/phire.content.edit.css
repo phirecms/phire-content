@@ -12,7 +12,7 @@
     width: 90px;
     height: 30px;
     background-color: #000;
-    background-image: url(../../phire/img/phire-icon.png);
+    background-image: url(../img/phire-icon.png);
     background-position: 70px center;
     background-repeat: no-repeat;
 }
@@ -36,7 +36,7 @@
 }
 
 #phire-in-edit-nav > a:nth-child(2) {;
-    background-image: url(../../phire/img/dashboard-icon-lg.png);
+    background-image: url(../img/dashboard-icon-lg.png);
     background-size: contain;
 }
 
@@ -65,7 +65,7 @@ a.in-edit-close-link {
     width: 22px;
     height: 22px;
     float: right;
-    background-image: url(../../phire/img/x-black.png);
+    background-image: url(../img/x-black.png);
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
