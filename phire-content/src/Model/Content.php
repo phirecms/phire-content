@@ -759,7 +759,6 @@ class Content extends AbstractModel
         $by = explode(' ', $order);
         $sql->select()->orderBy($by[0], $by[1]);
         $sql->select()->where('parent_id = :parent_id');
-        $sql->select()->where('type_id = :type_id');
 
         if ($trash) {
             $sql->select()->where('status = :status');
