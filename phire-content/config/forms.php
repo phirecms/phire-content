@@ -162,7 +162,7 @@ return [
                     '1' => 'Yes',
                     '0' => 'No'
                 ],
-                'marked' => 1
+                'marked' => 0
             ],
             'force_ssl' => [
                 'type'  => 'radio',

@@ -17,7 +17,7 @@
 <?php foreach ($items as $item): ?>
     <div class="date-div">
         <h4><a href="<?=$item->uri; ?>"><?=$item->title; ?></a></h4>
-        <h5><?=date($config->datetime_format, strtotime($item->publish)); ?></h5>
+        <h5><?=date($date_format . ' ' . $time_format, strtotime($item->publish)); ?></h5>
 <?php if (!empty($item->content)): ?>
         <p><?=strip_tags($item->content); ?></p>
 <?php endif; ?>

@@ -164,6 +164,16 @@ class IndexController extends AbstractController
     {
         $this->viewPath = __DIR__ . '/../../view';
         parent::prepareView($template);
+
+        $this->view->date_format   = $this->application->module('phire-content')['date_format'];
+        $this->view->month_format  = $this->application->module('phire-content')['month_format'];
+        $this->view->day_format    = $this->application->module('phire-content')['day_format'];
+        $this->view->year_format   = $this->application->module('phire-content')['year_format'];
+        $this->view->time_format   = $this->application->module('phire-content')['time_format'];
+        $this->view->hour_format   = $this->application->module('phire-content')['hour_format'];
+        $this->view->minute_format = $this->application->module('phire-content')['minute_format'];
+        $this->view->minute_format = $this->application->module('phire-content')['minute_format'];
+        $this->view->separator     = $this->application->module('phire-content')['separator'];
     }
 
 }
