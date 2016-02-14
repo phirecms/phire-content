@@ -73,6 +73,7 @@ return [
         'minute_format'    => 'i',
         'period_format'    => 'A',
         'separator'        => ' &gt; ',
-        'summary_length'   => 150
+        'summary_length'   => 150,
+        'archive_count'    => true
     ]
 ];

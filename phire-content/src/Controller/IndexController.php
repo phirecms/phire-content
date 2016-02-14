@@ -34,19 +34,17 @@ class IndexController extends AbstractController
 
         if (null !== $date) {
             $dateResult = $content->getByDate(
-                $date, $this->config->datetime_format, $this->application->module('phire-content')->config()['summary_length'],
+                $date, $this->application->module('phire-content')['date_format'] . ' ' . $this->application->module('phire-content')['time_format'],
+                $this->application->module('phire-content')->config()['summary_length'],
                 $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()
             );
 
-            $dateCount  = $content->getByDateCount(
-                $date, $this->config->pagination, $this->request->getQuery('page')
-            );
-
             $this->prepareView('content-public/date.phtml');
-            $this->view->title = $this->formatDateTitle($date);
-            $this->view->pages = $dateCount;
-            $this->view->items = $dateResult;
-            $this->template    = -2;
+            $this->view->title   = $this->formatDateTitle($date);
+            $this->view->pages   = $content->getDatePages($date, $this->config->pagination);
+            $this->view->archive = $content->getArchive($this->application->module('phire-content')['archive_count']);
+            $this->view->items   = $dateResult;
+            $this->template      = -2;
             $this->send();
         } else {
             $content->getByUri($uri, $this->application->modules());
@@ -56,6 +54,8 @@ class IndexController extends AbstractController
                     $this->redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
                 }
                 $this->prepareView('content-public/index.phtml');
+                $this->view->archive = $content->getArchive($this->application->module('phire-content')['archive_count']);
+
                 $this->view->merge($content->toArray());
                 $this->template = $content->template;
                 $this->send(200, ['Content-Type' => $content->content_type]);

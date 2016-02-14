@@ -5,6 +5,7 @@ namespace Phire\Content\Model;
 use Phire\Content\Table;
 use Phire\Model\AbstractModel;
 use Pop\Paginator\Paginator;
+use Pop\Dom\Child;
 
 class Content extends AbstractModel
 {
@@ -246,9 +247,9 @@ class Content extends AbstractModel
      *
      * @param  string $date
      * @param  string $limit
-     * @return array
+     * @return mixed
      */
-    public function getByDateCount($date, $limit = null)
+    public function getDatePages($date, $limit = null)
     {
         $sql = Table\Content::sql();
         $sql->select([
@@ -299,6 +300,69 @@ class Content extends AbstractModel
         }
 
         return $pages;
+    }
+
+    /**
+     * Get content archive
+     *
+     * @param  boolean $count
+     * @return mixed
+     */
+    public function getArchive($count = true)
+    {
+        $sql = Table\Content::sql();
+        $sql->select([
+            'publish' => DB_PREFIX . 'content.publish',
+            'in_date' => DB_PREFIX . 'content_types.in_date'
+        ]);
+
+        $sql->select()->join(
+            DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
+        );
+
+        $sql->select()
+            ->where('status = :status')
+            ->where('in_date = :in_date');
+
+        $sql->select()->orderBy('publish', 'DESC');
+
+        $params = [
+            'status'  => 1,
+            'in_date' => 1
+        ];
+
+        $content = Table\Content::execute((string)$sql, $params);
+        $archive = [];
+
+        foreach ($content->rows() as $c) {
+            $year = substr($c->publish, 0, 4);
+            if (isset($archive[$year])) {
+                $archive[$year]++;
+            } else {
+                $archive[$year] = 1;
+            }
+        }
+
+        $archiveNav = null;
+
+        if (count($archive) > 0) {
+            $archiveNav = new Child('ul');
+            $archiveNav->setAttributes([
+                'id'    => 'archive-nav',
+                'class' => 'archive-nav'
+            ]);
+            foreach ($archive as $year => $num) {
+                $link = ($count) ? $year . ' <span>(' . $num . ')</span>' : $year;
+                $a    = new Child('a', $link);
+                $a->setAttribute('href', BASE_PATH . '/' . $year);
+
+                $li = new Child('li');
+                $li->addChild($a);
+                $archiveNav->addChild($li);
+            }
+        }
+
+        return $archiveNav;
     }
 
     /**
