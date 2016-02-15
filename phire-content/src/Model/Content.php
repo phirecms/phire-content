@@ -69,8 +69,8 @@ class Content extends AbstractModel
         }
 
         if (null !== $title) {
-            $params['title'] = '%' . $title . '%';
-            $sql->select()->where('title LIKE :title');
+            $params[DB_PREFIX . 'content.title'] = '%' . $title . '%';
+            $sql->select()->where(DB_PREFIX . 'content.title LIKE :title');
         } else if (!$trash) {
             $sql->select()->where('parent_id IS NULL');
         }
@@ -833,8 +833,8 @@ class Content extends AbstractModel
             $sql->select()->where('status > :status');
         }
 
-        if (isset($params['title'])) {
-            $sql->select()->where('title LIKE :title');
+        if (isset($params[DB_PREFIX . 'content.title'])) {
+            $sql->select()->where(DB_PREFIX . 'content.title LIKE :title');
         }
 
         $child = Table\Content::execute((string)$sql, $params);
