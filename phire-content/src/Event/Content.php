@@ -207,7 +207,7 @@ class Content
                 $head    = substr($body, strpos($body, '<head>'));
                 $head    = substr($head, 0, (strpos($head, '</head>') + 7));
                 $newHead = $head;
-                $assets  = '';
+                $assets = '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/css/phire.content.edit.css" />' . PHP_EOL . PHP_EOL;
 
                 if ((strpos($newHead, 'jax.4.0.0.min.js') === false) && (strpos($newHead, 'jax.4.0.0.js') === false)) {
                     if (strpos($newHead, '<script') !== false) {
@@ -228,7 +228,6 @@ class Content
 
                 $assets .= '    <script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire/js/phire.js"></script>' . PHP_EOL;
                 $assets .= '    <script type="text/javascript" src="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/js/phire.content.edit.js"></script>' . PHP_EOL . PHP_EOL;
-                $assets .= '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/css/phire.content.edit.css" />' . PHP_EOL . PHP_EOL;
                 $assets .= '</head>';
 
                 $systemUri = BASE_PATH . APP_URI;
