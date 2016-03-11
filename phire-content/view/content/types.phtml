@@ -10,9 +10,11 @@
         </tr>
 <?php $i = 1; ?>
 <?php foreach ($types as $type): ?>
+<?php if ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'index')): ?>
         <tr>
-            <td><?php if ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'index')): ?><a href="<?=$phireUri . '/content/' . $type->id; ?>"><?=$type->name; ?></a><?php else: echo $type->name; ?><?php endif; ?></td>
+            <td><a href="<?=$phireUri . '/content/' . $type->id; ?>"><?=$type->name; ?></a></td>
         </tr>
+<?php endif; ?>
 <?php endforeach; ?>
     </table>
 <?php else: ?>

@@ -6,8 +6,9 @@
                 </tr>
 <?php if (count($recent) > 0): ?>
 <?php foreach ($recent as $c): ?>
+<?php if ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'index')): ?>
                 <tr>
-                    <td><?php if ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'index')): ?><a class="normal-link" href="<?=$phireUri . '/content/' . $c->type_id; ?>"><?=$c->content_type_name; ?></a><?php else: echo $c->content_type_name; ?><?php endif; ?></td>
+                    <td><a class="normal-link" href="<?=$phireUri . '/content/' . $c->type_id; ?>"><?=$c->content_type_name; ?></a></td>
                     <td><?=$c->title; ?></td>
                     <td><a class="normal-link" href="<?=BASE_PATH . $c->uri; ?>" target="_blank"><?=BASE_PATH . (($c->uri == '/') ? $c->uri . ' [Index]' : $c->uri); ?></a></td>
                     <td><?php
@@ -29,8 +30,9 @@ switch ($c->status):
         break;
 endswitch;
 ?></td>
-                    <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && (($c->open_authoring) || ((!$c->open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $c->type_id . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
+                    <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'edit')) && (($c->open_authoring) || ((!$c->open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $c->type_id . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 </tr>
+<?php endif; ?>
 <?php endforeach; ?>
 <?php else: ?>
                 <tr>

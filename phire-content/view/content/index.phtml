@@ -16,7 +16,7 @@
 <?php endif; ?>
         <nav><a href="<?=$phireUri . '/content' . (isset($_GET['type_id']) ? '/' . (int)$_GET['type_id'] : ''); ?>">Back</a></nav>
     </nav>
-<?php if ($acl->isAllowed($user->role, 'content', 'process')): ?>
+<?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?>
     <form id="contents-form" action="<?=$phireUri . '/content/process/' . $tid; ?>" method="post">
 <?php endif; ?>
         <table class="data-table" cellpadding="0" cellspacing="0" border="0">
@@ -28,9 +28,9 @@
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created';?>">Created</a></th>
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=updated';?>">Updated</a></th>
                 <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=status';?>">Status</a></th>
-                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'copy')): ?>Copy<?php else: ?>&nbsp;<?php endif; ?></th>
-                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
-                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'copy')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'copy'))): ?>Copy<?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'edit'))): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
 <?php $i = 1; ?>
 <?php foreach ($content as $c): ?>
@@ -60,13 +60,13 @@ switch ($c->status):
         break;
 endswitch;
 ?></td>
-                <td><?php if ($acl->isAllowed($user->role, 'content', 'copy')): ?><a class="copy-link" href="<?=$phireUri . '/content/copy/' . $tid . '/' . $c->id; ?>">Copy</a><?php else: ?>&nbsp;<?php endif; ?></td>
-                <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $tid . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
-                <td class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
+                <td><?php if (($acl->isAllowed($user->role, 'content', 'copy')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'copy'))): ?><a class="copy-link" href="<?=$phireUri . '/content/copy/' . $tid . '/' . $c->id; ?>">Copy</a><?php else: ?>&nbsp;<?php endif; ?></td>
+                <td><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'edit')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><a class="edit-link" href="<?=$phireUri . '/content/edit/' . $tid . '/' . $c->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
+                <td class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process')) && (($open_authoring) || ((!$open_authoring) && ($c->created_by == $user->id)))): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>
 <?php endforeach; ?>
         </table>
-<?php if ($acl->isAllowed($user->role, 'content', 'process')): ?>
+<?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?>
         <div id="form-footer">
 <?php if (($trash > 0) && ($acl->isAllowed($user->role, 'content', 'trash'))): ?>
             <span><a class="small-link" href="<?=$phireUri . '/content/trash/' . $tid; ?>">Trash (<?=$trash; ?>)</a></span>
