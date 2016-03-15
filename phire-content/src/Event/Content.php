@@ -2,6 +2,7 @@
 
 namespace Phire\Content\Event;
 
+use Phire\Content\Model;
 use Phire\Content\Table;
 use Pop\Application;
 use Phire\Controller\AbstractController;
@@ -65,6 +66,34 @@ class Content
             foreach ($content->rows() as $c) {
                 $application->services()->get('acl')->addResource(new \Pop\Acl\Resource\Resource('content-' . $c->id));
             }
+        }
+    }
+
+    /**
+     * Init content model object
+     *
+     * @param  AbstractController $controller
+     * @param  Application        $application
+     * @return void
+     */
+    public static function init(AbstractController $controller, Application $application)
+    {
+        if ((!$_POST) && ($controller->hasView()) && ($controller->view()->isFile()) &&
+            (($controller instanceof \Phire\Content\Controller\IndexController) ||
+                ($controller instanceof \Phire\Categories\Controller\IndexController))) {
+                $content = new Model\Content();
+                $content->date_format    = $application->module('phire-content')['date_format'];
+                $content->month_format   = $application->module('phire-content')['month_format'];
+                $content->day_format     = $application->module('phire-content')['day_format'];
+                $content->year_format    = $application->module('phire-content')['year_format'];
+                $content->time_format    = $application->module('phire-content')['time_format'];
+                $content->hour_format    = $application->module('phire-content')['hour_format'];
+                $content->minute_format  = $application->module('phire-content')['minute_format'];
+                $content->period_format  = $application->module('phire-content')['period_format'];
+                $content->separator      = $application->module('phire-content')['separator'];
+                $content->summary_length = $application->module('phire-content')['summary_length'];
+                $content->archive_count  = $application->module('phire-content')['archive_count'];
+                $controller->view()->phire->content = $content;
         }
     }
 
@@ -160,6 +189,33 @@ class Content
     }
 
     /**
+     * Get all content values for the form object
+     *
+     * @param  AbstractController $controller
+     * @param  Application        $application
+     * @return void
+     */
+    public static function parseContent(AbstractController $controller, Application $application)
+    {
+        if (($controller->hasView()) &&
+            (($controller instanceof \Phire\Categories\Controller\IndexController) ||
+                ($controller instanceof \Phire\Content\Controller\IndexController))
+        ) {
+
+            $body = $controller->response()->getBody();
+            $ids  = self::parseContentIds($body);
+            if (count($ids) > 0) {
+                $content = new Model\Content();
+                foreach ($ids as $id) {
+                    $key = 'content_' . $id;
+                    $controller->view()->{$key} = $content->getAllByTypeId($id);
+                }
+                $controller->response()->setBody($controller->view()->render());
+            }
+        }
+    }
+
+    /**
      * Parse placeholders
      *
      * @param  AbstractController $controller
@@ -177,7 +233,7 @@ class Content
             if (isset($matches[0]) && isset($matches[0][0]) && isset($matches[1]) && isset($matches[1][0])) {
                 $data = $controller->view()->getData();
                 foreach ($matches[1] as $match) {
-                    if (isset($data[$match])) {
+                    if (isset($data[$match]) && !is_array($data[$match])) {
                         $body = str_replace('[{' . $match . '}]', $data[$match], $body);
                     }
                 }
@@ -249,6 +305,30 @@ class Content
                 $controller->response()->setBody($body);
             }
         }
+    }
+
+
+
+    /**
+     * Parse content IDs from template
+     *
+     * @param  string $template
+     * @return array
+     */
+    protected static function parseContentIds($template)
+    {
+        $ids     = [];
+        $content = [];
+
+        preg_match_all('/\[\{content_.*\}\]/', $template, $content);
+
+        if (isset($content[0]) && isset($content[0][0])) {
+            foreach ($content[0] as $cont) {
+                $ids[] = str_replace('}]', '', substr($cont, (strpos($cont, '_') + 1)));
+            }
+        }
+
+        return $ids;
     }
 
 }

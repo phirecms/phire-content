@@ -36,7 +36,7 @@ class IndexController extends AbstractController
             $dateResult = $content->getByDate(
                 $date, $this->application->module('phire-content')['date_format'] . ' ' . $this->application->module('phire-content')['time_format'],
                 $this->application->module('phire-content')->config()['summary_length'],
-                $this->config->pagination, $this->request->getQuery('page'), $this->application->modules()
+                $this->config->pagination, $this->request->getQuery('page')
             );
 
             $this->prepareView('content-public/date.phtml');
@@ -47,7 +47,7 @@ class IndexController extends AbstractController
             $this->template      = -2;
             $this->send();
         } else {
-            $content->getByUri($uri, $this->application->modules());
+            $content->getByUri($uri);
 
             if ($content->isLive($this->sess)) {
                 if ((($content->force_ssl) || ($content->content_type_force_ssl)) && ($_SERVER['SERVER_PORT'] != 443)) {

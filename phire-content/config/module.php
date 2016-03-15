@@ -44,12 +44,22 @@ return [
             ],
             [
                 'name'     => 'app.send.pre',
+                'action'   => 'Phire\Content\Event\Content::init',
+                'priority' => 1000
+            ],
+            [
+                'name'     => 'app.send.pre',
                 'action'   => 'Phire\Content\Event\Content::setDashboard',
                 'priority' => 1000
             ],
             [
                 'name'     => 'app.send.pre',
                 'action'   => 'Phire\Content\Event\Content::initDateValues',
+                'priority' => 1000
+            ],
+            [
+                'name'     => 'app.send.post',
+                'action'   => 'Phire\Content\Event\Content::parseContent',
                 'priority' => 1000
             ],
             [
