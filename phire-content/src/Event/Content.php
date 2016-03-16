@@ -201,6 +201,20 @@ class Content
             (($controller instanceof \Phire\Categories\Controller\IndexController) ||
                 ($controller instanceof \Phire\Content\Controller\IndexController))
         ) {
+            $data = $controller->view()->getData();
+            foreach ($data as $key => $value) {
+                if (is_string($value)) {
+                    $subIds = self::parseContentIds($value);
+                    if (count($subIds) > 0) {
+                        $content = new Model\Content();
+                        foreach ($subIds as $sid) {
+                            $view = new \Pop\View\View($value, ['content_' . $sid => $content->getAllByTypeId($sid)]);
+                            $controller->view()->{$key} = $view->render();
+                        }
+                    }
+                }
+            }
+
             $body = $controller->response()->getBody();
             $ids  = self::parseContentIds($body);
             if (count($ids) > 0) {
@@ -209,7 +223,6 @@ class Content
                     $key = 'content_' . $id;
                     $controller->view()->{$key} = $content->getAllByTypeId($id);
                 }
-                $controller->response()->setBody($controller->view()->render());
             }
         }
     }

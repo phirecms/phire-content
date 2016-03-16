@@ -123,7 +123,13 @@ class Content extends AbstractModel
         $ary        = [];
 
         foreach ($contentAry as $cont) {
-            $c = $this->setContent((array)$cont);
+            if (class_exists('Phire\Fields\Model\FieldValue')) {
+                $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$cont->id]);
+                $data = $c->toArray();
+            } else {
+                $data = (array)$cont;
+            }
+            $c = $this->setContent($data);
             $sess = \Pop\Web\Session::getInstance();
             if (is_array($c['roles']) && (count($c['roles']) > 0)) {
                 if ((isset($sess->user) && in_array($sess->user->role_id, $c['roles'])) ||
@@ -148,7 +154,15 @@ class Content extends AbstractModel
     {
         $content = Table\Content::findById($id);
         if (isset($content->id)) {
-            $this->setContent($content->getColumns());
+            if (class_exists('Phire\Fields\Model\FieldValue')) {
+                $this->data = array_merge($this->data, $content->getColumns());
+                $c    = \Phire\Fields\Model\FieldValue::getModelObject($this);
+                $data = $c->toArray();
+            } else {
+                $data = $content->getColumns();
+            }
+
+            $this->setContent($data);
         }
     }
 
@@ -162,7 +176,13 @@ class Content extends AbstractModel
     {
         $content = Table\Content::findBy(['uri' => $uri]);
         if (isset($content->id)) {
-            $this->setContent($content->getColumns());
+            if (class_exists('Phire\Fields\Model\FieldValue')) {
+                $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
+                $data = $c->toArray();
+            } else {
+                $data = $content->getColumns();
+            }
+            $this->setContent($data);
         }
     }
 
@@ -752,18 +772,11 @@ class Content extends AbstractModel
     /**
      * Get content
      *
-     * @param  array $content
+     * @param  array $data
      * @return array
      */
-    protected function setContent(array $content)
+    protected function setContent(array $data)
     {
-        if (class_exists('Phire\Fields\Model\FieldValue')) {
-            $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content['id']]);
-            $data = $c->toArray();
-        } else {
-            $data = $content;
-        }
-
         $type = new ContentType();
         $type->getById($data['type_id']);
 
