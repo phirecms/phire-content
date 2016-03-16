@@ -189,7 +189,7 @@ class Content
     }
 
     /**
-     * Get all content values for the form object
+     * Parse any content group placeholders
      *
      * @param  AbstractController $controller
      * @param  Application        $application
@@ -201,7 +201,6 @@ class Content
             (($controller instanceof \Phire\Categories\Controller\IndexController) ||
                 ($controller instanceof \Phire\Content\Controller\IndexController))
         ) {
-
             $body = $controller->response()->getBody();
             $ids  = self::parseContentIds($body);
             if (count($ids) > 0) {
@@ -306,8 +305,6 @@ class Content
             }
         }
     }
-
-
 
     /**
      * Parse content IDs from template

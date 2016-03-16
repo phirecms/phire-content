@@ -123,64 +123,7 @@ class Content extends AbstractModel
         $ary        = [];
 
         foreach ($contentAry as $cont) {
-            if (class_exists('Phire\Fields\Model\FieldValue')) {
-                $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$cont->id]);
-                $c = $c->toArray();
-            } else {
-                $c = (array)$cont;
-            }
-
-            $c['content_type']           = $type->content_type;
-            $c['content_type_force_ssl'] = $type->force_ssl;
-            $c['strict_publishing']      = $type->strict_publishing;
-
-            if (!empty($c['publish'])) {
-                $publish = explode(' ', $c['publish']);
-                $c['publish_date'] = $publish[0];
-                $c['publish_time'] = $publish[1];
-
-                if (isset($this->date_format)) {
-                    $c['publish_date'] = date($this->date_format, strtotime($c['publish_date']));
-                }
-                if (isset($this->time_format)) {
-                    $c['publish_time'] = date($this->time_format, strtotime($c['publish_time']));
-                }
-            }
-
-            if (!empty($c['expire'])) {
-                $expire = explode(' ', $c['expire']);
-                $c['expire_date'] = $expire[0];
-                $c['expire_time'] = $expire[1];
-                if (isset($this->date_format)) {
-                    $c['expire_date'] = date($this->date_format, strtotime($c['expire_date']));
-                }
-                if (isset($this->time_format)) {
-                    $c['expire_time'] = date($this->time_format, strtotime($c['expire_time']));
-                }
-            }
-
-            if (!empty($c['created_by'])) {
-                $createdBy = \Phire\Table\Users::findById($c['created_by']);
-                if (isset($createdBy->id)) {
-                    $c['created_by_username'] = $createdBy->username;
-                }
-            }
-
-            if (!empty($c['updated_by'])) {
-                $updatedBy = \Phire\Table\Users::findById($c['updated_by']);
-                if (isset($updatedBy->id)) {
-                    $c['updated_by_username'] = $updatedBy->username;
-                }
-            }
-
-            $c['content_parent_id'] = $c['parent_id'];
-            $c['content_status']    = $c['status'];
-            $c['content_template']  = $c['template'];
-
-            if (!is_array($c['roles']) && is_string($c['roles'])) {
-                $c['roles'] = unserialize($c['roles']);
-            }
-
+            $c = $this->setContent((array)$cont);
             $sess = \Pop\Web\Session::getInstance();
             if (is_array($c['roles']) && (count($c['roles']) > 0)) {
                 if ((isset($sess->user) && in_array($sess->user->role_id, $c['roles'])) ||
@@ -205,7 +148,7 @@ class Content extends AbstractModel
     {
         $content = Table\Content::findById($id);
         if (isset($content->id)) {
-            $this->setContent($content);
+            $this->setContent($content->getColumns());
         }
     }
 
@@ -219,7 +162,7 @@ class Content extends AbstractModel
     {
         $content = Table\Content::findBy(['uri' => $uri]);
         if (isset($content->id)) {
-            $this->setContent($content);
+            $this->setContent($content->getColumns());
         }
     }
 
@@ -809,16 +752,16 @@ class Content extends AbstractModel
     /**
      * Get content
      *
-     * @param  Table\Content $content
-     * @return void
+     * @param  array $content
+     * @return array
      */
-    protected function setContent(Table\Content $content)
+    protected function setContent(array $content)
     {
         if (class_exists('Phire\Fields\Model\FieldValue')) {
-            $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
+            $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content['id']]);
             $data = $c->toArray();
         } else {
-            $data = $content->getColumns();
+            $data = $content;
         }
 
         $type = new ContentType();
@@ -878,6 +821,7 @@ class Content extends AbstractModel
         }
 
         $this->data = array_merge($this->data, $data);
+        return $this->data;
     }
 
     /**
