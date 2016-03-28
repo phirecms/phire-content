@@ -208,8 +208,10 @@ class Content
                     if (count($subIds) > 0) {
                         $content = new Model\Content();
                         foreach ($subIds as $sid) {
-                            $view = new \Pop\View\View($value, ['content_' . $sid => $content->getAllByTypeId($sid)]);
-                            $controller->view()->{$key} = $view->render();
+                            $c    = substr($value, strpos($value, '[{content_' . $sid . '}]'));
+                            $c    = substr($c, 0, (strpos($c, '[{/content_' . $sid . '}]') + strlen('[{/content_' . $sid . '}]')));
+                            $view = new \Pop\View\View($c, ['content_' . $sid => $content->getAllByTypeId($sid)]);
+                            $controller->view()->{$key} = str_replace($c, $view->render(), $value);
                         }
                     }
                 }
