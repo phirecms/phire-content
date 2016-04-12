@@ -191,12 +191,12 @@ class Content extends AbstractModel
      *
      * @param  string $date
      * @param  string $dateTimeFormat
-     * @param  int    $summaryLength
+     * @param  array  $filters
      * @param  string $limit
      * @param  string $page
      * @return array
      */
-    public function getByDate($date, $dateTimeFormat, $summaryLength, $limit = null, $page = null)
+    public function getByDate($date, $dateTimeFormat, $filters, $limit = null, $page = null)
     {
         $sql1 = Table\Content::sql();
         $sql2 = clone $sql1;
@@ -274,10 +274,6 @@ class Content extends AbstractModel
         $rows = Table\Content::execute((string)$sql1, $params)->rows();
 
         if (class_exists('Phire\Fields\Model\FieldValue')) {
-            $filters = ['strip_tags' => null];
-            if ($summaryLength > 0) {
-                $filters['substr'] = [0, $summaryLength];
-            };
             foreach ($rows as $i => $row) {
                 $fieldValues       = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
                 $rows[$i]          = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);

@@ -91,7 +91,7 @@ class Content
                 $content->minute_format  = $application->module('phire-content')['minute_format'];
                 $content->period_format  = $application->module('phire-content')['period_format'];
                 $content->separator      = $application->module('phire-content')['separator'];
-                $content->summary_length = $application->module('phire-content')['summary_length'];
+                $content->filters        = $application->module('phire-content')['filters'];
                 $content->archive_count  = $application->module('phire-content')['archive_count'];
                 $controller->view()->phire->content = $content;
         }

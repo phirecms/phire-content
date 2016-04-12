@@ -35,7 +35,7 @@ class IndexController extends AbstractController
         if (null !== $date) {
             $dateResult = $content->getByDate(
                 $date, $this->application->module('phire-content')['date_format'] . ' ' . $this->application->module('phire-content')['time_format'],
-                $this->application->module('phire-content')->config()['summary_length'],
+                $this->application->module('phire-content')->config()['filters'],
                 $this->config->pagination, $this->request->getQuery('page')
             );
 

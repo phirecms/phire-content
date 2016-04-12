@@ -83,7 +83,10 @@ return [
         'minute_format'    => 'i',
         'period_format'    => 'A',
         'separator'        => ' &gt; ',
-        'summary_length'   => 150,
+        'filters'          => [
+            'strip_tags' => null,
+            'substr'     => [0, 150]
+        ],
         'archive_count'    => true
     ]
 ];
