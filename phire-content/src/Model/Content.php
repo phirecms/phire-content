@@ -42,9 +42,20 @@ class Content extends AbstractModel
             'created_by_username' => DB_PREFIX . 'users.username'
         ];
 
+        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
+            $selectFields['category_id']     = DB_PREFIX . 'category_items.category_id';
+            $selectFields['content_id']      = DB_PREFIX . 'category_items.content_id';
+            $selectFields['category_title']  = DB_PREFIX . 'categories.title';
+        }
+
         $sql = Table\Content::sql();
         $sql->select($selectFields)
             ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
+
+        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
+            $sql->select()->join(DB_PREFIX . 'category_items', [DB_PREFIX . 'category_items.content_id' => DB_PREFIX . 'content.id']);
+            $sql->select()->join(DB_PREFIX . 'categories', [DB_PREFIX . 'category_items.category_id' => DB_PREFIX . 'categories.id']);
+        }
 
         if (null !== $typeId) {
             $sql->select()->where('type_id = :type_id');
@@ -75,11 +86,16 @@ class Content extends AbstractModel
             $sql->select()->where('parent_id IS NULL');
         }
 
+        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
+            $sql->select()->where('category_id = :category_id');
+            $params['category_id'] = (int)$_GET['category_id'];
+        }
+
         $content    = Table\Content::execute((string)$sql, $params);
         $contentAry = [];
 
         foreach ($content->rows() as $c) {
-            $this->flatMap[] = new \ArrayObject([
+            $contentData = [
                 'id'                  => $c->id,
                 'type_id'             => $c->type_id,
                 'parent_id'           => $c->parent_id,
@@ -96,8 +112,14 @@ class Content extends AbstractModel
                 'created_by'          => $c->created_by,
                 'updated_by'          => $c->updated_by,
                 'created_by_username' => $c->created_by_username,
-                'depth' => 0
-            ], \ArrayObject::ARRAY_AS_PROPS);
+                'depth'               => 0
+            ];
+
+            if (isset($c->category_title)) {
+                $contentData['category_title'] = $c->category_title;
+            }
+
+            $this->flatMap[] = new \ArrayObject($contentData, \ArrayObject::ARRAY_AS_PROPS);
             $c->depth     = 0;
             if ((null === $title) && (!$trash)) {
                 $c->children = $this->getChildren($c, $selectFields, $params, $trash, $order);
