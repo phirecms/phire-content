@@ -2,7 +2,7 @@
 <?php if (((count($content) > 0) || (isset($_GET['search']))) && $acl->isAllowed($user->role, 'content', 'search')): ?>
     <form id="asset-search-form" action="<?=$phireUri . '/content/' . $tid; ?>" method="get">
         <div><input tabindex="3" type="submit" id="submit" value="Search" /><input type="hidden" name="type_id" value="<?=$tid; ?>" /><input type="hidden" name="search" value="1" /></div>
-<?php if (isset($categories)): ?>
+<?php if (isset($categories) && (count($categories) > 0)): ?>
         <div>
             <select name="category_id" id="category_id">
                 <option value="0">----</option>
