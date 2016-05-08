@@ -19,7 +19,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Phire\\Content": "src/"
+            "Phire\\Content\\": "src/"
         }
     },
     "extra": {
