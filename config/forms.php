@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * phire-content form configuration
+ */
 return [
     'Phire\Content\Form\Content' => [
         [

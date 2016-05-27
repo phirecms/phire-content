@@ -1,11 +1,32 @@
 <?php
+/**
+ * Phire Content Module
+ *
+ * @link       https://github.com/phirecms/phire-content
+ * @author     Nick Sagona, III <dev@nolainteractive.com>
+ * @copyright  Copyright (c) 2009-2016 NOLA Interactive, LLC. (http://www.nolainteractive.com)
+ * @license    http://www.phirecms.org/license     New BSD License
+ */
 
+/**
+ * @namespace
+ */
 namespace Phire\Content\Form;
 
 use Phire\Content\Table;
 use Pop\Form\Form;
 use Pop\Validator;
 
+/**
+ * Content Form class
+ *
+ * @category   Phire\Content
+ * @package    Phire\Content
+ * @author     Nick Sagona, III <dev@nolainteractive.com>
+ * @copyright  Copyright (c) 2009-2016 NOLA Interactive, LLC. (http://www.nolainteractive.com)
+ * @license    http://www.phirecms.org/license     New BSD License
+ * @version    1.0.0
+ */
 class Content extends Form
 {
 

@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * phire-content routes
+ */
 return [
     '' => [
         '/' => [

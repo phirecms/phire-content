@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * phire-content resources
+ */
 return [
     'content' => [
         'index',
