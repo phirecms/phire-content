@@ -211,7 +211,7 @@ input[type=text].datetime-field {
 
 body.content-in-edit {
     background: transparent;
-    background-color: #fff;
+    background-color: #f4f1ed;
     overflow: auto;
 }
 
