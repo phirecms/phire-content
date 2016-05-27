@@ -175,18 +175,32 @@ label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
     color: #bf1b0f;
 }
 
-.content-nav-icon {
-    background-image: url(../img/content-icon-sm.png);
-    background-position: 8px center;
-    background-repeat: no-repeat;
+.content-nav-icon:before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f0c5";
+    display: inline-block;
+    margin: 0;
+    padding: 0 5px 0 0;
+    vertical-align: middle;
+    color: #b4b5b4;
+    font-size: 1.5em;
+    width: 25px;
+    text-align: center;
 }
 
 .content-header {
     margin: 10px 0 10px 0;
-    padding: 10px 0 10px 40px;
-    background-image: url(../img/content-icon-lg.png);
-    background-position: left center;
-    background-repeat: no-repeat;
+    padding: 10px 0 10px 0;
+}
+
+.content-header:before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f0c5";
+    margin: 0;
+    padding: 0 8px 0 0;
+    color: #b4b5b4;
 }
 
 input[type=text].datetime-field {

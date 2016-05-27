@@ -15,6 +15,7 @@
     background-image: url(../img/phire-icon.png);
     background-position: 70px center;
     background-repeat: no-repeat;
+    background-size: 16px 16px;
 }
 
 #phire-in-edit-nav > a {
@@ -31,13 +32,26 @@
 
 #phire-in-edit-nav > a:nth-child(1) {
     margin: 3px 3px 0 6px;
-    background-image: url(../img/in-edit.png);
-    background-size: 18px 18px;
 }
 
-#phire-in-edit-nav > a:nth-child(2) {;
-    background-image: url(../img/dashboard-icon-lg.png);
-    background-size: contain;
+#phire-in-edit-nav > a:nth-child(1):before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f040";
+    margin: 0;
+    padding: 0;
+    color: #a2a3a3;
+    font-size: 1.1em;
+}
+
+#phire-in-edit-nav > a:nth-child(2):before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f0e4";
+    margin: 0;
+    padding: 0;
+    color: #a2a3a3;
+    font-size: 1.1em;
 }
 
 #phire-in-edit-iframe {
@@ -65,9 +79,14 @@ a.in-edit-close-link {
     width: 22px;
     height: 22px;
     float: right;
-    background-image: url(../img/x-black.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    text-indent: -9999px;
+}
+
+a.in-edit-close-link:before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f00d";
+    margin: 0;
+    padding: 0 5px 0 0;
+    color: #000;
+    font-size: 1.1em;
 }
