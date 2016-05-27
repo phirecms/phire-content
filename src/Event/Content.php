@@ -298,7 +298,8 @@ class Content
                 $head    = substr($body, strpos($body, '<head>'));
                 $head    = substr($head, 0, (strpos($head, '</head>') + 7));
                 $newHead = $head;
-                $assets = '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/css/phire.content.edit.css" />' . PHP_EOL . PHP_EOL;
+                $assets  = '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/' . $controller->config()->system_theme . '/css/font-awesome.min.css" />' . PHP_EOL;
+                $assets .= '    <link type="text/css" rel="stylesheet" href="' . BASE_PATH . CONTENT_PATH . '/assets/phire-content/css/phire.content.edit.css" />' . PHP_EOL . PHP_EOL;
 
                 if ((strpos($newHead, 'jax.4.0.0.min.js') === false) && (strpos($newHead, 'jax.4.0.0.js') === false)) {
                     if (strpos($newHead, '<script') !== false) {
@@ -329,8 +330,8 @@ class Content
                 $contentUri = BASE_PATH . APP_URI . '/content/edit/' . $controller->view()->type_id . '/' . $controller->view()->id . '?in_edit=1';
 
                 $nav  = PHP_EOL . '<nav id="phire-in-edit-nav">' . PHP_EOL;
-                $nav .= '    <a href="' . $contentUri . '" title="Edit Page" onclick="phire.launchPageEditor(this.href); return false;">Edit</a>' . PHP_EOL;
-                $nav .= '    <a href="' . $systemUri . '" title="Dashboard">Dashboard</a>' . PHP_EOL;
+                $nav .= '    <a href="' . $contentUri . '" title="Edit Page" onclick="phire.launchPageEditor(this.href); return false;"><span>Edit</span></a>' . PHP_EOL;
+                $nav .= '    <a href="' . $systemUri . '" title="Dashboard"><span>Dashboard</span></a>' . PHP_EOL;
                 $nav .= '</nav>' . PHP_EOL . PHP_EOL;
                 $nav .= '</body>';
 

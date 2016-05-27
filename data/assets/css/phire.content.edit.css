@@ -24,14 +24,16 @@
     width: 24px;
     height: 24px;
     display: inline-block;
-    overflow: hidden;
-    text-indent: -9999px;
-    background-position: center;
-    background-repeat: no-repeat;
+    text-decoration: none;
+}
+
+#phire-in-edit-nav > a > span {
+    display: none;
 }
 
 #phire-in-edit-nav > a:nth-child(1) {
     margin: 3px 3px 0 6px;
+    text-align: center;
 }
 
 #phire-in-edit-nav > a:nth-child(1):before {
@@ -42,6 +44,7 @@
     padding: 0;
     color: #a2a3a3;
     font-size: 1.1em;
+    text-align: center;
 }
 
 #phire-in-edit-nav > a:nth-child(2):before {
@@ -52,6 +55,7 @@
     padding: 0;
     color: #a2a3a3;
     font-size: 1.1em;
+    text-align: center;
 }
 
 #phire-in-edit-iframe {
@@ -79,6 +83,14 @@ a.in-edit-close-link {
     width: 22px;
     height: 22px;
     float: right;
+}
+
+a.in-edit-close-link > span {
+    display: none;
+}
+
+a.in-edit-close-link:hover {
+    text-decoration: none;
 }
 
 a.in-edit-close-link:before {

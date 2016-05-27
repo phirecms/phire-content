@@ -1,5 +1,5 @@
 <?php include __DIR__ . '/header.phtml'; ?>
-    <a href="#" class="in-edit-close-link" onclick="parent.closePageEditor(); return false;">close [x]</a>
+    <a href="#" class="in-edit-close-link" onclick="parent.closePageEditor(); return false;"><span>close [x]</span></a>
     <div id="content-owner" style="margin-top: 60px;">
         [<span><a href="<?=BASE_PATH . $uri;?>" id="view-link" target="_blank">View</a></span>] [<span><strong>Created:</strong></span><span><?=$created_by_username; ?></span><span><?=date($config->datetime_format, strtotime($created)); ?></span><?php if (null !== $updated):?>] [<span><strong>Updated:</strong></span><span><?=$updated_by_username; ?></span><span><?=date($config->datetime_format, strtotime($updated)); ?></span><?php endif;?>]
     </div>
