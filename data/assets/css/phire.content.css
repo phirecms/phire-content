@@ -129,6 +129,32 @@ label[for=publish_date], label[for=expire_date] {
     margin: 2px 15px 0 10px;
 }
 
+label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
+    position: absolute;
+    z-index: 10000001;
+    margin: 0;
+    padding: 0;
+    top: 52px;
+    left: -30px;
+    width: 170px;
+    background-color: #dcdcdc;
+    overflow: auto;
+    box-shadow: 0 0 6px 2px #808080;
+}
+
+#content-form-field-group-1 > dd > div#calendar {
+    position: absolute;
+    z-index: 10000001;
+    margin: 0;
+    padding: 0;
+    top: 25px;
+    left: -10px;
+    width: 170px;
+    background-color: #dcdcdc;
+    overflow: auto;
+    box-shadow: 0 0 6px 2px #808080;
+}
+
 .green {
     font-weight: bold;
     color: #528435;
