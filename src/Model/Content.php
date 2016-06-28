@@ -319,7 +319,7 @@ class Content extends AbstractModel
         if (class_exists('Phire\Fields\Model\FieldValue')) {
             foreach ($rows as $i => $row) {
                 $fieldValues       = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
-                $rows[$i]          = new \ArrayObject(array_merge((array)$row, $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
+                $rows[$i]          = new \ArrayObject(array_merge((array)$row->getColumns(), $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
                 $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
             }
         }
@@ -879,12 +879,12 @@ class Content extends AbstractModel
     /**
      * Get content children
      *
-     * @param  \ArrayObject|array $content
-     * @param  array              $selectFields
-     * @param  array              $params
-     * @param  boolean            $trash
-     * @param  string             $order
-     * @param  int                $depth
+     * @param  mixed   $content
+     * @param  array   $selectFields
+     * @param  array   $params
+     * @param  boolean $trash
+     * @param  string  $order
+     * @param  int     $depth
      * @return array
      */
     protected function getChildren($content, $selectFields, $params, $trash, $order, $depth = 0)
