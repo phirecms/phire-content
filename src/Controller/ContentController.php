@@ -98,6 +98,7 @@ class ContentController extends AbstractController
                 $this->view->title          = 'Content : ' . $type->name;
                 $this->view->pages          = $pages;
                 $this->view->tid            = $tid;
+                $this->view->queryString    = $this->getQueryString('sort');
                 $this->view->open_authoring = $type->open_authoring;
                 $this->view->trash          = $content->getCount($tid, -2);
                 $this->view->content        = $contentFlatMap;
@@ -354,10 +355,11 @@ class ContentController extends AbstractController
             $pages = null;
         }
 
-        $this->view->title   = 'Content : ' . $type->name . ' : Trash';
-        $this->view->pages   = $pages;
-        $this->view->tid     = $tid;
-        $this->view->content = $content->getAll(
+        $this->view->title       = 'Content : ' . $type->name . ' : Trash';
+        $this->view->pages       = $pages;
+        $this->view->tid         = $tid;
+        $this->view->queryString = $this->getQueryString('sort');
+        $this->view->content     = $content->getAll(
             $tid, $this->request->getQuery('sort'), $this->request->getQuery('title'), true
         );
 

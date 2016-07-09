@@ -31,13 +31,13 @@
 <?php endif; ?>
         <table class="data-table" cellpadding="0" cellspacing="0" border="0">
             <tr>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=id';?>">#</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=title';?>">Title</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=uri';?>">URI</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created_by_username';?>">Created By</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created';?>">Created</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=updated';?>">Updated</a></th>
-                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=status';?>">Status</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=id' . (($queryString != '') ? '&' . $queryString : '');?>">#</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=title' . (($queryString != '') ? '&' . $queryString : '');?>">Title</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=uri' . (($queryString != '') ? '&' . $queryString : '');?>">URI</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created_by_username' . (($queryString != '') ? '&' . $queryString : '');?>">Created By</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=created' . (($queryString != '') ? '&' . $queryString : '');?>">Created</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=updated' . (($queryString != '') ? '&' . $queryString : '');?>">Updated</a></th>
+                <th><a href="<?=$phireUri . '/content/' . $tid . '?sort=status' . (($queryString != '') ? '&' . $queryString : '');?>">Status</a></th>
 <?php if (isset($_GET['category_id'])): ?>
                 <th>Category</th>
 <?php endif; ?>
