@@ -101,7 +101,7 @@ class Content extends AbstractModel
         }
 
         if (null !== $title) {
-            $params[DB_PREFIX . 'content.title'] = '%' . $title . '%';
+            $params['title'] = '%' . $title . '%';
             $sql->select()->where(DB_PREFIX . 'content.title LIKE :title');
         } else if (!$trash) {
             $sql->select()->where('parent_id IS NULL');
