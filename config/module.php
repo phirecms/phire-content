@@ -12,7 +12,7 @@ return [
         'routes'     => include 'routes.php',
         'resources'  => include 'resources.php',
         'forms'      => include 'forms.php',
-        'nav.phire'  => [
+        'nav.side'  => [
             'content' => [
                 'name' => 'Content',
                 'href' => '/content',

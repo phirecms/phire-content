@@ -13,9 +13,9 @@ return [
                 ]
             ],
             'content_parent_id' => [
-                'type'  => 'select',
-                'label' => 'Parent',
-                'value' => [
+                'type'   => 'select',
+                'label'  => 'Parent',
+                'values' => [
                     '----' => '----',
                 ],
                 'attributes' => [
@@ -23,16 +23,16 @@ return [
                 ]
             ],
             'content_template' => [
-                'type'  => 'select',
-                'label' => 'Template',
-                'value' => [
-                    '0' => '(Default)'
+                'type'   => 'select',
+                'label'  => 'Template',
+                'values' => [
+                    '0'  => '(Default)'
                 ]
             ],
             'content_status' => [
-                'type'  => 'select',
-                'label' => 'Status',
-                'value' => [
+                'type'   => 'select',
+                'label'  => 'Status',
+                'values' => [
                     '-1' => 'Unpublished',
                     '0' => 'Draft',
                     '1' => 'Published'
@@ -83,18 +83,9 @@ return [
                 ]
             ],
             'roles' => [
-                'type'  => 'checkbox',
-                'label' => 'Roles',
-                'value' => []
-            ],
-            'force_ssl' => [
-                'type'  => 'radio',
-                'label' => 'Force SSL',
-                'value' => [
-                    '1' => 'Yes',
-                    '0' => 'No'
-                ],
-                'marked' => 0
+                'type'   => 'checkbox',
+                'label'  => 'Roles',
+                'values' => []
             ],
             'type_id' => [
                 'type'  => 'hidden',
@@ -142,38 +133,29 @@ return [
             'strict_publishing' => [
                 'type'       => 'radio',
                 'label'      => 'Strict Publishing',
-                'value'      => [
+                'values'     => [
                     '1' => 'Yes',
                     '0' => 'No'
                 ],
-                'marked' => 1
+                'checked' => 1
             ],
             'open_authoring' => [
                 'type'       => 'radio',
                 'label'      => 'Open Authoring',
-                'value'      => [
+                'values'     => [
                     '1' => 'Yes',
                     '0' => 'No'
                 ],
-                'marked' => 1
+                'checked' => 1
             ],
             'in_date' => [
-                'type'  => 'radio',
-                'label' => 'Include in Date',
-                'value' => [
+                'type'   => 'radio',
+                'label'  => 'Include in Date',
+                'values' => [
                     '1' => 'Yes',
                     '0' => 'No'
                 ],
-                'marked' => 0
-            ],
-            'force_ssl' => [
-                'type'  => 'radio',
-                'label' => 'Force SSL',
-                'value' => [
-                    '1' => 'Yes',
-                    '0' => 'No'
-                ],
-                'marked' => 0
+                'checked' => 0
             ],
             'order' => [
                 'type'       => 'text',
@@ -204,7 +186,7 @@ return [
             'content_type' => [
                 'type'       => 'select',
                 'label'      => 'Content Type',
-                'value'      => [
+                'values'     => [
                     'text/html'           => 'text/html',
                     'text/plain'          => 'text/plain',
                     'text/css'            => 'text/css',

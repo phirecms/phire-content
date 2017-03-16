@@ -23,7 +23,6 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content_types" (
   "strict_publishing" integer NOT NULL,
   "open_authoring" integer NOT NULL,
   "in_date" integer,
-  "force_ssl" integer,
   "order" integer,
   UNIQUE ("id")
 ) ;
@@ -47,7 +46,6 @@ CREATE TABLE IF NOT EXISTS "[{prefix}]content" (
   "template" varchar,
   "roles" text,
   "order" integer,
-  "force_ssl" integer,
   "hierarchy" varchar,
   "publish" datetime,
   "expire" datetime,

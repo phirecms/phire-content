@@ -17,7 +17,7 @@ use Phire\Content\Model;
 use Phire\Content\Form;
 use Phire\Content\Table;
 use Phire\Controller\AbstractController;
-use Pop\Paginator\Paginator;
+use Pop\Paginator\Form as Paginator;
 
 /**
  * Content Controller class
@@ -44,10 +44,9 @@ class ContentController extends AbstractController
             $this->prepareView('content/types.phtml');
             $type = new Model\ContentType();
 
-            if ($type->hasPages($this->config->pagination)) {
+            if ($type->hasPages($this->application->config['pagination'])) {
                 $limit = $this->config->pagination;
                 $pages = new Paginator($type->getCount(), $limit);
-                $pages->useInput(true);
             } else {
                 $limit = null;
                 $pages = null;
@@ -72,7 +71,6 @@ class ContentController extends AbstractController
                 if ($content->hasPages($this->config->pagination, $tid)) {
                     $limit = $this->config->pagination;
                     $pages = new Paginator($content->getCount($tid), $limit);
-                    $pages->useInput(true);
                 } else {
                     $limit = null;
                     $pages = null;
@@ -87,7 +85,6 @@ class ContentController extends AbstractController
                 if (count($contentFlatMap) > $this->config->pagination) {
                     $page  = $this->request->getQuery('page');
                     $pages = new Paginator(count($contentFlatMap), $limit);
-                    $pages->useInput(true);
                     $offset = ((null !== $page) && ((int)$page > 1)) ?
                         ($page * $limit) - $limit : 0;
                     $contentFlatMap = array_slice($contentFlatMap, $offset, $limit, true);

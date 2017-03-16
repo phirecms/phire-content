@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content_types` (
   `strict_publishing` int(1) NOT NULL,
   `open_authoring` int(1) NOT NULL,
   `in_date` int(1),
-  `force_ssl` int(1),
   `order` int(16),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5001 ;
@@ -41,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `[{prefix}]content` (
   `template` varchar(255),
   `roles` text,
   `order` int(16),
-  `force_ssl` int(1),
   `hierarchy` varchar(255),
   `publish` datetime,
   `expire` datetime,

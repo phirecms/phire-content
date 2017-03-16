@@ -52,7 +52,7 @@ class ContentType extends AbstractModel
      * @param  int    $limit
      * @param  int    $page
      * @param  string $sort
-     * @return array
+     * @return \Pop\Db\Record\Collection
      */
     public function getAll($limit = null, $page = null, $sort = null)
     {
@@ -66,11 +66,11 @@ class ContentType extends AbstractModel
                 'offset' => $page,
                 'limit' => $limit,
                 'order' => $order
-            ])->rows();
+            ]);
         } else {
             return  Table\ContentTypes::findAll([
                 'order'  => $order
-            ])->rows();
+            ]);
         }
     }
 
@@ -84,7 +84,7 @@ class ContentType extends AbstractModel
     {
         $type = Table\ContentTypes::findById($id);
         if (isset($type->id)) {
-            $data = $type->getColumns();
+            $data = $type->toArray();
 
             if (!in_array($data['content_type'], $this->contentTypes)) {
                 $data['content_type_other'] = $data['content_type'];
@@ -112,12 +112,11 @@ class ContentType extends AbstractModel
             'strict_publishing' => (int)$fields['strict_publishing'],
             'open_authoring'    => (int)$fields['open_authoring'],
             'in_date'           => (int)$fields['in_date'],
-            'force_ssl'         => (int)$fields['force_ssl'],
             'order'             => (int)$fields['order']
         ]);
         $type->save();
 
-        $this->data = array_merge($this->data, $type->getColumns());
+        $this->data = array_merge($this->data, $type->toArray());
     }
 
     /**
@@ -138,11 +137,10 @@ class ContentType extends AbstractModel
             $type->strict_publishing = (int)$fields['strict_publishing'];
             $type->open_authoring    = (int)$fields['open_authoring'];
             $type->in_date           = (int)$fields['in_date'];
-            $type->force_ssl         = (int)$fields['force_ssl'];
             $type->order             = (int)$fields['order'];
             $type->save();
 
-            $this->data = array_merge($this->data, $type->getColumns());
+            $this->data = array_merge($this->data, $type->toArray());
         }
     }
 

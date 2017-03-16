@@ -1,9 +1,12 @@
-            <table class="dashboard-table" cellspacing="0" cellpadding="0" border="0">
+            <table class="table table-striped table-hover">
+                <thead>
                 <tr>
                     <th colspan="5">
                         Recent Content
                     </th>
                 </tr>
+                </thead>
+                <tbody>
 <?php if (count($recent) > 0): ?>
 <?php foreach ($recent as $c): ?>
 <?php if ($acl->isAllowed($user->role, 'content-type-' . $c->type_id, 'index')): ?>
@@ -41,4 +44,5 @@ endswitch;
                     </td>
                 </tr>
 <?php endif; ?>
+                </tbody>
             </table>

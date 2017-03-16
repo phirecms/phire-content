@@ -15,7 +15,7 @@ namespace Phire\Content\Model;
 
 use Phire\Content\Table;
 use Phire\Model\AbstractModel;
-use Pop\Paginator\Paginator;
+use Pop\Paginator\Form as Paginator;
 use Pop\Dom\Child;
 
 /**
@@ -70,12 +70,12 @@ class Content extends AbstractModel
         }
 
         $sql = Table\Content::sql();
-        $sql->select($selectFields)
-            ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
+        $sql->select($selectFields)->from(Table\Content::table())
+            ->leftJoin(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
 
         if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
-            $sql->select()->join(DB_PREFIX . 'category_items', [DB_PREFIX . 'category_items.content_id' => DB_PREFIX . 'content.id']);
-            $sql->select()->join(DB_PREFIX . 'categories', [DB_PREFIX . 'category_items.category_id' => DB_PREFIX . 'categories.id']);
+            $sql->select()->leftJoin(DB_PREFIX . 'category_items', [DB_PREFIX . 'category_items.content_id' => DB_PREFIX . 'content.id']);
+            $sql->select()->leftJoin(DB_PREFIX . 'categories', [DB_PREFIX . 'category_items.category_id' => DB_PREFIX . 'categories.id']);
         }
 
         if (null !== $typeId) {
@@ -115,7 +115,7 @@ class Content extends AbstractModel
         $content    = Table\Content::execute((string)$sql, $params);
         $contentAry = [];
 
-        foreach ($content->rows() as $c) {
+        foreach ($content as $c) {
             $contentData = [
                 'id'                  => $c->id,
                 'type_id'             => $c->type_id,
@@ -162,21 +162,14 @@ class Content extends AbstractModel
         $type = new ContentType();
         $type->getById($typeId);
 
-        $contentAry =  Table\Content::findBy(['type_id' => $typeId, 'status' => 1], ['order' => 'order, id ASC'])->rows();
+        $contentAry =  Table\Content::findBy(['type_id' => $typeId, 'status' => 1], ['order' => 'order, id ASC']);
         $ary        = [];
 
         foreach ($contentAry as $cont) {
-            if (class_exists('Phire\Fields\Model\FieldValue')) {
-                $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$cont->id]);
-                $data = $c->toArray();
-            } else {
-                $data = (array)$cont;
-            }
-            $c = $this->setContent($data);
-            $sess = \Pop\Web\Session::getInstance();
+            $c    = $this->setContent($cont->toArray());
+            $sess = \Pop\Session\Session::getInstance();
             if (is_array($c['roles']) && (count($c['roles']) > 0)) {
-                if ((isset($sess->user) && in_array($sess->user->role_id, $c['roles'])) ||
-                    (isset($sess->member) && in_array($sess->member->role_id, $c['roles']))) {
+                if (isset($sess->user) && in_array($sess->user->role_id, $c['roles'])) {
                     $ary[] = $c;
                 }
             } else {
@@ -197,15 +190,7 @@ class Content extends AbstractModel
     {
         $content = Table\Content::findById($id);
         if (isset($content->id)) {
-            if (class_exists('Phire\Fields\Model\FieldValue')) {
-                $this->data = array_merge($this->data, $content->getColumns());
-                $c    = \Phire\Fields\Model\FieldValue::getModelObject($this);
-                $data = $c->toArray();
-            } else {
-                $data = $content->getColumns();
-            }
-
-            $this->setContent($data);
+            $this->setContent($content->toArray());
         }
     }
 
@@ -217,15 +202,9 @@ class Content extends AbstractModel
      */
     public function getByUri($uri)
     {
-        $content = Table\Content::findBy(['uri' => $uri]);
+        $content = Table\Content::findOne(['uri' => $uri]);
         if (isset($content->id)) {
-            if (class_exists('Phire\Fields\Model\FieldValue')) {
-                $c    = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', [$content->id]);
-                $data = $c->toArray();
-            } else {
-                $data = $content->getColumns();
-            }
-            $this->setContent($data);
+            $this->setContent($content->toArray());
         }
     }
 
@@ -233,20 +212,18 @@ class Content extends AbstractModel
      * Get content by date
      *
      * @param  string $date
-     * @param  string $dateTimeFormat
-     * @param  array  $filters
      * @param  string $limit
      * @param  string $page
-     * @return array
+     * @return \Pop\Db\Record\Collection
      */
-    public function getByDate($date, $dateTimeFormat, $filters, $limit = null, $page = null)
+    public function getByDate($date, $limit = null, $page = null)
     {
         $sql1 = Table\Content::sql();
         $sql2 = clone $sql1;
         $sql2->select([
             'count'   => 'COUNT(*)',
             'in_date' => DB_PREFIX . 'content_types.in_date'
-        ]);
+        ])->from(Table\Content::table());
 
         $sql1->select([
             'id'        => DB_PREFIX . 'content.id',
@@ -259,13 +236,13 @@ class Content extends AbstractModel
             'publish'   => DB_PREFIX . 'content.publish',
             'expire'    => DB_PREFIX . 'content.expire',
             'in_date'   => DB_PREFIX . 'content_types.in_date'
-        ]);
+        ])->from(Table\Content::table());
 
-        $sql1->select()->join(
+        $sql1->select()->leftJoin(
             DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
         );
 
-        $sql2->select()->join(
+        $sql2->select()->leftJoin(
             DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
         );
 
@@ -304,7 +281,8 @@ class Content extends AbstractModel
             'in_date' => 1
         ];
 
-        $count = Table\Content::execute((string)$sql2, $params)->count;
+        $countResult = Table\Content::execute((string)$sql2, $params);
+        $count       = (isset($countResult[0])) ? (int)$countResult[0]->count : 0;
 
         if ($count > $limit) {
             $page = ((null !== $page) && ((int)$page > 1)) ?
@@ -314,17 +292,7 @@ class Content extends AbstractModel
 
         $sql1->select()->orderBy('publish', 'DESC');
 
-        $rows = Table\Content::execute((string)$sql1, $params)->rows();
-
-        if (class_exists('Phire\Fields\Model\FieldValue')) {
-            foreach ($rows as $i => $row) {
-                $fieldValues       = \Phire\Fields\Model\FieldValue::getModelObjectValues('Phire\Content\Model\Content', $row->id, $filters);
-                $rows[$i]          = new \ArrayObject(array_merge((array)$row->getColumns(), $fieldValues), \ArrayObject::ARRAY_AS_PROPS);
-                $rows[$i]->publish = date($dateTimeFormat, strtotime($rows[$i]->publish));
-            }
-        }
-
-        return $rows;
+        return Table\Content::execute((string)$sql1, $params);
     }
 
     /**
@@ -340,9 +308,9 @@ class Content extends AbstractModel
         $sql->select([
             'count'   => 'COUNT(*)',
             'in_date' => DB_PREFIX . 'content_types.in_date'
-        ]);
+        ])->from(Table\Content::table());
 
-        $sql->select()->join(
+        $sql->select()->leftJoin(
             DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
         );
 
@@ -375,11 +343,11 @@ class Content extends AbstractModel
             'in_date' => 1
         ];
 
-        $count = Table\Content::execute((string)$sql, $params)->count;
+        $countResult = Table\Content::execute((string)$sql, $params);
+        $count       = (isset($countResult[0])) ? (int)$countResult[0]->count : 0;
 
         if ($count > $limit) {
             $pages = new Paginator($count, $limit);
-            $pages->useInput(true);
         } else {
             $pages = null;
         }
@@ -419,7 +387,7 @@ class Content extends AbstractModel
         $content = Table\Content::execute((string)$sql, $params);
         $archive = [];
 
-        foreach ($content->rows() as $c) {
+        foreach ($content as $c) {
             $year = substr($c->publish, 0, 4);
             if (isset($archive[$year])) {
                 $archive[$year]++;
@@ -520,11 +488,11 @@ class Content extends AbstractModel
     /**
      * Save new content
      *
-     * @param  array $fields
-     * @param  int $userId
+     * @param  mixed $fields
+     * @param  int   $userId
      * @return void
      */
-    public function save(array $fields, $userId)
+    public function save($fields, $userId)
     {
         $publish = null;
         $expire  = null;
@@ -558,24 +526,23 @@ class Content extends AbstractModel
             'template'   => (($fields['content_template'] != '0') ? $fields['content_template'] : null),
             'roles'      => serialize($roles),
             'order'      => (int)$fields['order'],
-            'force_ssl'  => (int)$fields['force_ssl'],
             'hierarchy'  => $this->getHierarchy($parentId),
             'created'    => date('Y-m-d H:i:s'),
             'created_by' => $userId
         ]);
         $content->save();
 
-        $this->data = array_merge($this->data, $content->getColumns());
+        $this->data = array_merge($this->data, $content->toArray());
     }
 
     /**
      * Update an existing content
      *
-     * @param  array $fields
-     * @param  int $userId
+     * @param  mixed $fields
+     * @param  int   $userId
      * @return void
      */
-    public function update(array $fields, $userId)
+    public function update($fields, $userId)
     {
         $content = Table\Content::findById($fields['id']);
         if (isset($content->id)) {
@@ -610,7 +577,6 @@ class Content extends AbstractModel
             $content->template   = (($fields['content_template'] != '0') ? $fields['content_template'] : null);
             $content->roles      = serialize($roles);
             $content->order      = (int)$fields['order'];
-            $content->force_ssl  = (int)$fields['force_ssl'];
             $content->hierarchy  = $this->getHierarchy($parentId);
             $content->updated    = date('Y-m-d H:i:s');
             $content->updated_by = $userId;
@@ -618,7 +584,7 @@ class Content extends AbstractModel
 
             $this->changeDescendantUris($content->id, $content->uri);
 
-            $this->data = array_merge($this->data, $content->getColumns());
+            $this->data = array_merge($this->data, $content->toArray());
         }
     }
 
@@ -661,30 +627,12 @@ class Content extends AbstractModel
                 'template'   => $content->template,
                 'roles'      => $content->roles,
                 'order'      => $content->order,
-                'force_ssl'  => $content->force_ssl,
                 'created'    => date('Y-m-d H:i:s'),
                 'created_by' => $userId
             ]);
             $newContent->save();
 
-            if (class_exists('Phire\Fields\Table\FieldValues')) {
-                $fv = \Phire\Fields\Table\FieldValues::findBy(['model_id' => $oldId]);
-                if ($fv->count() > 0) {
-                    foreach ($fv->rows() as $value) {
-                        $v = new \Phire\Fields\Table\FieldValues([
-                            'field_id'  => $value->field_id,
-                            'model_id'  => $newContent->id,
-                            'model'     => 'Phire\Content\Model\Content',
-                            'value'     => $value->value,
-                            'timestamp' => time(),
-                            'history'   => $value->history
-                        ]);
-                        $v->save();
-                    }
-                }
-            }
-
-            $this->data = array_replace($this->data, $newContent->getColumns());
+            $this->data = array_replace($this->data, $newContent->toArray());
         }
     }
 
@@ -774,7 +722,7 @@ class Content extends AbstractModel
         $children = Table\Content::findBy(['parent_id' => $id]);
 
         while ($children->count() > 0) {
-            foreach ($children->rows() as $child) {
+            foreach ($children as $child) {
                 $c = Table\Content::findById($child->id);
                 if (isset($c->id)) {
                     $c->uri = $uri . '/' . $c->slug;
@@ -848,15 +796,15 @@ class Content extends AbstractModel
             }
         }
 
-        if (!empty($content->created_by)) {
-            $createdBy = \Phire\Table\Users::findById($content->created_by);
+        if (!empty($data['created_by'])) {
+            $createdBy = \Phire\Table\Users::findById($data['created_by']);
             if (isset($createdBy->id)) {
                 $data['created_by_username'] = $createdBy->username;
             }
         }
 
-        if (!empty($content->updated_by)) {
-            $updatedBy = \Phire\Table\Users::findById($content->updated_by);
+        if (!empty($data['updated_by'])) {
+            $updatedBy = \Phire\Table\Users::findById($data['updated_by']);
             if (isset($updatedBy->id)) {
                 $data['updated_by_username'] = $updatedBy->username;
             }
@@ -892,8 +840,8 @@ class Content extends AbstractModel
         $children = [];
 
         $sql = Table\Content::sql();
-        $sql->select($selectFields)
-            ->join(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
+        $sql->select($selectFields)->from(Table\Content::table())
+            ->leftJoin(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
 
         $params = ['parent_id' => $content->id] + $params;
 
@@ -916,8 +864,8 @@ class Content extends AbstractModel
 
         $child = Table\Content::execute((string)$sql, $params);
 
-        if ($child->hasRows()) {
-            foreach ($child->rows() as $c) {
+        if (count($child) > 0) {
+            foreach ($child as $c) {
                 $this->flatMap[] = new \ArrayObject([
                     'id'                  => $c->id,
                     'type_id'             => $c->type_id,

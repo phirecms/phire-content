@@ -45,7 +45,7 @@ class Content
         $models    = (isset($config['models'])) ? $config['models'] : null;
         $types     = Table\ContentTypes::findAll(['order' => 'order ASC']);
 
-        foreach ($types->rows() as $type) {
+        foreach ($types as $type) {
             if (null !== $models) {
                 if (!isset($models['Phire\Content\Model\Content'])) {
                     $models['Phire\Content\Model\Content'] = [];
@@ -83,9 +83,9 @@ class Content
         }
 
         $content = Table\Content::findBy(['roles!=' => 'a:0:{}']);
-        if ($content->hasRows()) {
-            foreach ($content->rows() as $c) {
-                $application->services()->get('acl')->addResource(new \Pop\Acl\Resource\Resource('content-' . $c->id));
+        if (count($content) > 0) {
+            foreach ($content as $c) {
+                $application->services()->get('acl')->addResource(new \Pop\Acl\AclResource('content-' . $c->id));
             }
         }
     }
@@ -100,21 +100,19 @@ class Content
     public static function init(AbstractController $controller, Application $application)
     {
         if ((!$_POST) && ($controller->hasView()) && ($controller->view()->isFile()) &&
-            (($controller instanceof \Phire\Content\Controller\IndexController) ||
-                ($controller instanceof \Phire\Categories\Controller\IndexController))) {
-                $content = new Model\Content();
-                $content->date_format    = $application->module('phire-content')['date_format'];
-                $content->month_format   = $application->module('phire-content')['month_format'];
-                $content->day_format     = $application->module('phire-content')['day_format'];
-                $content->year_format    = $application->module('phire-content')['year_format'];
-                $content->time_format    = $application->module('phire-content')['time_format'];
-                $content->hour_format    = $application->module('phire-content')['hour_format'];
-                $content->minute_format  = $application->module('phire-content')['minute_format'];
-                $content->period_format  = $application->module('phire-content')['period_format'];
-                $content->separator      = $application->module('phire-content')['separator'];
-                $content->filters        = $application->module('phire-content')['filters'];
-                $content->archive_count  = $application->module('phire-content')['archive_count'];
-                $controller->view()->phire->content = $content;
+            ($controller instanceof \Phire\Content\Controller\IndexController)) {
+            $content = new Model\Content();
+            $content->date_format    = $application->module('phire-content')['date_format'];
+            $content->month_format   = $application->module('phire-content')['month_format'];
+            $content->day_format     = $application->module('phire-content')['day_format'];
+            $content->year_format    = $application->module('phire-content')['year_format'];
+            $content->time_format    = $application->module('phire-content')['time_format'];
+            $content->hour_format    = $application->module('phire-content')['hour_format'];
+            $content->minute_format  = $application->module('phire-content')['minute_format'];
+            $content->period_format  = $application->module('phire-content')['period_format'];
+            $content->separator      = $application->module('phire-content')['separator'];
+            $content->filters        = $application->module('phire-content')['filters'];
+            $content->archive_count  = $application->module('phire-content')['archive_count'];
         }
     }
 
@@ -127,29 +125,29 @@ class Content
      */
     public static function setDashboard(AbstractController $controller, Application $application)
     {
-        if (($controller instanceof \Phire\Controller\IndexController) && ($controller->hasView())) {
-            if (substr($controller->view()->getTemplate()->getTemplate(), -17) == 'phire/index.phtml') {
-                $sql = Table\Content::sql();
-                $sql->select([
-                    'id'                => DB_PREFIX . 'content.id',
-                    'type_id'           => DB_PREFIX . 'content.type_id',
-                    'title'             => DB_PREFIX . 'content.title',
-                    'uri'               => DB_PREFIX . 'content.uri',
-                    'status'            => DB_PREFIX . 'content.status',
-                    'publish'           => DB_PREFIX . 'content.publish',
-                    'expire'            => DB_PREFIX . 'content.expire',
-                    'created_by'        => DB_PREFIX . 'content.created_by',
-                    'content_type_id'   => DB_PREFIX . 'content_types.id',
-                    'content_type_name' => DB_PREFIX . 'content_types.name',
-                    'open_authoring'    => DB_PREFIX . 'content_types.open_authoring',
-                ])->join(DB_PREFIX . 'content_types', [DB_PREFIX . 'content.type_id' => DB_PREFIX . 'content_types.id']);
+        if (($controller instanceof \Phire\Controller\IndexController) && ($controller->hasView()) &&
+            ($controller->request()->getFullRequestUri() == APP_URI)) {
+            $sql = Table\Content::sql();
+            $sql->select([
+                'id'                => DB_PREFIX . 'content.id',
+                'type_id'           => DB_PREFIX . 'content.type_id',
+                'title'             => DB_PREFIX . 'content.title',
+                'uri'               => DB_PREFIX . 'content.uri',
+                'status'            => DB_PREFIX . 'content.status',
+                'publish'           => DB_PREFIX . 'content.publish',
+                'expire'            => DB_PREFIX . 'content.expire',
+                'created_by'        => DB_PREFIX . 'content.created_by',
+                'content_type_id'   => DB_PREFIX . 'content_types.id',
+                'content_type_name' => DB_PREFIX . 'content_types.name',
+                'open_authoring'    => DB_PREFIX . 'content_types.open_authoring',
+            ])->from(Table\Content::table())
+              ->leftJoin(DB_PREFIX . 'content_types', [DB_PREFIX . 'content.type_id' => DB_PREFIX . 'content_types.id']);
 
-                $sql->select()->where('status >= -1');
-                $sql->select()->orderBy('id', 'DESC');
-                $sql->select()->limit(10);
+            $sql->select()->where('status >= -1');
+            $sql->select()->orderBy('id', 'DESC');
+            $sql->select()->limit(10);
 
-                $controller->view()->recent = Table\Content::query((string)$sql)->rows();
-            }
+            $controller->view()->recent = Table\Content::query((string)$sql);
         }
     }
 
@@ -218,10 +216,7 @@ class Content
      */
     public static function parseContent(AbstractController $controller, Application $application)
     {
-        if (($controller->hasView()) &&
-            (($controller instanceof \Phire\Categories\Controller\IndexController) ||
-                ($controller instanceof \Phire\Content\Controller\IndexController))
-        ) {
+        if (($controller->hasView()) && ($controller instanceof \Phire\Content\Controller\IndexController)) {
             $data = $controller->view()->getData();
             foreach ($data as $key => $value) {
                 if (is_string($value)) {
@@ -291,7 +286,7 @@ class Content
             ($controller->hasView()) && ($controller->response()->getCode() == 200)) {
             $sess = $application->services()->get('session');
             $acl  = $application->services()->get('acl');
-
+/*
             if (isset($sess->user) && ($acl->isAllowed($sess->user->role, 'content', 'in-edit')) &&
                 ($acl->isAllowed($sess->user->role, 'content', 'edit'))) {
                 $body    = $controller->response()->getBody();
@@ -340,6 +335,7 @@ class Content
                 $body    = str_replace('</body>', $nav, $body);
                 $controller->response()->setBody($body);
             }
+*/
         }
     }
 
