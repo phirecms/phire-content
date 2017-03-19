@@ -2,8 +2,8 @@
 /**
  * Module Name: phire-content
  * Author: Nick Sagona
- * Description: This is the content module for Phire CMS 2
- * Version: 1.0
+ * Description: This is the content module for Phire CMS 3
+ * Version: 2.0
  */
 return [
     'phire-content' => [
