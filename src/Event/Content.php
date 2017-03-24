@@ -125,29 +125,36 @@ class Content
      */
     public static function setDashboard(AbstractController $controller, Application $application)
     {
-        if (($controller instanceof \Phire\Controller\IndexController) && ($controller->hasView()) &&
-            ($controller->request()->getFullRequestUri() == APP_URI)) {
-            $sql = Table\Content::sql();
-            $sql->select([
-                'id'                => DB_PREFIX . 'content.id',
-                'type_id'           => DB_PREFIX . 'content.type_id',
-                'title'             => DB_PREFIX . 'content.title',
-                'uri'               => DB_PREFIX . 'content.uri',
-                'status'            => DB_PREFIX . 'content.status',
-                'publish'           => DB_PREFIX . 'content.publish',
-                'expire'            => DB_PREFIX . 'content.expire',
-                'created_by'        => DB_PREFIX . 'content.created_by',
-                'content_type_id'   => DB_PREFIX . 'content_types.id',
-                'content_type_name' => DB_PREFIX . 'content_types.name',
-                'open_authoring'    => DB_PREFIX . 'content_types.open_authoring',
-            ])->from(Table\Content::table())
-              ->leftJoin(DB_PREFIX . 'content_types', [DB_PREFIX . 'content.type_id' => DB_PREFIX . 'content_types.id']);
 
-            $sql->select()->where('status >= -1');
-            $sql->select()->orderBy('id', 'DESC');
-            $sql->select()->limit(10);
+        if (($controller instanceof \Phire\Controller\IndexController) && ($controller->hasView())) {
+            $request = $controller->request()->getFullRequestUri();
+            if (substr($request, -1) == '/') {
+                $request = substr($request, 0, -1);
+            }
 
-            $controller->view()->recent = Table\Content::query((string)$sql);
+            if ($request == BASE_PATH . APP_URI) {
+                $sql = Table\Content::sql();
+                $sql->select([
+                    'id'                => DB_PREFIX . 'content.id',
+                    'type_id'           => DB_PREFIX . 'content.type_id',
+                    'title'             => DB_PREFIX . 'content.title',
+                    'uri'               => DB_PREFIX . 'content.uri',
+                    'status'            => DB_PREFIX . 'content.status',
+                    'publish'           => DB_PREFIX . 'content.publish',
+                    'expire'            => DB_PREFIX . 'content.expire',
+                    'created_by'        => DB_PREFIX . 'content.created_by',
+                    'content_type_id'   => DB_PREFIX . 'content_types.id',
+                    'content_type_name' => DB_PREFIX . 'content_types.name',
+                    'open_authoring'    => DB_PREFIX . 'content_types.open_authoring',
+                ])->from(Table\Content::table())
+                  ->leftJoin(DB_PREFIX . 'content_types', [DB_PREFIX . 'content.type_id' => DB_PREFIX . 'content_types.id']);
+
+                $sql->select()->where('status >= -1');
+                $sql->select()->orderBy('id', 'DESC');
+                $sql->select()->limit(10);
+
+                $controller->view()->recent = Table\Content::query((string)$sql);
+            }
         }
     }
 

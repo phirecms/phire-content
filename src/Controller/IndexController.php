@@ -51,7 +51,7 @@ class IndexController extends AbstractController
 
         $date = $this->isDate($uri);
 
-        $content->separator = $this->application->module('phire-content')->config()['separator'];
+        $content->separator = $this->application->module('phire-content')['separator'];
 
         if (null !== $date) {
             $dateResult = $content->getByDate(
