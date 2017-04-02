@@ -70,7 +70,7 @@ return [
                 'permission' => 'json'
             ]
         ],
-        '/content/types[/]' => [
+        '/content/types/' => [
             'controller' => 'Phire\Content\Controller\TypeController',
             'action'     => 'index',
             'acl'        => [

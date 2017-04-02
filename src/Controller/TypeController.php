@@ -15,9 +15,8 @@ namespace Phire\Content\Controller;
 
 use Phire\Content\Model;
 use Phire\Content\Form;
-use Phire\Content\Table;
 use Phire\Controller\AbstractController;
-use Pop\Paginator\Paginator;
+use Pop\Paginator\Form as Paginator;
 
 /**
  * Content Type Controller class
@@ -41,10 +40,9 @@ class TypeController extends AbstractController
     {
         $type = new Model\ContentType();
 
-        if ($type->hasPages($this->config->pagination)) {
-            $limit = $this->config->pagination;
+        if ($type->hasPages($this->application->config['pagination'])) {
+            $limit = $this->application->config['pagination'];
             $pages = new Paginator($type->getCount(), $limit);
-            $pages->useInput(true);
         } else {
             $limit = null;
             $pages = null;
@@ -72,18 +70,20 @@ class TypeController extends AbstractController
 
         $fields = $this->application->config()['forms']['Phire\Content\Form\ContentType'];
 
-        $this->view->form = new Form\ContentType($fields);
+        $this->view->form = Form\ContentType::createFromFieldsetConfig($fields);
 
         if ($this->request->isPost()) {
-            $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])
+            $this->view->form->addFilter('strip_tags')
+                 ->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false])
                  ->setFieldValues($this->request->getPost());
 
             if ($this->view->form->isValid()) {
                 $this->view->form->clearFilters()
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
-                     ->filter();
+                     ->filterValues();
+
                 $type = new Model\ContentType();
-                $type->save($this->view->form->getFields());
+                $type->save($this->view->form->toArray());
                 $this->view->id = $type->id;
                 $this->sess->setRequestValue('saved', true);
                 $this->redirect(BASE_PATH . APP_URI . '/content/types/edit/' . $type->id);
@@ -112,19 +112,23 @@ class TypeController extends AbstractController
 
         $fields[1]['name']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
 
-        $this->view->form = new Form\ContentType($fields);
-        $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])
-             ->setFieldValues($type->toArray());
+        $this->view->form = Form\ContentType::createFromFieldsetConfig($fields);
+        $this->view->form->addFilter('strip_tags')
+             ->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false]);
+        $this->view->form->setFieldValues($type->toArray());
 
         if ($this->request->isPost()) {
-            $this->view->form->setFieldValues($this->request->getPost());
+            $this->view->form->addFilter('strip_tags')
+                 ->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false])
+                 ->setFieldValues($this->request->getPost());
 
             if ($this->view->form->isValid()) {
                 $this->view->form->clearFilters()
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
-                     ->filter();
+                     ->filterValues();
+
                 $type = new Model\ContentType();
-                $type->update($this->view->form->getFields());
+                $type->update($this->view->form->toArray());
                 $this->view->id = $type->id;
                 $this->sess->setRequestValue('saved', true);
                 $this->redirect(BASE_PATH . APP_URI . '/content/types/edit/' . $type->id);

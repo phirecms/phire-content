@@ -1,4 +1,6 @@
 <?php include $phireHeader; ?>
+
+    <div class="col-md-12">
 <?php if ($acl->isAllowed($user->role, 'content', 'search')): ?>
     <form id="asset-search-form" action="<?=$phireUri . '/content/trash/' . $tid; ?>" method="get">
         <div><input tabindex="2" type="submit" id="submit" value="Search" /></div>
@@ -12,9 +14,9 @@
 <?php endif; ?>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>
-        <nav><a href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
 <?php endif; ?>
-        <nav><a href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
     </nav>
 <?php if ($acl->isAllowed($user->role, 'content', 'process')): ?>
     <form id="contents-form" action="<?=$phireUri . '/content/process/' . $tid; ?>" method="post">
@@ -55,10 +57,11 @@
 <?php else: ?>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>
-        <nav><a href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
 <?php endif; ?>
-        <nav><a href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
     </nav>
     <p>There are currently nothing in the trash for this content type.</p>
 <?php endif; ?>
+    </div>
 <?php include $phireFooter; ?>

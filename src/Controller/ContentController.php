@@ -45,7 +45,7 @@ class ContentController extends AbstractController
             $type = new Model\ContentType();
 
             if ($type->hasPages($this->application->config['pagination'])) {
-                $limit = $this->config->pagination;
+                $limit = $this->application->config['pagination'];
                 $pages = new Paginator($type->getCount(), $limit);
             } else {
                 $limit = null;

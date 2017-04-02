@@ -1,4 +1,6 @@
 <?php include $phireHeader; ?>
+
+    <div class="col-md-12">
     <h1 class="content-header"><?=$title; ?></h1>
 <?php if (count($types) > 0): ?>
 <?php if (null !== $pages): ?>
@@ -6,14 +8,15 @@
 <?php endif; ?>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content-types', 'add')): ?>
-        <nav><a href="<?=$phireUri . '/content/types/add'; ?>">+ Add</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/types/add'; ?>">+ Add</a></nav>
 <?php endif; ?>
-        <nav><a href="<?=$phireUri . '/modules'; ?>">Back</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/modules'; ?>">Back</a></nav>
     </nav>
 <?php if ($acl->isAllowed($user->role, 'content-types', 'remove')): ?>
     <form id="content-types-form" action="<?=$phireUri . '/content/types/remove'; ?>" method="post">
 <?php endif; ?>
-        <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+        <table class="table table-striped table-hover" cellpadding="0" cellspacing="0" border="0">
+            <thead>
             <tr>
                 <th><a href="<?=$phireUri . '/content/types?sort=id';?>">#</a></th>
                 <th><a href="<?=$phireUri . '/content/types?sort=name';?>">Name</a></th>
@@ -21,6 +24,8 @@
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content-types', 'edit')): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content-types', 'remove')): ?><input type="checkbox" name="checkall" id="checkall" value="rm_content_types" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
+            </thead>
+            <tbody>
 <?php $i = 1; ?>
 <?php foreach ($types as $type): ?>
             <tr>
@@ -30,6 +35,7 @@
                 <td><?php if (($acl->isAllowed($user->role, 'content-types', 'edit') && ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'edit')))): ?><a class="edit-link" href="<?=$phireUri . '/content/types/edit/' . $type->id; ?>">Edit</a><?php else: ?>&nbsp;<?php endif; ?></td>
                 <td class="text-center"><?php if (($acl->isAllowed($user->role, 'content-types', 'remove') && ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'remove')))): ?><input type="checkbox" name="rm_content_types[]" id="rm_content_types<?=$i++; ?>" value="<?=$type->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>
+            </tbody>
 <?php endforeach; ?>
         </table>
 <?php if ($acl->isAllowed($user->role, 'content-types', 'remove')): ?>
@@ -39,10 +45,11 @@
 <?php else: ?>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content-types', 'add')): ?>
-        <nav><a href="<?=$phireUri . '/content/types/add'; ?>">+ Add</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/types/add'; ?>">+ Add</a></nav>
 <?php endif; ?>
-        <nav><a href="<?=$phireUri . '/modules'; ?>">Back</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/modules'; ?>">Back</a></nav>
     </nav>
     <p>There are currently no content types.</p>
 <?php endif; ?>
+    </div>
 <?php include $phireFooter; ?>

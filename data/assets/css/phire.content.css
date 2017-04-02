@@ -2,112 +2,18 @@
  * Content Module Style Sheet for Phire CMS 2
  */
 
-#content-form, #content-type-form {
-    margin: 10px auto 10px auto;
-    padding: 15px 0 15px 0;
-    width: 100%;
-    min-height: 460px;
-    border-top: solid 1px #ccc;
-}
-
-#content-form > dl:first-child {
-    margin: 0 0 20px 20px;
-    padding: 0 0 20px 20px;
-    width: 250px;
-    border-left: solid 1px #ccc;
-    float: right;
-    min-height: 460px;
-    height: 100%;
-}
-
-#content-type-form > dl:first-child {
-    margin: 0 0 20px 20px;
-    padding: 0 0 20px 20px;
-    width: 160px;
-    border-left: solid 1px #ccc;
-    float: right;
-    min-height: 460px;
-    height: 100%;
-}
-
-#content-form > dl:first-child > dt,
-#content-type-form > dl:first-child > dd, #content-type-form > dl:first-child > dt {
-    width: 100%;
-}
-
-#content-form > dl:first-child > dt, #content-type-form > dl:first-child > dt {
-    margin: 0 0 5px 0;
-    border-bottom: dotted 1px #aaa;
-}
-
-#content-form-field-group-1 > dd {
-    position: relative;
-}
-
-#content-form-field-group-1 > dd:first-child, #content_parent_id, #content_status, #content_template {
-    width: 200px;
-}
-
-label[for=publish_date], label[for=expire_date] {
-    position: relative;
-}
-
-#content-form-field-group-2 {
-    width: calc(100% - 310px);
-}
-
-#content-type-form-field-group-2 {
-    width: calc(100% - 220px);
-}
-
-#content-form-field-group-2 > dt, #content-form-field-group-2 > dd,
-#content-type-form-field-group-2 > dt, #content-type-form-field-group-2 > dd {
-    width: 98%;
-    padding-left: 4px;
-}
-
-#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > input.checkbox {
-    margin: 4px 4px 0 0;
-    padding: 0;
-    clear: none;
-    float: left;
-}
-
-#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > span.checkbox-span {
-    margin: 2px 10px 0 0;
-    padding: 0 10px 0 0;
-    clear: none;
-    float: left;
+input.order-field[type="text"] {
+    margin: 0;
+    padding: 3px;
     font-size: 0.825em;
-    width: 40px;
+    text-align: center;
+    height: 28px;
 }
 
-#content-type-form-field-group-2 > dd > fieldset.checkbox-fieldset > input.checkbox:nth-of-type(6n+1) {
-    clear: left;
+#content-type-form-fieldset-3 > dl > dd {
+    display: inline;
+    width: auto;
 }
-
-#content-type-form-field-group-3 > dt, #content-type-form-field-group-3 > dd {
-    padding-left: 6px;
-}
-
-#content-type-form-field-group-3 > dd > input[type=text] {
-    margin: 0 0 5px 0;
-    padding: 4px;
-    font-size: 0.825em;
-    border-radius: 4px;
-    display: block;
-    height: 16px;
-}
-
-#content-type-form-field-group-3 > dd > select {
-    margin: 0 0 5px 0;
-    padding: 1px 3px 1px 3px;
-    border-radius: 4px;
-    font-size: 0.825em;
-    display: block;
-    height: 26px;
-}
-
 #uri-span {
     margin: 0;
     padding: 0 0 0 6px;
@@ -127,32 +33,6 @@ label[for=publish_date], label[for=expire_date] {
 
 #content_process_action {
     margin: 2px 15px 0 10px;
-}
-
-label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
-    position: absolute;
-    z-index: 10000001;
-    margin: 0;
-    padding: 0;
-    top: 52px;
-    left: -30px;
-    width: 170px;
-    background-color: #dcdcdc;
-    overflow: auto;
-    box-shadow: 0 0 6px 2px #808080;
-}
-
-#content-form-field-group-1 > dd > div#calendar {
-    position: absolute;
-    z-index: 10000001;
-    margin: 0;
-    padding: 0;
-    top: 25px;
-    left: -10px;
-    width: 170px;
-    background-color: #dcdcdc;
-    overflow: auto;
-    box-shadow: 0 0 6px 2px #808080;
 }
 
 .green {
@@ -176,16 +56,19 @@ label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
 }
 
 .content-nav-icon:before {
+    position: relative;
+    top: -5px;
     font-family: "FontAwesome";
     font-weight: normal;
-    content: "\f0c5";
+    content: "\f044";
     display: inline-block;
     margin: 0;
-    padding: 0 5px 0 0;
+    padding: 0 5px 0 3px;
     vertical-align: middle;
     color: #b4b5b4;
     font-size: 1.5em;
-    width: 25px;
+    width: 30px;
+    height: 18px;
     text-align: center;
 }
 
@@ -197,7 +80,7 @@ label[for=publish_date] > div#calendar, label[for=expire_date] > div#calendar {
 .content-header:before {
     font-family: "FontAwesome";
     font-weight: normal;
-    content: "\f0c5";
+    content: "\f044";
     margin: 0;
     padding: 0 8px 0 0;
     color: #b4b5b4;

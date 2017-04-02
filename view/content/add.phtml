@@ -1,10 +1,13 @@
 <?php include $phireHeader; ?>
+
+    <div class="col-md-12">
     <h1 class="content-header"><?=$title; ?></h1>
     <nav id="sub-nav">
 <?php if ($acl->isAllowed($user->role, 'content', 'add')): ?>
-        <nav><a href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/add/' . $tid; ?>">+ Add</a></nav>
 <?php endif; ?>
-        <nav><a href="<?=$phireUri . '/content/' . $tid; ?>">Back</a></nav>
+        <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/' . $tid; ?>">Back</a></nav>
     </nav>
 <?=$form; ?>
+    </div>
 <?php include $phireFooter; ?>

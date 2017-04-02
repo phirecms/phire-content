@@ -27,7 +27,7 @@ return [
         ],
         'nav.module' => [
             'name' => 'Content Types',
-            'href' => '/content/types',
+            'href' => '/content/types/',
             'acl'  => [
                 'resource'   => 'content-types',
                 'permission' => 'index'

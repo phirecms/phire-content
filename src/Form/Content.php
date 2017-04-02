@@ -38,12 +38,12 @@ class Content extends Form
      * @param  array  $fields
      * @param  string $action
      * @param  string $method
-     * @return Content
      */
-    public function __construct(array $fields, $action = null, $method = 'post')
+    public function __construct(array $fields = null, $action = null, $method = 'post')
     {
         parent::__construct($fields, $action, $method);
         $this->setAttribute('id', 'content-form');
+        $this->setAttribute('class', 'data-form');
         $this->setIndent('    ');
     }
 
@@ -53,15 +53,15 @@ class Content extends Form
      * @param  array $values
      * @return Content
      */
-    public function setFieldValues(array $values = null)
+    public function setFieldValues(array $values)
     {
         parent::setFieldValues($values);
 
         if (($_POST) && (null !== $this->uri)) {
             // Check for dupe name
-            $content = Table\Content::findBy(['uri' => $this->uri]);
+            $content = Table\Content::findOne(['uri' => $this->uri]);
             if (isset($content->id) && ($this->id != $content->id)) {
-                $this->getElement('uri')
+                $this->getField('uri')
                      ->addValidator(new Validator\NotEqual($this->uri, 'That URI already exists.'));
             }
         }

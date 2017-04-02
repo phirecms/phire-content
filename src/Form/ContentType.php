@@ -38,12 +38,12 @@ class ContentType extends Form
      * @param  array  $fields
      * @param  string $action
      * @param  string $method
-     * @return ContentType
      */
-    public function __construct(array $fields, $action = null, $method = 'post')
+    public function __construct(array $fields = null, $action = null, $method = 'post')
     {
         parent::__construct($fields, $action, $method);
         $this->setAttribute('id', 'content-type-form');
+        $this->setAttribute('class', 'data-form');
         $this->setIndent('    ');
     }
 
@@ -53,15 +53,15 @@ class ContentType extends Form
      * @param  array $values
      * @return ContentType
      */
-    public function setFieldValues(array $values = null)
+    public function setFieldValues(array $values)
     {
         parent::setFieldValues($values);
 
         if (($_POST) && (null !== $this->name)) {
             // Check for dupe name
-            $type = Table\ContentTypes::findBy(['name' => $this->name]);
+            $type = Table\ContentTypes::findOne(['name' => $this->name]);
             if (isset($type->id) && ($this->id != $type->id)) {
-                $this->getElement('name')
+                $this->getField('name')
                      ->addValidator(new Validator\NotEqual($this->name, 'That content type already exists.'));
             }
         }

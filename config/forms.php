@@ -9,7 +9,7 @@ return [
                 'type'       => 'submit',
                 'value'      => 'Save',
                 'attributes' => [
-                    'class'  => 'save-btn wide'
+                    'class'  => 'btn btn-md btn-info btn-block text-uppercase'
                 ]
             ],
             'content_parent_id' => [
@@ -127,7 +127,7 @@ return [
                 'type'       => 'submit',
                 'value'      => 'Save',
                 'attributes' => [
-                    'class'  => 'save-btn wide'
+                    'class'  => 'btn btn-md btn-info btn-block text-uppercase'
                 ]
             ],
             'strict_publishing' => [
@@ -162,7 +162,7 @@ return [
                 'label'      => 'Order',
                 'attributes' => [
                     'size'  => 3,
-                    'class' => 'order-field'
+                    'class' => 'form-control form-control-inline order-field'
                 ],
                 'value'      => 0
             ],
@@ -178,7 +178,7 @@ return [
                 'required'   => true,
                 'attributes' => [
                     'size'  => 60,
-                    'style' => 'width: 99.5%'
+                    'class' => 'form-control'
                 ]
             ]
         ],
@@ -196,13 +196,18 @@ return [
                     'application/rss+xml' => 'application/rss+xml',
                     'application/json'    => 'application/json',
                     'other'               => 'other'
+                ],
+                'attributes' => [
+                    'class' => 'form-control form-control-inline input-sm form-control-sm',
+                    'style' => 'height: 28px;'
                 ]
             ],
             'content_type_other' => [
                 'type'       => 'text',
                 'attributes' => [
                     'size'        => 25,
-                    'placeholder' => 'Other'
+                    'placeholder' => 'Other',
+                    'class' => 'form-control form-control-inline input-sm form-control-sm'
                 ]
             ]
         ]
