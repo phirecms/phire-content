@@ -45,7 +45,7 @@ return [
                 'attributes' => [
                     'placeholder' => 'Date',
                     'size'        => 12,
-                    'class'       => 'datetime-field'
+                    'class'       => 'form-control form-control-inline input-sm'
                 ]
             ],
             'publish_time' => [
@@ -53,7 +53,7 @@ return [
                 'attributes' => [
                     'placeholder' => 'Time',
                     'size'        => 12,
-                    'class'       => 'datetime-field'
+                    'class'       => 'form-control form-control-inline input-sm'
                 ]
             ],
             'expire_date' => [
@@ -62,7 +62,7 @@ return [
                 'attributes' => [
                     'placeholder' => 'Date',
                     'size'        => 12,
-                    'class'       => 'datetime-field'
+                    'class'       => 'form-control form-control-inline input-sm'
                 ]
             ],
             'expire_time' => [
@@ -70,7 +70,7 @@ return [
                 'attributes' => [
                     'placeholder' => 'Time',
                     'size'        => 12,
-                    'class'       => 'datetime-field'
+                    'class'       => 'form-control form-control-inline input-sm'
                 ]
             ],
             'order' => [
@@ -79,7 +79,7 @@ return [
                 'value' => 0,
                 'attributes' => [
                     'size'  => 2,
-                    'class' => 'order-field'
+                    'class' => 'form-control form-control-inline input-sm order-field'
                 ]
             ],
             'roles' => [
@@ -103,15 +103,15 @@ return [
                 'required'   => true,
                 'attributes' => [
                     'size'   => 60,
-                    'style'  => 'width: 99.5%'
+                    'class'  => 'form-control'
                 ]
             ],
             'slug' => [
                 'type'       => 'text',
                 'label'      => 'URI',
                 'attributes' => [
-                    'size'     => 60,
-                    'style'    => 'width: 99.5%'
+                    'size'  => 60,
+                    'class' => 'form-control'
                 ]
             ],
             'uri' => [

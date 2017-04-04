@@ -45,7 +45,7 @@
 <?php endif; ?>
                 <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'copy')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'copy'))): ?>Copy<?php else: ?>&nbsp;<?php endif; ?></th>
                 <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'edit')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'edit'))): ?>Edit<?php else: ?>&nbsp;<?php endif; ?></th>
-                <th class="text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="col-md-1 text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?><input type="checkbox" name="check_all" id="checkAll" data-name="process_content" value="" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
 <?php $i = 1; ?>
 <?php foreach ($content as $c): ?>

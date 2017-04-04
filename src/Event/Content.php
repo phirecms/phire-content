@@ -40,7 +40,7 @@ class Content
     public static function bootstrap(Application $application)
     {
         $resources = $application->config()['resources'];
-        $params    = $application->services()->getParams('nav.phire');
+        $params    = $application->services()->getParams('nav.side');
         $config    = $application->module('phire-content');
         $models    = (isset($config['models'])) ? $config['models'] : null;
         $types     = Table\ContentTypes::findAll(['order' => 'order ASC']);
@@ -77,7 +77,7 @@ class Content
         }
 
         $application->mergeConfig(['resources' => $resources]);
-        $application->services()->setParams('nav.phire', $params);
+        $application->services()->setParams('nav.side', $params);
         if (null !== $models) {
             $application->module('phire-content')->mergeConfig(['models' => $models]);
         }

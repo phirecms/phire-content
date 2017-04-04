@@ -68,8 +68,8 @@ class ContentController extends AbstractController
             }
 
             if ($this->services['acl']->isAllowed($this->sess->user->role, 'content-type-' . $type->id, 'index')) {
-                if ($content->hasPages($this->config->pagination, $tid)) {
-                    $limit = $this->config->pagination;
+                if ($content->hasPages($this->application->config['pagination'], $tid)) {
+                    $limit = $this->application->config['pagination'];
                     $pages = new Paginator($content->getCount($tid), $limit);
                 } else {
                     $limit = null;
@@ -82,7 +82,7 @@ class ContentController extends AbstractController
 
                 $contentFlatMap = $content->getFlatMap();
 
-                if (count($contentFlatMap) > $this->config->pagination) {
+                if (count($contentFlatMap) > $this->application->config['pagination']) {
                     $page  = $this->request->getQuery('page');
                     $pages = new Paginator(count($contentFlatMap), $limit);
                     $offset = ((null !== $page) && ((int)$page > 1)) ?
@@ -142,7 +142,7 @@ class ContentController extends AbstractController
 
         $fields = $this->application->config()['forms']['Phire\Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
-        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
+        $fields[0]['content_parent_id']['values'] = $fields[0]['content_parent_id']['values'] + $parents;
         $fields[0]['publish_date']['value'] = date($this->application->module('phire-content')['date_format']);
         $fields[0]['publish_time']['value'] = date($this->application->module('phire-content')['time_format']);
 
@@ -151,13 +151,13 @@ class ContentController extends AbstractController
 
         $roles = (new \Phire\Model\Role())->getAll();
         foreach ($roles as $role) {
-            $fields[0]['roles']['value'][$role->id] = $role->name;
+            $fields[0]['roles']['values'][$role->id] = $role->name;
         }
 
-        $this->view->form = new Form\Content($fields);
+        $this->view->form = Form\Content::createFromFieldsetConfig($fields);
 
         if ($this->request->isPost()) {
-            $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])
+            $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false])
                  ->setFieldValues($this->request->getPost());
 
             if ($this->view->form->isValid()) {

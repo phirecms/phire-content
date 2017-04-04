@@ -1,5 +1,5 @@
 /**
- * Content Module Style Sheet for Phire CMS 2
+ * Content Module Style Sheet for Phire CMS 3
  */
 
 input.order-field[type="text"] {
@@ -56,8 +56,6 @@ input.order-field[type="text"] {
 }
 
 .content-nav-icon:before {
-    position: relative;
-    top: -5px;
     font-family: "FontAwesome";
     font-weight: normal;
     content: "\f044";
@@ -68,7 +66,6 @@ input.order-field[type="text"] {
     color: #b4b5b4;
     font-size: 1.5em;
     width: 30px;
-    height: 18px;
     text-align: center;
 }
 
