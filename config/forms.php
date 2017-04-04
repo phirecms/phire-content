@@ -19,7 +19,8 @@ return [
                     '----' => '----',
                 ],
                 'attributes' => [
-                    'onchange' => 'phire.changeUri();'
+                    'onchange' => 'phire.changeUri();',
+                    'class' => 'form-control-sm input-sm'
                 ]
             ],
             'content_template' => [
@@ -27,6 +28,9 @@ return [
                 'label'  => 'Template',
                 'values' => [
                     '0'  => '(Default)'
+                ],
+                'attributes' => [
+                    'class' => 'form-control-sm input-sm'
                 ]
             ],
             'content_status' => [
@@ -37,6 +41,9 @@ return [
                     '0' => 'Draft',
                     '1' => 'Published'
                 ],
+                'attributes' => [
+                    'class' => 'form-control-sm input-sm'
+                ],
                 'marked' => -1
             ],
             'publish_date' => [
@@ -44,16 +51,16 @@ return [
                 'label'  => '<a href="#" id="publish-calendar" class="calendar-open-link"><span>[+]</span></a> Publish / Start',
                 'attributes' => [
                     'placeholder' => 'Date',
-                    'size'        => 12,
-                    'class'       => 'form-control form-control-inline input-sm'
+                    'size'        => 9,
+                    'class'       => 'form-control form-control-inline form-control-sm input-sm'
                 ]
             ],
             'publish_time' => [
                 'type'   => 'text',
                 'attributes' => [
                     'placeholder' => 'Time',
-                    'size'        => 12,
-                    'class'       => 'form-control form-control-inline input-sm'
+                    'size'        => 9,
+                    'class'       => 'form-control form-control-inline form-control-sm input-sm'
                 ]
             ],
             'expire_date' => [
@@ -61,16 +68,16 @@ return [
                 'label'  => '<a href="#" id="expire-calendar" class="calendar-open-link"><span>[+]</span></a> Expire / End',
                 'attributes' => [
                     'placeholder' => 'Date',
-                    'size'        => 12,
-                    'class'       => 'form-control form-control-inline input-sm'
+                    'size'        => 9,
+                    'class'       => 'form-control form-control-inline form-control-sm input-sm'
                 ]
             ],
             'expire_time' => [
                 'type'   => 'text',
                 'attributes' => [
                     'placeholder' => 'Time',
-                    'size'        => 12,
-                    'class'       => 'form-control form-control-inline input-sm'
+                    'size'        => 9,
+                    'class'       => 'form-control form-control-inline form-control-sm input-sm'
                 ]
             ],
             'order' => [
@@ -198,8 +205,7 @@ return [
                     'other'               => 'other'
                 ],
                 'attributes' => [
-                    'class' => 'form-control form-control-inline input-sm form-control-sm',
-                    'style' => 'height: 28px;'
+                    'class' => 'form-control form-control-inline input-sm form-control-sm'
                 ]
             ],
             'content_type_other' => [
@@ -207,7 +213,8 @@ return [
                 'attributes' => [
                     'size'        => 25,
                     'placeholder' => 'Other',
-                    'class' => 'form-control form-control-inline input-sm form-control-sm'
+                    'class' => 'form-control form-control-inline input-sm form-control-sm',
+                    'style' => 'height: 30px;'
                 ]
             ]
         ]

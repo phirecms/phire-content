@@ -6,10 +6,14 @@
 <?php if (null !== $pages): ?>
     <div class="page-links"><?=$pages; ?></div>
 <?php endif; ?>
-    <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+    <div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
         <tr>
             <th>Content Types</th>
         </tr>
+        </thead>
+        <tbody>
 <?php $i = 1; ?>
 <?php foreach ($types as $type): ?>
 <?php if ($acl->isAllowed($user->role, 'content-type-' . $type->id, 'index')): ?>
@@ -18,6 +22,7 @@
         </tr>
 <?php endif; ?>
 <?php endforeach; ?>
+        </tbody>
     </table>
 <?php else: ?>
 <?php if ($acl->isAllowed($user->role, 'content-types', 'add')): ?>
@@ -27,5 +32,6 @@
 <?php endif; ?>
     <p>There are currently no content types.</p>
 <?php endif; ?>
+    </div>
     </div>
 <?php include $phireFooter; ?>

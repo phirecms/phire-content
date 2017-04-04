@@ -13,11 +13,31 @@ input.order-field[type="text"] {
 #content-type-form-fieldset-3 > dl > dd {
     display: inline;
     width: auto;
+    float: left;
+    margin-right: 15px;
 }
+
+#content-form-fieldset-1 > dl > dd:nth-child(9), #content-form-fieldset-1 > dl > dd:nth-child(10),
+#content-form-fieldset-1 > dl > dd:nth-child(12), #content-form-fieldset-1 > dl > dd:nth-child(13) {
+    width: auto;
+    display: inline;
+}
+
+#content-form-fieldset-2 > dl > dd {
+    padding-bottom: 20px;
+}
+
+#content-form-fieldset-2 > dl > dd:nth-child(4) {
+    padding-bottom: 5px;
+}
+
+
 #uri-span {
     margin: 0;
     padding: 0 0 0 6px;
     font-size: 0.825em;
+    font-weight: normal;
+    color: #666;
 }
 
 #content-owner {
@@ -32,27 +52,7 @@ input.order-field[type="text"] {
 }
 
 #content_process_action {
-    margin: 2px 15px 0 10px;
-}
-
-.green {
-    font-weight: bold;
-    color: #528435;
-}
-
-.orange {
-    font-weight: bold;
-    color: #e56300;
-}
-
-.blue {
-    font-weight: bold;
-    color: #53aae8;
-}
-
-.red {
-    font-weight: bold;
-    color: #bf1b0f;
+    margin: 3px 20px 0 10px;
 }
 
 .content-nav-icon:before {
@@ -81,6 +81,20 @@ input.order-field[type="text"] {
     margin: 0;
     padding: 0 8px 0 0;
     color: #b4b5b4;
+}
+
+.trash-link {
+    margin-right: 20px;
+}
+
+.trash-link:before {
+    font-family: "FontAwesome";
+    font-weight: normal;
+    content: "\f014";
+    margin: 0;
+    padding: 0 6px 0 0;
+    color: #666;
+    font-size: 0.9em;
 }
 
 input[type=text].datetime-field {

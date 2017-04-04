@@ -12,7 +12,7 @@ phire.changeUri = function() {
         phire.currentParentId = $('#content_parent_id').val();
         var phireCookie = jax.cookie.load('phire');
         var path = phireCookie.base_path + phireCookie.app_uri;
-        var json = jax.get(path + '/content/json/' + phire.currentParentId);
+        var json = jax.http.get(path + '/content/json/' + phire.currentParentId);
         phire.currentParentUri = json.parent_uri;
     }
 
@@ -28,8 +28,44 @@ phire.changeUri = function() {
         }
     }
 
+
     $('#uri').val(uri);
-    $('#uri-span').val(uri);
+    $('#uri-span')[0].innerHTML = uri;
+
+    return false;
+};
+
+phire.createSlug = function(text, field) {
+    var slg    = '';
+    var tmpSlg = '';
+    var sep    = '/';
+
+    if (text.length > 0) {
+        if (sep != null) {
+            var slgAry = [];
+            var urlAry = text.split(sep);
+            for (var i = 0; i < urlAry.length; i++) {
+                tmpSlg = urlAry[i].toLowerCase();
+                tmpSlg = tmpSlg.replace(/\&/g, 'and').replace(/([^a-zA-Z0-9 \-\/])/g, '')
+                    .replace(/ /g, '-').replace(/-*-/g, '-');
+                slgAry.push(tmpSlg);
+            }
+            tmpSlg = slgAry.join('/');
+            tmpSlg = tmpSlg.replace(/-\/-/g, '/').replace(/\/-/g, '/').replace(/-\//g, '/');
+            slg += tmpSlg;
+        } else {
+            tmpSlg = text.toLowerCase();
+            tmpSlg = tmpSlg.replace(/\&/g, 'and').replace(/([^a-zA-Z0-9 \-\/])/g, '')
+                .replace(/ /g, '-').replace(/-*-/g, '-');
+            slg += tmpSlg;
+            slg = slg.replace(/\/-/g, '/');
+        }
+        if (slg.lastIndexOf('-') == (slg.length - 1)) {
+            slg = slg.substring(0, slg.lastIndexOf('-'));
+        }
+    }
+
+    $(field).val(slg);
 
     return false;
 };
@@ -46,7 +82,8 @@ $(document).ready(function(){
     }
     if ($('#content-form')[0] != undefined) {
         if ($('#uri').val() != '') {
-            $('#uri-span').val($('#uri').val());
+            console.log($('#uri').val());
+            $('#uri-span')[0].innerHTML = $('#uri').val();
         }
         //phire.currentForm = '#content-form';
         //$('#content-form').submit(function(){
@@ -55,9 +92,8 @@ $(document).ready(function(){
         //if (jax.query('in_edit') == undefined) {
         //    jax.beforeunload(phire.checkFormChange);
         //}
-        //$('#publish-calendar').calendar('#publish_date');
-        //$('#publish_date').calendar('#publish_date');
-        //$('#expire-calendar').calendar('#expire_date');
-        //$('#expire_date').calendar('#expire_date');
+
+        jax.calendar(['#publish-calendar', '#publish_date'], '#publish_date', {"fade" : 250});
+        jax.calendar(['#expire-calendar', '#expire_date'], '#expire_date', {"fade" : 250});
     }
 });

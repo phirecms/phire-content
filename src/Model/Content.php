@@ -63,20 +63,9 @@ class Content extends AbstractModel
             'created_by_username' => DB_PREFIX . 'users.username'
         ];
 
-        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
-            $selectFields['category_id']     = DB_PREFIX . 'category_items.category_id';
-            $selectFields['content_id']      = DB_PREFIX . 'category_items.content_id';
-            $selectFields['category_title']  = DB_PREFIX . 'categories.title';
-        }
-
         $sql = Table\Content::sql();
         $sql->select($selectFields)->from(Table\Content::table())
             ->leftJoin(DB_PREFIX . 'users', [DB_PREFIX . 'users.id' => DB_PREFIX . 'content.created_by']);
-
-        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
-            $sql->select()->leftJoin(DB_PREFIX . 'category_items', [DB_PREFIX . 'category_items.content_id' => DB_PREFIX . 'content.id']);
-            $sql->select()->leftJoin(DB_PREFIX . 'categories', [DB_PREFIX . 'category_items.category_id' => DB_PREFIX . 'categories.id']);
-        }
 
         if (null !== $typeId) {
             $sql->select()->where('type_id = :type_id');
@@ -107,11 +96,6 @@ class Content extends AbstractModel
             $sql->select()->where('parent_id IS NULL');
         }
 
-        if (isset($_GET['category_id']) && ($_GET['category_id'] > 0)) {
-            $sql->select()->where('category_id = :category_id');
-            $params['category_id'] = (int)$_GET['category_id'];
-        }
-
         $content    = Table\Content::execute((string)$sql, $params);
         $contentAry = [];
 
@@ -135,10 +119,6 @@ class Content extends AbstractModel
                 'created_by_username' => $c->created_by_username,
                 'depth'               => 0
             ];
-
-            if (isset($c->category_title)) {
-                $contentData['category_title'] = $c->category_title;
-            }
 
             $this->flatMap[] = new \ArrayObject($contentData, \ArrayObject::ARRAY_AS_PROPS);
             $c->depth     = 0;
@@ -701,7 +681,7 @@ class Content extends AbstractModel
     }
 
     /**
-     * Get category flat map
+     * Get content flat map
      *
      * @return array
      */
@@ -747,9 +727,9 @@ class Content extends AbstractModel
 
         while (null !== $parentId) {
             array_unshift($parents, $parentId);
-            $category = Table\Content::findById($parentId);
-            if (isset($category->id)) {
-                $parentId = $category->parent_id;
+            $content = Table\Content::findById($parentId);
+            if (isset($content->id)) {
+                $parentId = $content->parent_id;
             }
         }
 

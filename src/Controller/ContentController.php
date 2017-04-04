@@ -163,9 +163,9 @@ class ContentController extends AbstractController
             if ($this->view->form->isValid()) {
                 $this->view->form->clearFilters()
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
-                     ->filter();
+                     ->filterValues();
                 $content = new Model\Content();
-                $content->save($this->view->form->getFields(), $this->sess->user->id);
+                $content->save($this->view->form->toArray(), $this->sess->user->id);
                 $this->view->id = $content->id;
                 $this->sess->setRequestValue('saved', true);
                 $this->redirect(BASE_PATH . APP_URI . '/content/edit/' . $tid . '/'. $content->id);
@@ -238,9 +238,9 @@ class ContentController extends AbstractController
 
         $fields = $this->application->config()['forms']['Phire\Content\Form\Content'];
         $fields[0]['type_id']['value']   = $tid;
-        $fields[0]['content_parent_id']['value'] = $fields[0]['content_parent_id']['value'] + $parents;
+        $fields[0]['content_parent_id']['values'] = $fields[0]['content_parent_id']['values'] + $parents;
         $fields[1]['slug']['label']     .=
-            ' [ <a href="#" class="small-link" onclick="phire.createSlug(jax(\'#title\').val(), \'#slug\');' .
+            ' [ <a href="#" class="small-link" onclick="phire.createSlug($(\'#title\').val(), \'#slug\');' .
             ' return phire.changeUri();">Generate URI</a> ]';
 
         $fields[1]['title']['attributes']['onkeyup'] = 'phire.changeTitle(this.value);';
@@ -248,22 +248,23 @@ class ContentController extends AbstractController
 
         $roles = (new \Phire\Model\Role())->getAll();
         foreach ($roles as $role) {
-            $fields[0]['roles']['value'][$role->id] = $role->name;
+            $fields[0]['roles']['values'][$role->id] = $role->name;
         }
 
-        $this->view->form = new Form\Content($fields);
-        $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8'])
+        $this->view->form = Form\Content::createFromFieldsetConfig($fields);
+        $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false])
              ->setFieldValues($content->toArray());
 
         if ($this->request->isPost()) {
-            $this->view->form->setFieldValues($this->request->getPost());
+            $this->view->form->addFilter('htmlentities', [ENT_QUOTES, 'UTF-8', false])
+                 ->setFieldValues($this->request->getPost());
 
             if ($this->view->form->isValid()) {
                 $this->view->form->clearFilters()
                      ->addFilter('html_entity_decode', [ENT_QUOTES, 'UTF-8'])
-                     ->filter();
+                     ->filterValues();
                 $content = new Model\Content();
-                $content->update($this->view->form->getFields(), $this->sess->user->id);
+                $content->update($this->view->form->toArray(), $this->sess->user->id);
                 $this->view->id = $content->id;
                 $this->sess->setRequestValue('saved', true);
                 $this->redirect(
@@ -343,10 +344,9 @@ class ContentController extends AbstractController
             $this->redirect(BASE_PATH . APP_URI . '/content');
         }
 
-        if ($content->hasPages($this->config->pagination, $tid, -2)) {
-            $limit = $this->config->pagination;
+        if ($content->hasPages($this->application->config['pagination'], $tid, -2)) {
+            $limit = $this->application->config['pagination'];
             $pages = new Paginator($content->getCount($tid, -2), $limit);
-            $pages->useInput(true);
         } else {
             $limit = null;
             $pages = null;

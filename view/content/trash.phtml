@@ -3,8 +3,8 @@
     <div class="col-md-12">
 <?php if ($acl->isAllowed($user->role, 'content', 'search')): ?>
     <form id="asset-search-form" action="<?=$phireUri . '/content/trash/' . $tid; ?>" method="get">
-        <div><input tabindex="2" type="submit" id="submit" value="Search" /></div>
-        <div><input tabindex="1" type="text" name="title" id="title" value="" placeholder="Title" size="25" /></div>
+        <div><input tabindex="2" class="btn btn-default input-sm" type="submit" id="submit" value="Search" /></div>
+        <div><input tabindex="1" class="form-control input-sm" type="text" name="title" id="title" value="" placeholder="Title" size="25" /></div>
     </form>
 <?php endif; ?>
     <h1 class="content-header"><?=$title; ?></h1>
@@ -18,18 +18,22 @@
 <?php endif; ?>
         <nav><a class="btn-sm btn-info" href="<?=$phireUri . '/content/'. $tid; ?>">Back</a></nav>
     </nav>
+    <div class="table-responsive">
 <?php if ($acl->isAllowed($user->role, 'content', 'process')): ?>
     <form id="contents-form" action="<?=$phireUri . '/content/process/' . $tid; ?>" method="post">
 <?php endif; ?>
-        <table class="data-table" cellpadding="0" cellspacing="0" border="0">
+        <table class="table table-striped table-hover">
+            <thead>
             <tr>
                 <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=id' . (($queryString != '') ? '&' . $queryString : '');?>">#</a></th>
                 <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=title';?>">Title</a></th>
                 <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=uri' . (($queryString != '') ? '&' . $queryString : '');?>">URI</a></th>
                 <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=created' . (($queryString != '') ? '&' . $queryString : '');?>">Created</a></th>
                 <th><a href="<?=$phireUri . '/content/trash/' . $tid . '?sort=updated' . (($queryString != '') ? '&' . $queryString : '');?>">Updated</a></th>
-                <th class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="checkall" id="checkall" value="process_content" /><?php else: ?>&nbsp;<?php endif; ?></th>
+                <th class="col-md-1 text-center"><?php if (($acl->isAllowed($user->role, 'content', 'process')) && ($acl->isAllowed($user->role, 'content-type-' . $tid, 'process'))): ?><input type="checkbox" name="check_all" id="checkAll" data-name="process_content" value="" /><?php else: ?>&nbsp;<?php endif; ?></th>
             </tr>
+            </thead>
+            <tbody>
 <?php $i = 1; ?>
 <?php foreach ($content as $c): ?>
             <tr>
@@ -41,16 +45,17 @@
                 <td class="text-center"><?php if ($acl->isAllowed($user->role, 'content', 'process')): ?><input type="checkbox" name="process_content[]" id="process_content<?=$i++; ?>" value="<?=$c->id; ?>" /><?php else: ?>&nbsp;<?php endif; ?></td>
             </tr>
 <?php endforeach; ?>
+            </tbody>
         </table>
 <?php if ($acl->isAllowed($user->role, 'content', 'process')): ?>
         <div id="form-footer">
-            <select id="content_process_action" name="content_process_action">
+            <input type="submit" name="submit" class="btn btn-md btn-primary text-uppercase" value="Process" />
+            <select class="phire-select form-control form-control-inline input-sm" id="content_process_action" name="content_process_action">
                 <option value="1">Publish</option>
                 <option value="0">Draft</option>
                 <option value="-1">Unpublish</option>
                 <option value="-3">Remove</option>
             </select>
-            <input type="submit" name="submit" class="process-btn" value="Process" />
         </div>
     </form>
 <?php endif; ?>
@@ -63,5 +68,6 @@
     </nav>
     <p>There are currently nothing in the trash for this content type.</p>
 <?php endif; ?>
+    </div>
     </div>
 <?php include $phireFooter; ?>
