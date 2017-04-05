@@ -4,10 +4,6 @@
  */
 return [
     '' => [
-        '/' => [
-            'controller' => 'Phire\Content\Controller\IndexController',
-            'action'     => 'index'
-        ],
         '*' => [
             'controller' => 'Phire\Content\Controller\IndexController',
             'action'     => 'index'

@@ -51,19 +51,17 @@ class IndexController extends AbstractController
 
         $date = $this->isDate($uri);
 
-        $content->separator = $this->application->module('phire-content')['separator'];
+        $content->separator = $this->application->module('phire-content')->config['separator'];
 
         if (null !== $date) {
             $dateResult = $content->getByDate(
-                $date, $this->application->module('phire-content')['date_format'] . ' ' . $this->application->module('phire-content')['time_format'],
-                $this->application->module('phire-content')->config()['filters'],
-                $this->config->pagination, $this->request->getQuery('page')
+                $date, $this->application->config['pagination'], $this->request->getQuery('page')
             );
 
             $this->prepareView('content-public/date.phtml');
             $this->view->title   = $this->formatDateTitle($date);
-            $this->view->pages   = $content->getDatePages($date, $this->config->pagination);
-            $this->view->archive = $content->getArchive($this->application->module('phire-content')['archive_count']);
+            $this->view->pages   = $content->getDatePages($date, $this->application->config['pagination']);
+            $this->view->archive = $content->getArchive($this->application->module('phire-content')->config['archive_count']);
             $this->view->items   = $dateResult;
             $this->template      = -2;
             $this->send();
@@ -75,7 +73,7 @@ class IndexController extends AbstractController
                     $this->redirect('https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
                 }
                 $this->prepareView('content-public/index.phtml');
-                $this->view->archive = $content->getArchive($this->application->module('phire-content')['archive_count']);
+                $this->view->archive = $content->getArchive($this->application->module('phire-content')->config['archive_count']);
 
                 $this->view->merge($content->toArray());
                 $this->template = $content->template;
@@ -186,15 +184,15 @@ class IndexController extends AbstractController
         $this->viewPath = __DIR__ . '/../../view';
         parent::prepareView($template);
 
-        $this->view->date_format   = $this->application->module('phire-content')['date_format'];
-        $this->view->month_format  = $this->application->module('phire-content')['month_format'];
-        $this->view->day_format    = $this->application->module('phire-content')['day_format'];
-        $this->view->year_format   = $this->application->module('phire-content')['year_format'];
-        $this->view->time_format   = $this->application->module('phire-content')['time_format'];
-        $this->view->hour_format   = $this->application->module('phire-content')['hour_format'];
-        $this->view->minute_format = $this->application->module('phire-content')['minute_format'];
-        $this->view->minute_format = $this->application->module('phire-content')['minute_format'];
-        $this->view->separator     = $this->application->module('phire-content')['separator'];
+        $this->view->date_format   = $this->application->module('phire-content')->config['date_format'];
+        $this->view->month_format  = $this->application->module('phire-content')->config['month_format'];
+        $this->view->day_format    = $this->application->module('phire-content')->config['day_format'];
+        $this->view->year_format   = $this->application->module('phire-content')->config['year_format'];
+        $this->view->time_format   = $this->application->module('phire-content')->config['time_format'];
+        $this->view->hour_format   = $this->application->module('phire-content')->config['hour_format'];
+        $this->view->minute_format = $this->application->module('phire-content')->config['minute_format'];
+        $this->view->minute_format = $this->application->module('phire-content')->config['minute_format'];
+        $this->view->separator     = $this->application->module('phire-content')->config['separator'];
     }
 
 }

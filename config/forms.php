@@ -20,7 +20,8 @@ return [
                 ],
                 'attributes' => [
                     'onchange' => 'phire.changeUri();',
-                    'class' => 'form-control-sm input-sm'
+                    'class'    => 'form-control-sm input-sm',
+                    'style'    => 'max-width: 175px;'
                 ]
             ],
             'content_template' => [

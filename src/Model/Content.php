@@ -201,8 +201,7 @@ class Content extends AbstractModel
         $sql1 = Table\Content::sql();
         $sql2 = clone $sql1;
         $sql2->select([
-            'count'   => 'COUNT(*)',
-            'in_date' => DB_PREFIX . 'content_types.in_date'
+            'count' => 'COUNT(*)'
         ])->from(Table\Content::table());
 
         $sql1->select([
@@ -253,12 +252,10 @@ class Content extends AbstractModel
              ->where('in_date = :in_date');
 
         $params = [
-            'status'  => 1,
-            'publish' => [
-                $start,
-                $end
-            ],
-            'in_date' => 1
+            'status'   => 1,
+            'publish1' => $start,
+            'publish2' => $end,
+            'in_date'  => 1
         ];
 
         $countResult = Table\Content::execute((string)$sql2, $params);
@@ -286,8 +283,7 @@ class Content extends AbstractModel
     {
         $sql = Table\Content::sql();
         $sql->select([
-            'count'   => 'COUNT(*)',
-            'in_date' => DB_PREFIX . 'content_types.in_date'
+            'count'   => 'COUNT(*)'
         ])->from(Table\Content::table());
 
         $sql->select()->leftJoin(
@@ -315,12 +311,10 @@ class Content extends AbstractModel
             ->where('in_date = :in_date');
 
         $params = [
-            'status'  => 1,
-            'publish' => [
-                $start,
-                $end
-            ],
-            'in_date' => 1
+            'status'   => 1,
+            'publish1' => $start,
+            'publish2' => $end,
+            'in_date'  => 1
         ];
 
         $countResult = Table\Content::execute((string)$sql, $params);
@@ -347,9 +341,9 @@ class Content extends AbstractModel
         $sql->select([
             'publish' => DB_PREFIX . 'content.publish',
             'in_date' => DB_PREFIX . 'content_types.in_date'
-        ]);
+        ])->from(Table\Content::table());
 
-        $sql->select()->join(
+        $sql->select()->leftJoin(
             DB_PREFIX . 'content_types', [DB_PREFIX . 'content_types.id' => DB_PREFIX . 'content.type_id']
         );
 
